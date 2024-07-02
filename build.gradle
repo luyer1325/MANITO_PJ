@@ -35,6 +35,9 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 
+	// 자동 재빌드용 툴 설치
+	implementation 'org.springframework.boot:spring-boot-devtools'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	//JUnit4 추가
