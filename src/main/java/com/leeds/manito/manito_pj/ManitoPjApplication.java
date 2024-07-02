@@ -14,12 +14,4 @@ public class ManitoPjApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ManitoPjApplication.class, args);
 	}
-	//HomeController
-	// @RestController
-	// public class HomeController{
-	// 	@GetMapping("/")
-	// 	public String index() {
-	// 		return "Hello Wolrd";
-	// 	}
-	// }
 }
