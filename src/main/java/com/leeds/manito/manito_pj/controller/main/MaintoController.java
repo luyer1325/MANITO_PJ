@@ -1,4 +1,4 @@
-package com.leeds.manito.manito_pj;
+package com.leeds.manito.manito_pj.controller.main;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MaintoController {
-    @RequestMapping("/wel-jsp.do")
+    @RequestMapping("/")
     public String main() {
         return "index";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/wel2.do")
     public String main(Model model) throws Exception {
         model.addAttribute("greeting", "hello");
         return "thymeleaf/index";
