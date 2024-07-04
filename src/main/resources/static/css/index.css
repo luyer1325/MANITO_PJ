@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+@import url(../css/main.css);
+
+header{
+    padding-top: 13rem;
+}
+/* 타이틀 영역 */
+.title-area{
+    height: 25.4rem;
+    background-color: var(--purple);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title-area h1{
+    font-family: var(--f-duri);
+    font-size: 10rem;
+    color: #fff;
+}
+.title-area h1 span{
+    color: var(--coral);
+}
+
+/* 버튼 영역 */
+.button-area{
+    /* 상단떼기 */
+    margin-top: 13rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5.1rem;
+}
+/* 모달 영역 */
+.modal-header button{
+    border-radius: 3rem;
+    padding: 1rem;
+    font-size: 3rem;
+    height: auto;
+}
+.modal-body p{
+    text-indent: 1rem;
+    padding: 1rem 0;
+}
+#modal-close{
+    font-family: var(--f-han);
+    font-size: 2rem;
+    background-color: var(--gray);
+    color:#fff;
+}
