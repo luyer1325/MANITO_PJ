@@ -1,117 +1,145 @@
 @charset "utf-8";
 
 /* 공통 태그디자인 css */
-
-/* 달력아이콘 */
-.icon-cal::after{
-    content: '\f274';
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 400;
-    color: var(--purple);
-}
-/* 체크아이콘 */
-.icon-check::after{
-    content: '\f058';
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: var(--purple);
-}
-/* non-체크아이콘 */
-.icon-non-check::after{
-    content: '\f111';
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: var(--purple);
-}
-/* 태그아이콘 */
-.icon-non-check::after{
-    content: '\f02b';
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: var(--gray);
-}
-/* 알림아이콘 */
-.icon-non-check::after{
-    content: '\f0f3';
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: var(--yellow);
-}
+/* 
+ [ 배경버튼 ]
+  - 구조 :  button에 클래스 다중 적용 
+ 배경색 버튼(크기고정) : .bt-size-fix,
+ 배경색 버튼(크기유동) : .bt-size-auto,
+ 버튼배경색 : .bt-coral , .bt-purple
+ [ 흰버튼 ]
+  - 구조 : button(클래스) > span(아이콘클래스)
+ 흰색버튼(크기고정) : .bt-white-fix
+ 흰색버튼(크기유동) : .bt-white
+ [ 아이콘 ]
+ - 구조 : 태그(클래스) ::after로 적용
+ 아이콘 : .icon-(cal,check,tag,alert)
+ [ 타이틀 ]
+*/
 /* 버튼 공통 */
-[class^='bt-']{
-    cursor: pointer;
+[class^="bt-"] {
+  cursor: pointer;
 }
 /* 흰 버튼 */
-.bt-white{
-    height: 5.5rem;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    padding: 1rem 2rem;
-}
-.bt-white span{
-    font-size: 2rem;
-    font-family: var(--f-pre);
-    padding-right: 2rem;
+.bt-white {
+  display: flex;
+  align-items: stretch;
+  height: 5.5rem;
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  background-color: #fff;
+  font-weight: 500;
+  font-size: 2rem;
+  font-family: var(--f-pre);
 }
 /* 흰 버튼 사이즈 고정 */
-.bt-white-fix{
-    width: 36.6rem;
-    box-sizing: border-box;
+.bt-white-fix {
+  width: 33rem;
+  box-sizing: border-box;
 }
 
 /* 색 버튼 */
-[class ^="bt-size"]{
-    height: 8.4rem;
-    box-sizing: border-box;
-    border-radius: 30px;
-    font-size: 4rem;
-    font-family: var(--f-han);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+[class^="bt-size"] {
+  height: 8.4rem;
+  box-sizing: border-box;
+  border-radius: 30px;
+  font-size: 4rem;
+  font-family: var(--f-han);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* 버튼 - size-fix */
-.bt-size-fix{
-    width: 32.7rem;
+.bt-size-fix {
+  width: 32.7rem;
 }
 /* 버튼 - size-auto */
-.bt-size-auto{
-    width: auto;
+.bt-size-auto {
+  width: auto;
 }
 /* 버튼 색 */
-.bt-coral{
-    background-color: var(--coral);
-    color: #fff;
+.bt-coral {
+  background-color: var(--coral);
+  color: #fff;
 }
-.bt-purple{
-    background-color: var(--d-purple);
-    color: #fff;
+.bt-purple {
+  background-color: var(--d-purple);
+  color: #fff;
 }
 
 /* 모달 공통 */
-.modal-area{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 3rem 1.5rem 1.5rem;
-    box-shadow: var(--d-shadow);
-    border-radius: 20px;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    display: none;
+.modal-area {
+  position: absolute;
+  box-shadow: var(--d-shadow);
+  border-radius: 20px;
+  background-color: #fff;
+  display: none;
 }
-.modal-body{
-    width: 30rem;
-    padding: 2rem 1rem;
-    font-size: 2rem;
-    font-family: var(--f-han);
-    line-height: 1.6;
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1.5rem 1.5rem;
+}
+.modal-header {
+  font-size: 2.5rem;
+  text-align: center;
+}
+.modal-main {
+  min-width: 30rem;
+  padding: 2rem 1rem;
+  font-size: 2rem;
+  line-height: 1.6;
+}
+
+/* 달력아이콘 */
+.icon-cal::after {
+  content: "\f274";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  color: var(--purple);
+  text-indent: 2rem;
+}
+/* 체크아이콘 */
+.icon-check::after {
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  text-indent: 2rem;
+}
+/* 체크yes */
+input[type="radio"]:checked + label .icon-check::after {
+  content: "\f058";
+}
+/* 체크no */
+input[type="radio"] + label .icon-check::after {
+  content: "\f111";
+}
+/* 태그아이콘 */
+.icon-tag::after {
+  content: "\f02b";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--gray);
+}
+/* 알림아이콘 */
+.icon-alert::after {
+  content: "\f0f3";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--yellow);
+}
+
+/* 헤더 타이틀 */
+.header-title {
+  font-family: var(--f-han);
+  font-size: 4rem;
+  text-align: center;
 }
