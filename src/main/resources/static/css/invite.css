@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+@import url(../css/main.css);
+
+body {
+  background-color: var(--purple);
+  padding-top: 8.3rem;
+}
+/* 라디오 버튼 공통 */
+input[type="radio"] {
+  appearance: none;
+  display: none;
+}
+label{
+  cursor: pointer;
+}
+/* 입력창 공통 */
+input[type="text"] {
+  outline: none;
+  border: none;
+  width: 100%;
+  font-family: var(--f-pre);
+  font-size: 2rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+input[type="radio"] + label .icon-check::after{
+  content: '\f111';
+}
+input[type="radio"]:checked + label .icon-check::after{
+  content: '\f058';
+}
+/* 메인 */
+main {
+  max-width: 70rem;
+  padding: 2rem;
+  padding-top: 9rem;
+  margin: 0 auto;
+}
+/* 선택 그룹 공통*/
+.select-group {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  padding-bottom: 3.5rem;
+}
+/* 선택 그룹 타이틀 */
+.select-group .title {
+  font-size: 3rem;
+  font-family: var(--f-pre);
+  font-weight: 500;
+}
+.select-block {
+  display: flex;
+  gap: 3rem;
+}
+/* 아이콘 설정 */
+.icon-check::after,
+.icon-non-check::after,
+.icon-cal::after {
+  position: relative;
+  top: 3px;
+  font-size: 2.7rem;
+}
+/* 부가설명 */
+.description {
+  font-size: 1.6rem;
+  font-family: var(--f-pre);
+  font-weight: 400;
+  color: red;
+}
+/* 모달영역 */
+.modal-open{
+  position: relative;
+}
+/* 모달 공통 */
+.modal-area{
+  /* display: block; */
+  font-family: var(--f-pre);
+  font-weight: 500;
+  top: 0;
+  right: 0;
+}
