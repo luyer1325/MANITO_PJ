@@ -33,17 +33,23 @@ header{
     gap: 5.1rem;
 }
 /* 모달 영역 */
+.modal-area{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .modal-header button{
     border-radius: 3rem;
     padding: 1rem;
     font-size: 3rem;
     height: auto;
 }
-.modal-body p{
+.modal-main p{
+    font-family: var(--f-han);
     text-indent: 1rem;
     padding: 1rem 0;
 }
-#modal-close{
+.modal-close{
     font-family: var(--f-han);
     font-size: 2rem;
     background-color: var(--gray);
