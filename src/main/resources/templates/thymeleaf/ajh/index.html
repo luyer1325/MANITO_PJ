@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<html lang="ko">
+  <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
+    <!-- <link rel="stylesheet" href="../../../static/css/index.css" /> -->
     <script>
       window.addEventListener("DOMContentLoaded", () => {
-        const modal = document.querySelector(".modal-area");
+        const modal = document.querySelector(".modal-bg");
         const openBtn = document.querySelector(".modal-open");
-        const closeBtn = document.querySelector(".modal-close");
+        const closeBtn = modal.querySelector(".close");
         openBtn.addEventListener("click", () => {
-          modal.style.display = "block";
+          modal.style.zIndex = "999";
+          modal.style.opacity = "1";
         });
         closeBtn.addEventListener("click", () => {
-          modal.style.display = "none";
+          modal.style.zIndex = "-999";
+          modal.style.opacity = "0";
         });
       });
     </script>
@@ -27,19 +30,21 @@
     </header>
     <main>
       <div class="button-area">
-        <a href="/ljh.do" class="bt-size-fix bt-purple">마니또 설정하기</a>
-        <button class="modal-open bt-size-fix bt-coral">마니또란?</button>
+        <a href="/ajh2.do" class="bt-size-fix bt-purple">마니또 설정하기</a>
+        <button class="bt-size-fix bt-coral modal-open">마니또란?</button>
       </div>
-      <div class="modal-area">
-        <div class="modal-header">
-          <button class="bt-size-fix bt-coral">마니또란?</button>
+      <div class="modal-bg">
+        <div class="modal">
+          <div class="modal-area">
+            <div class="title bt-size-auto bt-coral">마니또란?</div>
+            <div class="body">
+              <p>스페인어로 '애인'이라는 뜻으로 '애인같이 상대방을 생각하고 아껴주는 친구'를 의미합니다.</p>
+              <p>기간 내에 선택 된 친구에게 내 정체를 들키지 않고 미션을 수행하세요.<br /></p>
+              <p>내 마니또를 찾는 것도 잊지말구요!</p>
+            </div>
+            <button class="close bt-white">닫기</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>스페인어로 '애인'이라는 뜻으로 '애인같이 상대방을 생각하고 아껴주는 친구'를 의미합니다.</p>
-          <p>기간 내에 선택 된 친구에게 내 정체를 들키지 않고 미션을 수행하세요.<br /></p>
-          <p>내 마니또를 찾는 것도 잊지말구요!</p>
-        </div>
-        <button class="modal-close bt-white">닫기</button>
       </div>
     </main>
   </body>
