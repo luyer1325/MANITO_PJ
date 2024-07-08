@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또 게임생성</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/makeGame.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
+    <script type="text/javascript" th:src="@{/javascript/calendar.js}" ></script>
+    <script type="text/javascript" th:src="@{/javascript/timePicker.js}" ></script>
+
+    <!-- 화면 테스트용 -->
+    <!-- <link rel="stylesheet" href="../../../static/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+    <link rel="stylesheet" href="../../../static/css/makeGame.css" />
+    <link rel="stylesheet" href="../../../static/css/calendar.css" />
+    <link rel="stylesheet" href="../../../static/css/timePicker.css" />
+    <script src="../../../static/javascript/calendar.js"></script>
+    <script src="../../../static/javascript/timePicker.js"></script> -->
+    <script>
+      function openCal() {
+        event.preventDefault();
+        event.stopPropagation();
+        const modal = document.querySelector(".modal-bg");
+        if (modal !== null) {
+          modal.style.zIndex = "999";
+          modal.style.opacity = "1";
+        }
+        const tg = event.currentTarget;
+        const modals = modal.querySelectorAll(".modal");
+        // 모달창 위치 설정
+        initPosSetting(modals[0], tg);
+        initPosSetting(modals[1], tg);
+        // 달력모달 켜기
+        showModal(modals[0]);
+        hideModal(modals[1]);
+      }
+      function initPosSetting(modalTarget, clickElement) {
+        let posX = clickElement.getBoundingClientRect().left + clickElement.getBoundingClientRect().width + 20;
+        let posY =
+          clickElement.getBoundingClientRect().top +
+          clickElement.getBoundingClientRect().height -
+          modalTarget.getBoundingClientRect().height;
+        modalTarget.style.top = posY + "px";
+        modalTarget.style.left = posX + "px";
+      }
+      function showModal(modalTarget) {
+        modalTarget.style.opacity = 1;
+        modalTarget.style.zIndex = 1;
+      }
+      function hideModal(modalTarget) {
+        modalTarget.style.opacity = 0;
+        modalTarget.style.zIndex = -1;
+      }
+      // 2. 선택완료
+      function dateSetting() {
+        const time = document.querySelector(".time-picker-view").innerText;
+        const date = document.querySelector(".calendar-hidden").value;
+        const modal = document.querySelector(".modal-bg");
+        const endDate = document.querySelector("#end-date");
+        const dateFormat = (date, time) => {
+          let dateList = date.split("-");
+          let timeList = time.split(" : ");
+          return dateList[0] + "년" + dateList[1] + "월" + dateList[2] + "일 " + timeList[0] + ":" + timeList[1];
+        };
+        endDate.value = dateFormat(date, time);
+        // 모달 닫기
+        modal.style.zIndex = "-999";
+        modal.style.opacity = "0";
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        // 모달 외부창 클릭시 꺼짐
+        const modal = document.querySelector(".modal-bg");
+        modal.addEventListener("click", () => {
+          // 모달 닫기
+          modal.style.zIndex = "-999";
+          modal.style.opacity = "0";
+        });
+        // 달력 클릭이벤트
+        const dateList = document.querySelectorAll(".calendar-date");
+        const modals = modal.querySelectorAll(".modal"); // 0-달력, 1-시계
+        modals.forEach((v) => {
+          v.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="header-title">마니또 게임을 만들기 위해서는 간단하게 세팅이 필요해요!</h1>
+    </header>
+    <main>
+      <div>
+        <form>
+          <ul>
+            <li class="select-group">
+              <h2 class="title">관리자 게임 참가 여부</h2>
+              <div class="select-block">
+                <input type="radio" name="admin_join" id="admin-join-y" value="Y" checked />
+                <label class="bt-white" for="admin-join-y">
+                  <span class="icon-check">참가</span>
+                </label>
+                <input type="radio" name="admin_join" id="admin-join-n" value="N" />
+                <label class="bt-white" for="admin-join-n">
+                  <span class="icon-check">관전</span>
+                </label>
+              </div>
+              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+            </li>
+            <li class="select-group">
+              <h2 class="title">참가자 공개 여부</h2>
+              <div class="select-block">
+                <input type="radio" name="show_yn" id="show-y" value="Y" checked />
+                <label class="bt-white" for="show-y">
+                  <span class="icon-check">공개</span>
+                </label>
+                <input type="radio" name="show_yn" id="show-n" value="N" />
+                <label class="bt-white" for="show-n">
+                  <span class="icon-check">비공개</span>
+                </label>
+              </div>
+              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+            </li>
+            <li class="select-group">
+              <h2 class="title">미션 사용 여부</h2>
+              <div class="select-block">
+                <input type="radio" name="mission" id="mission-y" value="Y" checked />
+                <label class="bt-white" for="mission-y">
+                  <span class="icon-check">미션없음</span>
+                </label>
+                <input type="radio" name="mission" id="mission-n" value="N" />
+                <label class="bt-white" for="mission-n">
+                  <span class="icon-check">미션있음</span>
+                </label>
+              </div>
+              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+            </li>
+            <li class="select-group">
+              <h2 class="title">마니또 종료 시점</h2>
+              <div class="select-block modal-open">
+                <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()">
+                  <input type="text" name="end" id="end-date" placeholder="0000년 00월 00일 00:00" readonly />
+                </button>
+              </div>
+              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+            </li>
+            <li>
+              <button class="bt-size-auto bt-purple" type="submit">구성원 초대하기</button>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </main>
+    <!-- 모달 -->
+    <div class="modal-bg">
+      <!-- 달력 -->
+      <div class="modal">
+        <div class="modal-area">
+          <div class="title">미션시작 일자</div>
+          <div class="body">
+            <div class="calendar">
+              <div class="calendar-tit">
+                <div class="calendar-btn bt-previous">--</div>
+                <div class="year-month"></div>
+                <div class="calendar-btn bt-next">>></div>
+              </div>
+              <div class="calendar-body"></div>
+              <input type="text" class="calendar-hidden" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 시계 -->
+      <div class="modal">
+        <div class="modal-area">
+          <div class="time-picker-area">
+            <section class="time-picker-header">
+              <h1 class="time-picker-title">미션시작 시간</h1>
+              <h2 class="time-picker-view"></h2>
+            </section>
+            <section class="time-picker-body">
+              <div class="time-pick-box blue-back"><span>:</span></div>
+              <div class="time-slider hour-slider"></div>
+              <div class="time-slider minute-slider"></div>
+              <!-- <div class="time-pick-box"></div> -->
+            </section>
+            <section class="time-picker-footer">
+              <div class="button-box">
+                <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,7 +1,5 @@
 @charset "utf-8";
 
-@import url(../css/main.css);
-
 body {
   background-color: var(--purple);
   padding-top: 8.3rem;
@@ -74,10 +72,8 @@ main {
   position: relative;
 }
 /* 모달 공통 */
-.modal-area{
+.modal{
   /* display: block; */
   font-family: var(--f-pre);
   font-weight: 500;
-  top: 0;
-  right: 0;
 }

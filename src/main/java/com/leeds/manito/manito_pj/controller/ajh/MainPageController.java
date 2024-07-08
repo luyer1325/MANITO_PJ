@@ -13,4 +13,10 @@ public class MainPageController {
         System.out.println("주현페이지");
         return "thymeleaf/ajh/index";
     }
+
+    @GetMapping("/ajh2.do")
+    public String make(Model model, ManitoInfoDTO roomInfoDTO) {
+        System.out.println("게임생성");
+        return "thymeleaf/ajh/makeGame";
+    }
 }
