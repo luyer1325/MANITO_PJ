@@ -2,26 +2,31 @@ package com.leeds.manito.manito_pj.controller.ljh;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 //import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.leeds.manito.manito_pj.dto.ljh.RoomInfoDTO;
+import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 
 
 @Controller
 public class ManageController {
-    @GetMapping("/ljh.do")
-    public String getMethodName(Model model, RoomInfoDTO roomInfoDTO) {
+    @RequestMapping("/ljh.do")
+    public String getMethodName(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("여기 : 여기2");
-        return "mng/invite";
+        return "thymeleaf/ljh/main";
     }
     
-    @GetMapping("/ljh2.do")
-    public String getMethodName2(Model model, RoomInfoDTO roomInfoDTO) {
-        //String test = model.getAttribute("abc");
+    @RequestMapping("/ljh2.do")
+    public String getMethodName2(Model model, ManitoInfoDTO manitoInfoDTO) {
         String test = "abc";
         System.out.println(test);
         return "mng/invite";
+    }
+    @PostMapping("/thym-ljh.do")
+    public String thym(Model model, ManitoInfoDTO manitoInfoDTO){
+        System.out.println("타임리프");
+        return "thymeleaf/ljh/invite";
     }
 }
