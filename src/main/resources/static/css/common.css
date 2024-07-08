@@ -15,6 +15,7 @@
     --coral: #E86F72;
     --yellow: #F29D38;
     --gray: #5F5F5F;
+    --lightgray: #ccc;
     /* 그림자 효과 */
     --shadow: 0px .4rem .4rem #00000040;
     --d-shadow: .4rem .4rem 1rem #0000008a;

@@ -14,7 +14,8 @@
  [ 아이콘 ]
  - 구조 : 태그(클래스) ::after로 적용
  아이콘 : .icon-(cal,check,tag,alert)
- [ 타이틀 ]
+ [ 모달 ]
+ - 구조 : .modal-bg > .modal > .modal-area > .title + .body + .close
 */
 /* 버튼 공통 */
 [class^="bt-"] {
@@ -58,6 +59,7 @@
 /* 버튼 - size-auto */
 .bt-size-auto {
   width: auto;
+  padding: 0 2rem;
 }
 /* 버튼 색 */
 .bt-coral {
@@ -69,30 +71,48 @@
   color: #fff;
 }
 
-/* 모달 공통 */
-.modal-area {
+/* [ 모달 ]
+- 구조 : .modal-bg > .modal > .modal-area > .title + .body + .close */
+.modal-bg{
+  background-color: #0000000e;
+  z-index: -999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+.modal {
   position: absolute;
   box-shadow: var(--d-shadow);
   border-radius: 20px;
   background-color: #fff;
-  display: none;
 }
-.modal-body {
+.modal-area {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 3rem 1.5rem 1.5rem;
+  padding: 1.5rem 2rem;
+  gap: 1.5rem;
 }
-.modal-header {
+.modal-area > .title {
   font-size: 2.5rem;
   text-align: center;
 }
-.modal-main {
+.modal-area > .body {
   min-width: 30rem;
-  padding: 2rem 1rem;
+  padding: 0 1rem;
   font-size: 2rem;
+  font-family: var(--f-pre);
   line-height: 1.6;
+}
+.modal-area > .close {
+  font-family: var(--f-han);
+  font-size: 2rem;
+  background-color: var(--gray);
+  color: #fff;
+  line-height: 3rem;
 }
 
 /* 달력아이콘 */
@@ -142,4 +162,23 @@ input[type="radio"] + label .icon-check::after {
   font-family: var(--f-han);
   font-size: 4rem;
   text-align: center;
+}
+
+/* 정렬 */
+/* 플렉스 정렬 */
+.d-flex{
+  display: flex;
+}
+/* 플렉스 세로정렬 */
+.d-flex-column{
+  display: flex;
+  flex-direction: column;
+}
+/* 플렉스 정렬 중앙 */
+.f-center{
+  justify-content: center;
+}
+/* 플렉스 90도축 정렬 중앙 */
+.f-ver-center{
+  align-items: center;
 }
