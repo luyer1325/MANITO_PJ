@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+/* 달력용 */
+/* calendar-date b-day c-month */
+/* calendar > calendar-tit + calendar-body>calendar-day + calendar-date */
+.calendar {
+  max-width: 30rem;
+}
+
+.calendar-tit {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2rem;
+  padding-bottom: 1rem;
+}
+
+.calendar-body {
+  display: flex;
+  flex-wrap: wrap;
+}
+.calendar-body > .calendar-day {
+  flex-basis: 14.2%;
+  text-align: center;
+  padding-bottom: 1rem;
+  color: var(--d-purple);
+}
+.calendar-body > .calendar-date {
+  flex-basis: 14.2%;
+  text-align: center;
+  cursor: pointer;
+}
+.b-month,
+.a-month {
+  color: var(--lightgray);
+}
+.calendar-hidden{
+  display: none;
+}
+/* .today,
+.today > span {
+  position: relative;
+}
+.today::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: var(--purple);
+} */
