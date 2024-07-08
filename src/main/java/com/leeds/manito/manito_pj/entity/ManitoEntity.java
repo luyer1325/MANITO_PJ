@@ -1,18 +1,50 @@
-package com.leeds.manito.manito_pj.dto;
+package com.leeds.manito.manito_pj.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-public class ManitoInfoDTO {
+@Entity
+@Table(name = "manito_info")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ManitoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "manito_idx")
     private int manito_idx;
+
+    @Column(name = "create_user")
     private String create_user;
+
+    @Column(name = "show_yn")
     private String show_yn;
+
+    @Column(name = "join_yn")
     private String join_yn;
+
+    @Column(name = "mission_yn")
     private String mission_yn;
+
+    @Column(name = "mission_time")
     private String mission_time;
+
+    @Column(name = "start_date")
     private String start_date;
+
+    @Column(name = "end_date")
     private String end_date;
+
+    @Column(name = "created")
     private String created;
+
+    @Column(name = "modified")
     private String modified;
-    private String delete;
+
+    @Column(name = "deleted")
+    private String deleted;
 
     public int getManito_idx() {
         return this.manito_idx;
@@ -95,12 +127,11 @@ public class ManitoInfoDTO {
         this.modified = modified;
     }
 
-    public String getDelete() {
-        return this.delete;
+    public String getDeleted() {
+        return this.deleted;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
     }
-
 }

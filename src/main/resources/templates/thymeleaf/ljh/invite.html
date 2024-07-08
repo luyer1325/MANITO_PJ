@@ -26,8 +26,8 @@
             <div class="select-group">
                 <h1 class="title">미션사용여부 설정</h1>
                     <div class="select-block">
-                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
-                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" th:checked="${manitoDTO.mission_yn eq 'Y'}"/><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" th:checked="${manitoDTO.mission_yn eq 'N'}"/><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
                     </div>
                 <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
             </div>

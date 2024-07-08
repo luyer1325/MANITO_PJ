@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 
 
+
 @Controller
 public class ManageController {
     @RequestMapping("/ljh.do")
