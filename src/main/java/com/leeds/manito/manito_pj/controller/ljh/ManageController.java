@@ -24,8 +24,16 @@ public class ManageController {
         System.out.println(test);
         return "mng/invite";
     }
+
     @PostMapping("/thym-ljh.do")
     public String thym(Model model, ManitoInfoDTO manitoInfoDTO){
+        System.out.println("타임리프");
+        return "thymeleaf/ljh/invite";
+    }
+
+    @RequestMapping("/thym-invite.do")
+    public String invite(Model model, ManitoInfoDTO manitoInfoDTO){
+        manitoInfoDTO.setJoin_yn("Y");
         System.out.println("타임리프");
         return "thymeleaf/ljh/invite";
     }

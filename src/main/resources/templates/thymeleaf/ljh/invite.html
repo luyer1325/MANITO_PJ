@@ -1,11 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<head th:replace="thymeleaf/base :: common_header(~{::test},~{::link},~{::script})">
+    <title th:fragment="test">마니또 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/invite.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script></script>
 </head>
 <body>
+    <header>
+        <div class="">
+            <h1>마니또 게임을 만들기 위해서는 간단한 세팅이 필요해요!</h1>
+        </div>
+    </header>
+    <main>
+        
+        <form th:action th:object="${manitoInfoDTO}" method="post">
+            <div class="select-group">
+                <h1 class="title">관리자 게임참가 여부</h1>
+                    <div class="select-block">
+                        <input type="radio" id="j-y" name ="join_yn" value="Y" th:checked="${manitoInfoDTO.join_yn eq 'Y'}"/><label for="j-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="j-n" name ="join_yn" value="N" th:checked="${manitoInfoDTO.join_yn eq 'N'}"/><label for="j-n" class="bt-white"><span class="icon-check">No</span></label>
+                    </div>
+                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+            </div>
+            <div class="select-group">
+                <h1 class="title">미션사용여부 설정</h1>
+                    <div class="select-block">
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                    </div>
+                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+            </div>
+            <!-- <div class="select-group">
+                <h1 class="title">미션주기 설정</h1>
+                    <div class="select-block">
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                    </div>
+                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+            </div>
+            <div class="select-group">
+                <h1 class="title">마니또 종료시점 설정</h1>
+                    <div class="select-block">
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                    </div>
+                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+            </div>
+            <div class="select-group">
+                <h1 class="title">마니또 시작시점 설정</h1>
+                    <div class="select-block">
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                    </div>
+                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+            </div> -->
+            <button class="bt-size-fix bt-purple">구성원 초대하기</button>
+        </form>
+    </main>
     <span th:text="${manitoInfoDTO.join_yn}"></span>
     <span th:text="${manitoInfoDTO.mission_yn}"></span>
     <span th:text="${manitoInfoDTO.show_yn}"></span>
