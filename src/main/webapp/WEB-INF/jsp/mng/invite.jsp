@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
 <head>
     <title>마니또 멤버 초대</title>
@@ -11,7 +10,7 @@
             $('#mission_time').hide();
             console.log("jQuery 시작");
             $('#confirm').click(function(){ // 버튼 클릭시 카카오 API 연결하여 친구에게 메세지 보내기
-                $("#form").attr("action", "/ljh2.do").submit();
+                $("#form").attr("action", "/thym-ljh.do").submit();
             })
             $('input[name="mission_yn"]').change(function(){ // 미션사용여부에 따라 미션 주기 설정 보여주는 기능
                 var m_val = $('input[name="mission_yn"]:checked').val();
@@ -37,7 +36,7 @@
 <body>
     <div>
         
-    <form:form modelAttribute="roomInfoDTO" method="get">
+    <form:form id="form" modelAttribute="manitoInfoDTO" method="post">
     <table>
         <tbody>
         <div>

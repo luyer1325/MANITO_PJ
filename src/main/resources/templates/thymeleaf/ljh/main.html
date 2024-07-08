@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+         .modal{
+            position:absolute;
+            display:none;
+            justify-content: center;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal_body{
+            position:absolute;
+            top:50%;
+            width:400px; 
+            height:600px;
+            padding:40px;  
+            text-align: center;
+            background-color: rgb(255,255,255);
+            border-radius:10px;
+            box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
+            transform:translateY(-50%);
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>마니또 생성</title>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#create').click(function(){ // 생성페이지로 이동
+                location.href="ljh2.do";
+            })
+            $('#explain').click(function(){ //모달창 열기
+                $('#modal').css("display","flex");
+            })
+            $('#close').click(function(){ //모달창 닫기
+                $('#modal').hide();
+            })
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <Strong>Let's Play manito</Strong>
+    </div>
+    <div>
+        <ul>
+            <li><a href="#"><span id="create">마니또 생성하기</span></a></li>
+            <li><a href="#"><span id="explain">마니또란?</span></a></li>
+        </ul>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal_body" id="modal_body">
+            <h2>마니또란?</h2>
+            <p>마니또 내용 설명</p>
+            <button id="close">닫기</button>
+        </div>
+    </div>
+</body>
+</html>
