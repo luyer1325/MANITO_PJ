@@ -96,18 +96,18 @@
   padding: 1.5rem 2rem;
   gap: 1.5rem;
 }
-.modal-area > .title {
+.modal-area .title {
   font-size: 2.5rem;
   text-align: center;
 }
-.modal-area > .body {
+.modal-area .body {
   min-width: 30rem;
   padding: 0 1rem;
   font-size: 2rem;
   font-family: var(--f-pre);
   line-height: 1.6;
 }
-.modal-area > .close {
+.modal-area .close {
   font-family: var(--f-han);
   font-size: 2rem;
   background-color: var(--gray);

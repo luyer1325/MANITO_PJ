@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마니또 초대수락</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/accept.css}" />
+    <script>
+
+    </script>
+</head>
+<body>
+    <header>
+      <h1 class="header-title">당신을 마니또 게임에 초대합니다</h1>
+    </header>
+    <main>
+        <div class="button-area">
+            <a href="/ajh4.do" class="bt-size-fix bt-coral">초대수락</a>
+            <button class="bt-size-fix bt-purple">마니또 참가자 보기</button>
+        </div>
+    </main>
+</body>
+</html>
