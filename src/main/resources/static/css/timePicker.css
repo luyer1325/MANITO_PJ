@@ -8,15 +8,10 @@
   }
   .time-picker-header {
     text-align: center;
-    height: 80px;
-  }
-  .time-picker-title {
-    font-weight: bold;
-    font-size: 22px;
-    margin-bottom: 10px;
   }
   .time-picker-view {
-    font-size: 20px;
+    font-size: 2rem;
+    padding: 1rem;
   }
   .time-picker-body {
     position: relative;
@@ -86,13 +81,6 @@
   .time-slider-wraper li[data-pick="0"] {
     color: #000;
   }
-  /* 오전/오후 */
-  .am-pm-slider ol {
-    height: 100%;
-    position: relative;
-    top: 0;
-    transition: none;
-  }
   /* 시간 */
   .hour-slider ol {
     position: relative;
@@ -122,15 +110,15 @@
     transform: translate(-50%);
     width: 0;
     height: 0;
-    border-right: 7px solid transparent;
-    border-left: 7px solid transparent;
+    border-right: .7rem solid transparent;
+    border-left: .7rem solid transparent;
   }
   .up-arrow::before {
     border-top: none;
-    border-bottom: 7px solid #b7b7b7;
+    border-bottom: .7rem solid #b7b7b7;
   }
   .down-arrow::before {
-    border-top: 7px solid #b7b7b7;
+    border-top: .7rem solid #b7b7b7;
     border-bottom: none;
   }
   .notify-box {

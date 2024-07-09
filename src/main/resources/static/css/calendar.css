@@ -2,7 +2,7 @@
 
 /* 달력용 */
 /* calendar-date b-day c-month */
-/* calendar > calendar-tit + calendar-body>calendar-day + calendar-date */
+/* calendar > calendar-tit + calendar-body > calendar-day + calendar-date */
 .calendar {
   max-width: 30rem;
 }
@@ -36,6 +36,31 @@
 }
 .calendar-hidden{
   display: none;
+}
+.calendar-btn{
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+.calendar-btn::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+}
+.bt-previous::before {
+  border-left: none;
+  border-right: 1rem solid #b7b7b7;
+}
+.bt-next::before {
+  border-right: none;
+  border-left: 1rem solid #b7b7b7;
 }
 /* .today,
 .today > span {

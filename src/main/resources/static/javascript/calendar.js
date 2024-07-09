@@ -101,7 +101,6 @@ window.addEventListener("DOMContentLoaded", () => {
         // 다음버튼
         current.setMonth(current.getMonth() + 1);
       }
-      console.log(current.getMonth());
       initCalendarSetting();
     });
   });

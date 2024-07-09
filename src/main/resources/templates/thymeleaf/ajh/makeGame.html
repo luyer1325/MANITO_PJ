@@ -13,29 +13,21 @@
     <!-- 화면 테스트용 -->
     <!-- <link rel="stylesheet" href="../../../static/css/main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
-    <link rel="stylesheet" href="../../../static/css/makeGame.css" />
     <link rel="stylesheet" href="../../../static/css/calendar.css" />
     <link rel="stylesheet" href="../../../static/css/timePicker.css" />
+    <link rel="stylesheet" href="../../../static/css/makeGame.css" />
     <script src="../../../static/javascript/calendar.js"></script>
     <script src="../../../static/javascript/timePicker.js"></script> -->
     <script>
-      function openCal() {
-        event.preventDefault();
-        event.stopPropagation();
-        const modal = document.querySelector(".modal-bg");
-        if (modal !== null) {
-          modal.style.zIndex = "999";
-          modal.style.opacity = "1";
-        }
-        const tg = event.currentTarget;
-        const modals = modal.querySelectorAll(".modal");
-        // 모달창 위치 설정
-        initPosSetting(modals[0], tg);
-        initPosSetting(modals[1], tg);
-        // 달력모달 켜기
-        showModal(modals[0]);
-        hideModal(modals[1]);
+      function showModal(modalTarget) {
+        modalTarget.style.opacity = 1;
+        modalTarget.style.zIndex = 999;
       }
+      function hideModal(modalTarget) {
+        modalTarget.style.opacity = 0;
+        modalTarget.style.zIndex = -999;
+      }
+      // 모달 위치 설정
       function initPosSetting(modalTarget, clickElement) {
         let posX = clickElement.getBoundingClientRect().left + clickElement.getBoundingClientRect().width + 20;
         let posY =
@@ -45,13 +37,21 @@
         modalTarget.style.top = posY + "px";
         modalTarget.style.left = posX + "px";
       }
-      function showModal(modalTarget) {
-        modalTarget.style.opacity = 1;
-        modalTarget.style.zIndex = 1;
-      }
-      function hideModal(modalTarget) {
-        modalTarget.style.opacity = 0;
-        modalTarget.style.zIndex = -1;
+      function openCal() {
+        event.preventDefault();
+        event.stopPropagation();
+        const modal = document.querySelector(".modal-bg");
+        if (modal !== null) {
+          showModal(modal);
+        }
+        const tg = event.currentTarget;
+        const modals = modal.querySelectorAll(".modal");
+        // 모달창 위치 설정
+        initPosSetting(modals[0], tg);
+        initPosSetting(modals[1], tg);
+        // 달력모달 켜기
+        showModal(modals[0]);
+        hideModal(modals[1]);
       }
       // 2. 선택완료
       function dateSetting() {
@@ -66,16 +66,24 @@
         };
         endDate.value = dateFormat(date, time);
         // 모달 닫기
-        modal.style.zIndex = "-999";
-        modal.style.opacity = "0";
+        hideModal(modal);
+      }
+      function validation(){
+        const date = document.querySelector("#end-date").value.trim();
+        if(date == null || date == ""){
+          alert("종료일자를 선택해주세요.");
+          return false;
+        }
+        const form = document.querySelector("form[name='make-manito']");
+        form.setAttribute("action","/ajh3.do");
+        form.setAttribute("method","post");
+        form.submit();
       }
       window.addEventListener("DOMContentLoaded", () => {
         // 모달 외부창 클릭시 꺼짐
         const modal = document.querySelector(".modal-bg");
         modal.addEventListener("click", () => {
-          // 모달 닫기
-          modal.style.zIndex = "-999";
-          modal.style.opacity = "0";
+          hideModal(modal);
         });
         // 달력 클릭이벤트
         const dateList = document.querySelectorAll(".calendar-date");
@@ -85,6 +93,7 @@
             e.stopPropagation();
           });
         });
+
       });
     </script>
   </head>
@@ -94,12 +103,12 @@
     </header>
     <main>
       <div>
-        <form>
+        <form name="make-manito" th:action th:object="${ManitoInfoDTO}" onsubmit="validation()">
           <ul>
             <li class="select-group">
               <h2 class="title">관리자 게임 참가 여부</h2>
               <div class="select-block">
-                <input type="radio" name="admin_join" id="admin-join-y" value="Y" checked />
+                <input type="radio" name="admin_join" id="admin-join-y" value="Y" th:checked="${manitoInfoDTO.join_yn eq 'Y'}" />
                 <label class="bt-white" for="admin-join-y">
                   <span class="icon-check">참가</span>
                 </label>
@@ -163,9 +172,9 @@
           <div class="body">
             <div class="calendar">
               <div class="calendar-tit">
-                <div class="calendar-btn bt-previous">--</div>
+                <div class="calendar-btn bt-previous"></div>
                 <div class="year-month"></div>
-                <div class="calendar-btn bt-next">>></div>
+                <div class="calendar-btn bt-next"></div>
               </div>
               <div class="calendar-body"></div>
               <input type="text" class="calendar-hidden" />
@@ -178,8 +187,8 @@
         <div class="modal-area">
           <div class="time-picker-area">
             <section class="time-picker-header">
-              <h1 class="time-picker-title">미션시작 시간</h1>
-              <h2 class="time-picker-view"></h2>
+              <div class="title">미션시작 시간</div>
+              <div class="time-picker-view"></div>
             </section>
             <section class="time-picker-body">
               <div class="time-pick-box blue-back"><span>:</span></div>
