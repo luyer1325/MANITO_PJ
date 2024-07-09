@@ -2,9 +2,14 @@
 <html lang="en">
 <head th:replace="thymeleaf/base :: common_header(~{::test},~{::link},~{::script})">
     <title th:fragment="test">마니또 페이지</title>
-    <link rel="stylesheet" th:href="@{/css/invite.css}">
-    <link rel="stylesheet" th:href="@{/css/index.css}">
-    <script></script>
+    <link rel="stylesheet" th:href="@{/css/makeGame.css}">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#invite2').click(function(){
+                $("#form").attr("action", "/thym-invite2.do").submit();
+            })
+        })
+    </script>
 </head>
 <body>
     <header>
@@ -13,8 +18,7 @@
         </div>
     </header>
     <main>
-        
-        <form th:action th:object="${manitoInfoDTO}" method="post">
+        <form id = "form" th:action th:object="${manitoInfoDTO}" method="post">
             <div class="select-group">
                 <h1 class="title">관리자 게임참가 여부</h1>
                     <div class="select-block">
@@ -26,8 +30,8 @@
             <div class="select-group">
                 <h1 class="title">미션사용여부 설정</h1>
                     <div class="select-block">
-                        <input type="radio" id="m-y" name ="mission_yn" value="Y" th:checked="${manitoDTO.mission_yn eq 'Y'}"/><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
-                        <input type="radio" id="m-n" name ="mission_yn" value="N" th:checked="${manitoDTO.mission_yn eq 'N'}"/><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
+                        <input type="radio" id="m-y" name ="mission_yn" value="Y" th:checked="${manitoInfoDTO.mission_yn eq 'Y'}"/><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
+                        <input type="radio" id="m-n" name ="mission_yn" value="N" th:checked="${manitoInfoDTO.mission_yn eq 'N'}"/><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
                     </div>
                 <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
             </div>
@@ -55,7 +59,7 @@
                     </div>
                 <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
             </div> -->
-            <button class="bt-size-fix bt-purple">구성원 초대하기</button>
+            <button id = "invite2"class="bt-size-fix bt-purple">구성원 초대하기</button>
         </form>
     </main>
     <span th:text="${manitoInfoDTO.join_yn}"></span>
