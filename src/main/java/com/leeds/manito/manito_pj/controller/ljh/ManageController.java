@@ -3,8 +3,6 @@ package com.leeds.manito.manito_pj.controller.ljh;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -46,8 +44,14 @@ public class ManageController {
 
     @RequestMapping("/thym-invite2.do")
     public String invite2(Model model, ManitoInfoDTO manitoInfoDTO){
-        manitoService.insert(manitoInfoDTO);
-        return "thymeleaf/ljh/invite";
+        manitoService.CreateManito(manitoInfoDTO); // 게임 생성
+        //return "thymeleaf/ljh/invite";
+        return "thymeleaf/ljh/gameDetail";
     }
     
+    @RequestMapping("/kakao/login.do")
+    public String kakaoLogin(Model model, ManitoInfoDTO manitoInfoDTO){
+        manitoService.test(model);
+        return "thymeleaf/ljh/invite";
+    }
 }

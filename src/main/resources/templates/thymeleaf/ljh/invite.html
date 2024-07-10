@@ -3,18 +3,96 @@
 <head th:replace="thymeleaf/base :: common_header(~{::test},~{::link},~{::script})">
     <title th:fragment="test">마니또 페이지</title>
     <link rel="stylesheet" th:href="@{/css/makeGame.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
+    <script type="text/javascript" th:src="@{/javascript/calendar.js}" ></script>
+    <script type="text/javascript" th:src="@{/javascript/timePicker.js}" ></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('#invite2').click(function(){
                 $("#form").attr("action", "/thym-invite2.do").submit();
             })
+            $('#kakaoLogin').click(function(){
+              alert("체크!");
+              location.href("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakao_api_key}&redirect_uri=${kakao_redirect_url}")
+            })
         })
+
+        function openCal() {
+        event.preventDefault();
+        event.stopPropagation();
+        const modal = document.querySelector(".modal-bg");
+        if (modal !== null) {
+          modal.style.zIndex = "999";
+          modal.style.opacity = "1";
+        }
+        const tg = event.currentTarget;
+        const modals = modal.querySelectorAll(".modal");
+        // 모달창 위치 설정
+        initPosSetting(modals[0], tg);
+        initPosSetting(modals[1], tg);
+        // 달력모달 켜기
+        showModal(modals[0]);
+        hideModal(modals[1]);
+      }
+      function initPosSetting(modalTarget, clickElement) {
+        let posX = clickElement.getBoundingClientRect().left + clickElement.getBoundingClientRect().width + 20;
+        let posY =
+          clickElement.getBoundingClientRect().top +
+          clickElement.getBoundingClientRect().height -
+          modalTarget.getBoundingClientRect().height;
+        modalTarget.style.top = posY + "px";
+        modalTarget.style.left = posX + "px";
+      }
+      function showModal(modalTarget) {
+        modalTarget.style.opacity = 1;
+        modalTarget.style.zIndex = 1;
+      }
+      function hideModal(modalTarget) {
+        modalTarget.style.opacity = 0;
+        modalTarget.style.zIndex = -1;
+      }
+      // 2. 선택완료
+      function dateSetting() {
+        const time = document.querySelector(".time-picker-view").innerText;
+        const date = document.querySelector(".calendar-hidden").value;
+        const modal = document.querySelector(".modal-bg");
+        const endDate = document.querySelector("#end_date");
+        const dateFormat = (date, time) => {
+          time = time.replace(/\s/g,''); // 공백제거
+          let dateList = date.split("-");
+          let timeList = time.split(" : ");
+          let dateVal = date+' '+time;
+          return dateVal;
+        };
+        endDate.value = dateFormat(date, time);
+        // 모달 닫기
+        modal.style.zIndex = "-999";
+        modal.style.opacity = "0";
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        // 모달 외부창 클릭시 꺼짐
+        const modal = document.querySelector(".modal-bg");
+        modal.addEventListener("click", () => {
+          // 모달 닫기
+          modal.style.zIndex = "-999";
+          modal.style.opacity = "0";
+        });
+        // 달력 클릭이벤트
+        const dateList = document.querySelectorAll(".calendar-date");
+        const modals = modal.querySelectorAll(".modal"); // 0-달력, 1-시계
+        modals.forEach((v) => {
+          v.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        });
+      });
     </script>
 </head>
 <body>
     <header>
-        <div class="">
-            <h1>마니또 게임을 만들기 위해서는 간단한 세팅이 필요해요!</h1>
+        <div class="header-title">
+            마니또 게임을 만들기 위해서는 간단한 세팅이 필요해요!
         </div>
     </header>
     <main>
@@ -35,37 +113,60 @@
                     </div>
                 <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
             </div>
-            <!-- <div class="select-group">
-                <h1 class="title">미션주기 설정</h1>
-                    <div class="select-block">
-                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
-                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
-                    </div>
-                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
-            </div>
             <div class="select-group">
-                <h1 class="title">마니또 종료시점 설정</h1>
-                    <div class="select-block">
-                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
-                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
-                    </div>
-                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
+                <h1 class="title">마니또 종료 시점</h2>
+                <div class="select-block modal-open">
+                  <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()">
+                    <input type="text" name="end" id="end_date" placeholder="0000년 00월 00일 00:00" th:field="*{end_date}" readonly />
+                  </button>
+                </div>
+                <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
             </div>
-            <div class="select-group">
-                <h1 class="title">마니또 시작시점 설정</h1>
-                    <div class="select-block">
-                        <input type="radio" id="m-y" name ="mission_yn" value="Y" /><label for="m-y" class="bt-white"><span class="icon-check">Yes</span></label>
-                        <input type="radio" id="m-n" name ="mission_yn" value="N" /><label for="m-n" class="bt-white"><span class="icon-check">No</span></label>
-                    </div>
-                <span class="description">관리자가 게임을 직접 참여할 지 관전할 지 선택합니다.</span>
-            </div> -->
             <button id = "invite2"class="bt-size-fix bt-purple">구성원 초대하기</button>
+            <button id = "kakaoLogin"class="bt-size-fix bt-purple">KAKAO</button>
         </form>
+    <!-- 모달 -->
+      <div class="modal-bg">
+        <!-- 달력 -->
+        <div class="modal">
+          <div class="modal-area">
+            <div class="title">미션시작 일자</div>
+            <div class="body">
+              <div class="calendar">
+                <div class="calendar-tit">
+                  <div class="calendar-btn bt-previous">--</div>
+                  <div class="year-month"></div>
+                  <div class="calendar-btn bt-next">>></div>
+                </div>
+                <div class="calendar-body"></div>
+                <input type="text" class="calendar-hidden" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 시계 -->
+        <div class="modal">
+          <div class="modal-area">
+            <div class="time-picker-area">
+              <section class="time-picker-header">
+                <h1 class="time-picker-title">미션시작 시간</h1>
+                <h2 class="time-picker-view"></h2>
+              </section>
+              <section class="time-picker-body">
+                <div class="time-pick-box blue-back"><span>:</span></div>
+                <div class="time-slider hour-slider"></div>
+                <div class="time-slider minute-slider"></div>
+                <!-- <div class="time-pick-box"></div> -->
+              </section>
+              <section class="time-picker-footer">
+                <div class="button-box">
+                  <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-    <span th:text="${manitoInfoDTO.join_yn}"></span>
-    <span th:text="${manitoInfoDTO.mission_yn}"></span>
-    <span th:text="${manitoInfoDTO.show_yn}"></span>
-    <span th:text="|${manitoInfoDTO.mission_time},-- 이게 시간|"></span>
-    <span>abc</span>
 </body>
 </html>
