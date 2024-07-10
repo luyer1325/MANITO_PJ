@@ -30,7 +30,7 @@ public class MainPageController {
 
     @PostMapping("/ajh3.do")
     public String accept(Model model, ManitoInfoDTO manitoInfoDTO) {
-        manitoService.insert(manitoInfoDTO);
+        manitoService.CreateManito(manitoInfoDTO);
         System.out.println("초대받음");
         System.out.print(manitoInfoDTO.getEnd_date());
         System.out.println(manitoInfoDTO.getJoin_yn());
