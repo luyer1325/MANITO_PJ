@@ -20,7 +20,7 @@ public class ManitoService {
     private String apiKey;
 
     @Value("${kakao_redirect_uri}")
-    private String redirectUrl;
+    private String redirectUri;
     /*
      * 마니또 게임의 생성 메소드
      * 
@@ -42,7 +42,7 @@ public class ManitoService {
 
     public void test(Model model){
         model.addAttribute("kakao_api_key", apiKey);
-        model.addAttribute("kakao_redirect_url", redirectUrl);
+        model.addAttribute("kakao_redirect_uri", redirectUri);
         System.out.println(apiKey);
     }
 }

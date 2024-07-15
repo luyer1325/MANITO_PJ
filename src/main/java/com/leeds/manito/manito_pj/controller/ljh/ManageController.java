@@ -38,6 +38,7 @@ public class ManageController {
 
     @RequestMapping("/thym-invite.do")
     public String invite(Model model, ManitoInfoDTO manitoInfoDTO){
+        manitoService.test(model);
         //manitoInfoDTO.setJoin_yn("Y");
         return "thymeleaf/ljh/invite";
     }
@@ -52,6 +53,7 @@ public class ManageController {
     @RequestMapping("/kakao/login.do")
     public String kakaoLogin(Model model, ManitoInfoDTO manitoInfoDTO){
         manitoService.test(model);
+        System.out.println("현재 여기");
         return "thymeleaf/ljh/invite";
     }
 }
