@@ -15,12 +15,6 @@ public class ManitoService {
 
     @Autowired
     ManitoRepository manitoRepository;
-
-    @Value("${kakao_api_key}")
-    private String apiKey;
-
-    @Value("${kakao_redirect_uri}")
-    private String redirectUri;
     /*
      * 마니또 게임의 생성 메소드
      * 
@@ -38,11 +32,5 @@ public class ManitoService {
             .build();
             this.manitoRepository.save(me);
             return manitoInfoDTO.getManito_idx();
-    }
-
-    public void test(Model model){
-        model.addAttribute("kakao_api_key", apiKey);
-        model.addAttribute("kakao_redirect_uri", redirectUri);
-        System.out.println(apiKey);
     }
 }
