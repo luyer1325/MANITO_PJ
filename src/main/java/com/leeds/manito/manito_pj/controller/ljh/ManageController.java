@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.service.KakaoService;
 import com.leeds.manito.manito_pj.service.ManitoService;
 
 
@@ -16,6 +17,8 @@ public class ManageController {
 
     @Autowired
     ManitoService manitoService;
+    @Autowired
+    KakaoService kakaoService;
 
     @RequestMapping("/ljh.do")
     public String getMethodName(Model model, ManitoInfoDTO manitoInfoDTO) {
@@ -38,7 +41,7 @@ public class ManageController {
 
     @RequestMapping("/thym-invite.do")
     public String invite(Model model, ManitoInfoDTO manitoInfoDTO){
-        //manitoInfoDTO.setJoin_yn("Y");
+        kakaoService.test(model);
         return "thymeleaf/ljh/invite";
     }
 
@@ -49,9 +52,5 @@ public class ManageController {
         return "thymeleaf/ljh/gameDetail";
     }
     
-    @RequestMapping("/kakao/login.do")
-    public String kakaoLogin(Model model, ManitoInfoDTO manitoInfoDTO){
-        manitoService.test(model);
-        return "thymeleaf/ljh/invite";
-    }
+
 }

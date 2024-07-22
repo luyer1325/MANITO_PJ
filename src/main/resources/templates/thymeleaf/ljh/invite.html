@@ -12,12 +12,14 @@
             $('#invite2').click(function(){
                 $("#form").attr("action", "/thym-invite2.do").submit();
             })
-            $('#kakaoLogin').click(function(){
-              alert("체크!");
-              location.href("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakao_api_key}&redirect_uri=${kakao_redirect_url}")
-            })
         })
-
+        function popupCenter(url, title, w, h) {
+            // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            // window.open 함수로 팝업 창을 엽니다.
+            window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+        }
         function openCal() {
         event.preventDefault();
         event.stopPropagation();
@@ -123,7 +125,16 @@
                 <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
             </div>
             <button id = "invite2"class="bt-size-fix bt-purple">구성원 초대하기</button>
-            <button id = "kakaoLogin"class="bt-size-fix bt-purple">KAKAO</button>
+            <div class="bt-size-fix bt-purple">
+              <a th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri=${kakao_redirect_uri})}" onclick="popupCenter(this.href, '카카오 로그인', 700, 800); return false;">
+                카카오 로그인
+              </a>
+            </div>
+            <div class="bt-size-fix bt-purple">
+              <a th:href="@{/kakao/logout.do}" onclick="popupCenter(this.href, '카카오 로그아웃', 700, 800); return false;">
+                카카오 로그아웃
+              </a>
+            </div>
         </form>
     <!-- 모달 -->
       <div class="modal-bg">
