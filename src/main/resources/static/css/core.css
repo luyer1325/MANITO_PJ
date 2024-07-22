@@ -58,7 +58,7 @@
 }
 /* 버튼 - size-auto */
 .bt-size-auto {
-  width: auto;
+  width:max-content;
   padding: 0 2rem;
 }
 /* 버튼 색 */
@@ -141,20 +141,22 @@ input[type="radio"] + label .icon-check::after {
   content: "\f111";
 }
 /* 태그아이콘 */
-.icon-tag::after {
-  content: "\f02b";
+.icon-tag::before {
+  content: "\f02e";
   display: inline-block;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   color: var(--gray);
+  padding-right: 2.5rem;
 }
 /* 알림아이콘 */
-.icon-alert::after {
+.icon-bell::before {
   content: "\f0f3";
   display: inline-block;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   color: var(--yellow);
+  padding-right: 2.5rem;
 }
 /* 플러스 아이콘 */
 .icon-plus::after {

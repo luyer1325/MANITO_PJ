@@ -1,6 +1,6 @@
 package com.leeds.manito.manito_pj.controller.ajh;
 
-import org.hibernate.mapping.List;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +40,7 @@ public class MainPageController {
     @RequestMapping("/ajh4.do")
     public String start(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("게임시작");
-        model.addAttribute("target", "이정한");
-        model.addAttribute("manitoName", "토마토마토");
-        model.addAttribute("endDate", "2024-08-18 16:20");
-
+        manitoService.testSetting(model);
         return "thymeleaf/ajh/start";
         // return "thymeleaf/ajh/gameDetail"; // 임시경로
     }
