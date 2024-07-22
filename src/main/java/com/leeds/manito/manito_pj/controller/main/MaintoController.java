@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MaintoController {
     @RequestMapping("/")
     public String main() {
-        return "index";
+        return "thymeleaf/index";
     }
 
     @RequestMapping("/wel2.do")

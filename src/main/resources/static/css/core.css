@@ -156,7 +156,23 @@ input[type="radio"] + label .icon-check::after {
   font-weight: 900;
   color: var(--yellow);
 }
-
+/* 플러스 아이콘 */
+.icon-plus::after {
+  content: "\2b";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--d-purple);
+}
+/* 삭제아이콘 */
+.icon-delete::after {
+  content: "\2b";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--d-purple);
+  transform: rotate(90deg);
+}
 /* 헤더 타이틀 */
 .header-title {
   font-family: var(--f-han);
@@ -164,21 +180,3 @@ input[type="radio"] + label .icon-check::after {
   text-align: center;
 }
 
-/* 정렬 */
-/* 플렉스 정렬 */
-.d-flex{
-  display: flex;
-}
-/* 플렉스 세로정렬 */
-.d-flex-column{
-  display: flex;
-  flex-direction: column;
-}
-/* 플렉스 정렬 중앙 */
-.f-center{
-  justify-content: center;
-}
-/* 플렉스 90도축 정렬 중앙 */
-.f-ver-center{
-  align-items: center;
-}

@@ -24,12 +24,12 @@
       <!-- 메인미션 구간 -->
       <div class="main-mission-area">
         <div class="mission-unit">
-          <!-- <span id="end-date" th:text="${end-date}"></span>까지 <br /> -->
+          <span id="end-date" th:text="${endDate}"></span>까지 <br />
           <span th:text="${target}"></span>에게 들키지 않고 마니또로 활동하세요.
         </div>
         <div class="mission-unit">
-          <!-- <span id="end-date" th:text="${end-date}"></span>에 <br /> -->
-          <!-- 마니또 <span th:text="${manito-name}"></span>의 정체를 맞추세요. -->
+          <span id="end-date" th:text="${endDate}"></span>에 <br />
+          마니또 <span th:text="${manitoName}"></span>의 정체를 맞추세요.
         </div>
       </div>
       <!-- 구분선 -->
@@ -49,7 +49,7 @@
     <footer>
       <div>
         당신을 도와주는 마니또는<br />
-        <!-- <span th:text="${target}"></span>라는 닉네임을 가지고 있습니다. -->
+        <span th:text="${manitoName}"></span>라는 닉네임을 가지고 있습니다.
       </div>
     </footer>
   </body>
