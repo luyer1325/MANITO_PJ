@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="thymeleaf/base = common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마니또 세부설정</title>
+    <link rel="stylesheet" th:href="@{}">
+    <script>
+        function plusMisson(){
+            event.preventDefault();
+            const target = event.currentTarget.parentNode;
+            const button = document.querySelector("button[class='icon-plus']");
+            const inputNode = document.createElement("input");
+            inputNode.setAttribute("type","text");
+            inputNode.setAttribute("name","");
+            inputNode.setAttribute("id","");
+            inputNode.setAttribute("placeholder","미션을 입력하세요");
+            console.log(button,inputNode);
+            target.appendChild(inputNode);
+            target.appendChild(button);
+        }
+    </script>
+</head>
+<body> 
+    <header>
+        <h1 class="header-title">마니또 게임에 미션을 세부설정 할 수 있어요.</h1>
+    </header>
+    <main> 
+        <div>
+            <form>
+                <input type="text" name="" id="" placeholder="미션을 입력하세요" /><button class="icon-plus" onclick="plusMisson()">추가</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

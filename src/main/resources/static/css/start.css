@@ -1,1 +1,86 @@
 @charset "utf-8";
+
+main,
+footer,
+nav {
+  font-size: 4.6rem;
+  font-family: var(--f-han);
+}
+main {
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 14.3rem;
+  max-width: 150rem;
+  flex-direction: column;
+  align-items: center;
+}
+nav {
+  position: absolute;
+  right: 0;
+  z-index: 10;
+  width: 40rem;
+  overflow: hidden;
+}
+nav > button {
+  margin: 0 auto;
+}
+.member {
+  position: relative;
+  margin-top: 3rem;
+  padding: 7rem 4.6rem;
+  border-radius: 20px 0 0 20px;
+  background-color: var(--purple-trans);
+  color: #fff;
+  transform: translateX(40rem);
+  transition: transform 0.5s ease-out;
+}
+.member li + li {
+  margin-top: 3rem;
+}
+.member.on {
+  transform: translateX(0);
+}
+footer {
+  max-width: max-content;
+  margin: 0 auto;
+  margin-top: 6.5rem;
+  color: var(--purple);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10rem;
+}
+.main-mission-area {
+  margin-top: 11rem;
+  padding: 0 2rem;
+}
+.divide-bar {
+  width: 80rem;
+  height: 0.6rem;
+  background-color: var(--coral);
+  margin: 3rem 15rem;
+}
+/* 추가미션 */
+.sub-mission-area {
+  display: flex;
+  gap: 6rem;
+  justify-content: start;
+  padding: 3rem 2rem;
+  flex-wrap: wrap;
+}
+.mission-unit {
+  padding-bottom: 3rem;
+}
+/* 추가미션 -진행중 */
+.mission-ing {
+  color: var(--gray);
+}
+/* 추가미션 -진행전 */
+.mission-ready {
+  color: var(--yellow);
+}
+.name {
+  color: var(--coral);
+}

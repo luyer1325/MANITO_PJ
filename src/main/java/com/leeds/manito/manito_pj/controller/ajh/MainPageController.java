@@ -1,5 +1,6 @@
 package com.leeds.manito.manito_pj.controller.ajh;
 
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.service.ManitoService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainPageController {
@@ -32,16 +34,15 @@ public class MainPageController {
     public String accept(Model model, ManitoInfoDTO manitoInfoDTO) {
         manitoService.CreateManito(manitoInfoDTO);
         System.out.println("초대받음");
-        System.out.print(manitoInfoDTO.getEnd_date());
-        System.out.println(manitoInfoDTO.getJoin_yn());
-        System.out.println(manitoInfoDTO.getShow_yn());
         return "thymeleaf/ajh/accept";
     }
 
-    @GetMapping("/ajh4.do")
+    @RequestMapping("/ajh4.do")
     public String start(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("게임시작");
+        manitoService.testSetting(model);
         return "thymeleaf/ajh/start";
+        // return "thymeleaf/ajh/gameDetail"; // 임시경로
     }
 
     @GetMapping("/ajh5.do")
