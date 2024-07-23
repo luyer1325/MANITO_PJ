@@ -1,9 +1,14 @@
 package com.leeds.manito.manito_pj.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.thymeleaf.expression.Maps;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
@@ -39,12 +44,31 @@ public class ManitoService {
         model.addAttribute("target", "이정한");
         model.addAttribute("manitoName", "토마토마토");
         model.addAttribute("endDate", "2024-08-18 16:20");
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<String>();
         list.add("토마토마토");
         list.add("양파파");
         list.add("치커리");
         list.add("데굴데굴감자");
         list.add("냐옹배추");
         model.addAttribute("memberlist", list);
+    }
+
+    public void testEndSetting(Model model) {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("이정한");
+        list.add("안주현");
+        list.add("김희진");
+        list.add("김호동");
+        list.add("김다영");
+        model.addAttribute("memberlist", list);
+    }
+
+    public void testEndSetting2(Model model) {
+        model.addAttribute("manito", "이정한");
+        model.addAttribute("manitoName", "토마토마토");
+        Map<Integer, String> mission = new HashMap<Integer, String>();
+        mission.put(1, "마니또에게 응원의 카톡 매일 하나씩 보내기");
+        mission.put(2, "마니또에게 달콤한 선물 보내기");
+        model.addAttribute("mission", mission);
     }
 }

@@ -127,17 +127,30 @@
 /* 체크아이콘 */
 .icon-check::after {
   display: inline-block;
+  position: relative;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   color: var(--purple);
   text-indent: 2rem;
+  transform: rotate(-15deg);
+}
+.icon-check-front::before {
+  display: inline-block;
+  position: relative;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  padding-right: 2rem;
+  transform: rotate(-15deg);
 }
 /* 체크yes */
-input[type="radio"]:checked + label .icon-check::after {
+input[type="radio"]:checked + label .icon-check::after,
+input[type="checkbox"]:checked + label .icon-check-front::before {
   content: "\f058";
 }
 /* 체크no */
-input[type="radio"] + label .icon-check::after {
+input[type="radio"] + label .icon-check::after,
+input[type="checkbox"] + label .icon-check-front::before {
   content: "\f111";
 }
 /* 태그아이콘 */
@@ -182,3 +195,9 @@ input[type="radio"] + label .icon-check::after {
   text-align: center;
 }
 
+.f-coral{
+  color: var(--coral);
+}
+.f-purple{
+  color: var(--d-purple);
+}
