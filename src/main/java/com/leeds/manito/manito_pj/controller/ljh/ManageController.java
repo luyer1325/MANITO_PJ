@@ -3,8 +3,11 @@ package com.leeds.manito.manito_pj.controller.ljh;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.service.KakaoService;
@@ -46,9 +49,11 @@ public class ManageController {
     }
 
     @RequestMapping("/thym-invite2.do")
-    public String invite2(Model model, ManitoInfoDTO manitoInfoDTO){
+    public String invite2(Model model, ManitoInfoDTO manitoInfoDTO, @ModelAttribute("at")String at){
+        System.out.println("여기는 : " + at);
         manitoService.CreateManito(manitoInfoDTO); // 게임 생성
-        //return "thymeleaf/ljh/invite";
+        kakaoService.test(model);
+        model.addAttribute("logout_redirect_uri", "http://localhost:8080/kakao/logout.do");
         return "thymeleaf/ljh/gameDetail";
     }
     

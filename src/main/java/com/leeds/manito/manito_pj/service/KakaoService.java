@@ -14,7 +14,6 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.OutputStreamWriter;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 
 @Service
 public class KakaoService {
@@ -24,10 +23,13 @@ public class KakaoService {
 
     @Value("${kakao_redirect_uri}")
     private String redirectUri;
+    @Value("${kakao_js_key}")
+    private String jsKey;
 
     public void test(Model model){
         model.addAttribute("kakao_api_key", apiKey);
         model.addAttribute("kakao_redirect_uri", redirectUri);
+        model.addAttribute("kakao_js_key",jsKey);
         System.out.println(apiKey);
     }
     
@@ -133,7 +135,7 @@ public class KakaoService {
 
     public void kakaoLogout(Model model){
         String accessToken = (String)model.getAttribute("at");
-        String rUrl = "https://kapi.kakao.com/v1/user/logouthttps://kapi.kakao.com/v1/user/logout";
+        String rUrl = "https://kapi.kakao.com/v1/user/logout";
         try{
             URL url = new URL(rUrl);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -159,11 +161,6 @@ public class KakaoService {
             }
             String result = responseSB.toString();
             System.out.println("[kakao.kakaoLougout] responseBody = "+ result);
-
-            JsonParser jp = new JsonParser();
-            JsonElement je =  jp.parse(result);
-
-
         }catch(Exception e){
             e.printStackTrace();
         }

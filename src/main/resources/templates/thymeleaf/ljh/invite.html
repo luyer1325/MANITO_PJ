@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="thymeleaf/base :: common_header(~{::test},~{::link},~{::script})">
+<head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
     <title th:fragment="test">마니또 페이지</title>
     <link rel="stylesheet" th:href="@{/css/makeGame.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
     <script type="text/javascript" th:src="@{/javascript/calendar.js}" ></script>
     <script type="text/javascript" th:src="@{/javascript/timePicker.js}" ></script>
-    <script type="text/javascript">
+    <script th:inline="javascript">
+      var abc = /*[[${at}]]*/'';
+      
         $(document).ready(function(){
             $('#invite2').click(function(){
                 $("#form").attr("action", "/thym-invite2.do").submit();
             })
         })
-        function popupCenter(url, title, w, h) {
+        function popupCenter(domain,url, title, w, h) {
+            document.domain=domain;
             // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
             var left = (screen.width / 2) - (w / 2);
             var top = (screen.height / 2) - (h / 2);
@@ -126,12 +129,12 @@
             </div>
             <button id = "invite2"class="bt-size-fix bt-purple">구성원 초대하기</button>
             <div class="bt-size-fix bt-purple">
-              <a th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri=${kakao_redirect_uri})}" onclick="popupCenter(this.href, '카카오 로그인', 700, 800); return false;">
+              <a th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri=${kakao_redirect_uri})}"onclick="popupCenter('localhost',this.href, '카카오 로그인', 700, 800); return false;">
                 카카오 로그인
               </a>
             </div>
             <div class="bt-size-fix bt-purple">
-              <a th:href="@{/kakao/logout.do}" onclick="popupCenter(this.href, '카카오 로그아웃', 700, 800); return false;">
+              <a th:href="@{/kakao/logout.do(accessToken=${at})}" onclick="popupCenter('localhost',this.href, '카카오 로그아웃', 700, 800); return false;">
                 카카오 로그아웃
               </a>
             </div>
