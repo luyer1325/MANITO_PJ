@@ -48,12 +48,14 @@ public class MainPageController {
     @GetMapping("/ajh5.do")
     public String end(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("게임종료");
+        manitoService.testEndSetting(model);
         return "thymeleaf/ajh/end";
     }
 
-    @GetMapping("/ajh6.do")
+    @PostMapping("/ajh6.do")
     public String end2(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("게임종료2");
+        manitoService.testEndSetting2(model);
         return "thymeleaf/ajh/end2";
     }
 }

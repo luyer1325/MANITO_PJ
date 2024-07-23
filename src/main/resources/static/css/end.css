@@ -1,8 +1,45 @@
 @charset "utf-8";
 
-header{
-    margin-top: 7.4rem;
+body{
+    background-color: #fff;
 }
-h1+h1{
-    margin-top: 3rem;
+main{
+    padding-top: 4.8rem;
+}
+header {
+  margin-top: 7.4rem;
+}
+h1 + h1 {
+  margin-top: 3rem;
+}
+
+.select-block {
+  flex-wrap: wrap;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 3.9rem;
+    align-items: center;
+}
+
+.profile{
+    position: relative;
+    background-color: #d9d9d9ab;
+    border-radius: 50%;
+    color: var(--purple);
+    width: 30rem;
+    aspect-ratio:1/1;
+}
+
+.profile>span{
+    display: inline-block;
+    position: absolute;
+    font-size: 7rem;
+    font-family: var(--f-han);
+    width: 100%;
+    text-align: center;
+    line-height: 30rem;
+    letter-spacing: 10px;
 }

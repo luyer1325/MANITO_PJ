@@ -4,15 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마니또 종료</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/makeGame.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/end.css}" />
     <script>
-        
+        window.addEventListener("DOMContentLoaded", function () {
+        let member = "[[${memberlist}]]";
+        const pick = document.querySelector("input[type='selected']");
+        const memberName = document.querySelectorAll("input");
+        const nameSpan = document.querySelector(".profile>span");
+        memberName.forEach((name)=>{
+            name.addEventListener("click",()=>{
+                nameSpan.innerText=name.value;
+            })
+        });
+      });
     </script>
 </head>
 <body>
     <header>
         <h1 class="header-title">마니또 게임이 종료되었습니다</h1>
-        <h1 class="header-title">당신이 생각하는 <span th:text="${manitoName}"></span>를 선택해주세요</h1>
-      </header>
+        <h1 class="header-title">당신이 생각하는 <span class="name" th:text="${manitoName}"></span>를 선택해주세요</h1>
+    </header>
+    <main>
+        <form th:object="${memberlist}" action="/ajh6.do" method="post">
+            <div class="profile big-img">
+                <img src="" alt="">
+                <span></span>
+            </div>
+            <div class="select-block">
+                <th:block th:each="member,idx : ${memberlist}">
+                    <input
+                        type="radio"
+                        th:id="'member_' + ${idx.index}"
+                        name="member"
+                        th:value="${member}"
+                    />
+                    <label class="bt-white" th:for="'member_' + ${idx.index}">
+                        <span class="icon-check" th:text="${member}"></span>
+                    </label>
+                </th:block>
+            </div>
+            <button class="bt-size-fix bt-coral" type="submit">결과확인</button>
+        </form>
+    </main>
 </body>
 </html>
