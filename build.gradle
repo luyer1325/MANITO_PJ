@@ -46,6 +46,8 @@ dependencies {
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
 
 	implementation 'com.google.code.gson:gson:2.8.7' // json to string (kakao API 연결시 사용)
+
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' //entity를 DTO자동매핑
 } 
 
 tasks.named('test') {

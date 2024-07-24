@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 @Repository
 public interface ManitoRepository extends JpaRepository<ManitoInfo,Integer>{
-    @Query("select m from ManitoInfo m where m.manito_idx is not null")
-    List<ManitoInfo> methodName();
+    //@Query("select m from ManitoInfo m where m.manito_idx is not null")
+    //List<ManitoInfo> methodName();
     
 }

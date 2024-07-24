@@ -1,45 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
-    <link rel="stylesheet" th:href="@{/css/index.css}"/>
-    <title>마니또 생성</title>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#create').click(function(){ // 생성페이지로 이동
-                location.href="thym-invite.do";
-            })
-            $('#explain').click(function(){ //모달창 열기
-                $('#modal').css("display","flex");
-            })
-            $('#close').click(function(){ //모달창 닫기
-                $('#modal').hide();
-            })
-        })
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
+    <!-- <link rel="stylesheet" href="../../../static/css/index.css" /> -->
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const modal = document.querySelector(".modal-bg");
+        const openBtn = document.querySelector(".modal-open");
+        const closeBtn = modal.querySelector(".close");
+        openBtn.addEventListener("click", () => {
+          modal.style.zIndex = "999";
+          modal.style.opacity = "1";
+        });
+        closeBtn.addEventListener("click", () => {
+          modal.style.zIndex = "-999";
+          modal.style.opacity = "0";
+        });
+      });
+      function popupCenter(domain,url, title, w, h) {
+            document.domain=domain;
+            // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            // window.open 함수로 팝업 창을 엽니다.
+            window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+        }
     </script>
 </head>
-    
-<body>
+  <body>
     <header>
-        <div class="title-area">
-            <h1>
-                <span>Let's Play manito</span>
-            </h1>
-        </div>
+      <div class="title-area">
+        <h1>Let's play <span>manito</span></h1>
+      </div>
     </header>
     <main>
-        <div >
-            <ul class="button-area">
-                <button class="bt-size-fix bt-purple" id="create">마니또 생성하기</button>
-                <button class="bt-size-fix bt-coral" id="explain">마니또란?</button>
-            </ul>
+      <div class="button-area">
+        <!--<a href="/invite.do" class="bt-size-fix bt-purple">마니또 설정하기</a>-->
+        <a class="bt-size-fix bt-purple" th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri='http://localhost:8080/kakao/login2.do')}"onclick="popupCenter('localhost',this.href, '카카오 로그인', 700, 800); return false;">
+          마니또 설정하기
+        </a>
+        <button class="bt-size-fix bt-coral modal-open">마니또란?</button>
+      </div>
+      <div class="modal-bg">
+        <div class="modal">
+          <div class="modal-area">
+            <div class="title bt-size-auto bt-coral">마니또란?</div>
+            <div class="body">
+              <p>스페인어로 '애인'이라는 뜻으로 '애인같이 상대방을 생각하고 아껴주는 친구'를 의미합니다.</p>
+              <p>기간 내에 선택 된 친구에게 내 정체를 들키지 않고 미션을 수행하세요.<br /></p>
+              <p>내 마니또를 찾는 것도 잊지말구요!</p>
+            </div>
+            <button class="close bt-white">닫기</button>
+          </div>
         </div>
+      </div>
     </main>
-    <div class="modal-area" id="modal">
-        <div class="modal-body" id="modal_body">
-            <h2>마니또란?</h2>
-            <p>마니또 내용 설명</p>
-            <button class="bt-size-fix" id="close">닫기</button>
-        </div>
-    </div>
-</body>
+  </body>
 </html>

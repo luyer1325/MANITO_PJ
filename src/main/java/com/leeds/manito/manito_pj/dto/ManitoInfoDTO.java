@@ -12,7 +12,7 @@ public class ManitoInfoDTO {
     private String end_date;
     private String created;
     private String modified;
-    private String delete;
+    private String deleted;
 
     public int getManito_idx() {
         return this.manito_idx;
@@ -95,12 +95,12 @@ public class ManitoInfoDTO {
         this.modified = modified;
     }
 
-    public String getDelete() {
-        return this.delete;
+    public String getDeleted() {
+        return this.deleted;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
+    public void setDelete(String deleted) {
+        this.deleted = deleted;
     }
 
 }

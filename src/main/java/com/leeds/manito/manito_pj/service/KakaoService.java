@@ -35,9 +35,8 @@ public class KakaoService {
         System.out.println(apiKey);
     }
     
-    public String getAccessToken(HttpSession session,String code,Model model){
+    public String getAccessToken(String code){
         String accessToken = "";
-        String refreshToken = "";
         String reqUrl = "https://kauth.kakao.com/oauth/token";
         try{
             URL url = new URL(reqUrl);
@@ -76,9 +75,8 @@ public class KakaoService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
-            refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-            session.setAttribute("at", accessToken);
-            model.addAttribute("at",accessToken);
+            //refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+            //model.addAttribute("at",accessToken);
             //model.addAttribute("rUrl","/thym-invite2.do");
 
             br.close();
@@ -91,7 +89,7 @@ public class KakaoService {
         return accessToken;
     }
 
-    public void getUserInfo(Model model,String accessToken){
+    public void getUserInfo(HttpSession session,Model model,String accessToken){
         String reqUrl = "https://kapi.kakao.com/v2/user/me";
         try{
             URL url = new URL(reqUrl);
@@ -131,6 +129,8 @@ public class KakaoService {
             model.addAttribute("nickname", nickname);
             model.addAttribute("email", email);
             model.addAttribute("at", accessToken);
+            session.setAttribute("email", email);
+            session.setAttribute("at", accessToken);
             br.close();
 
         }catch (Exception e){
