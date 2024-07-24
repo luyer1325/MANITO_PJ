@@ -5,6 +5,7 @@ public class MissionInfoDTO {
     private int index;
     private int degree;
     private String contact_user;
+    private String mission_time;
     private String title;
     private String content;
     private String created;
@@ -41,6 +42,14 @@ public class MissionInfoDTO {
 
     public void setContact_user(String contact_user) {
         this.contact_user = contact_user;
+    }
+
+    public String getMission_time() {
+        return this.mission_time;
+    }
+
+    public void setMission_time(String mission_time) {
+        this.mission_time = mission_time;
     }
 
     public String getTitle() {

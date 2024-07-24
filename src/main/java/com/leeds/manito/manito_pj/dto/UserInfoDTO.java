@@ -3,6 +3,8 @@ package com.leeds.manito.manito_pj.dto;
 public class UserInfoDTO {
     private String user_id;
     private String name;
+    private int manito_idx;
+    private String manito;
     private String nickname;
     private String gender;
     private String kakao_id;
@@ -22,6 +24,22 @@ public class UserInfoDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getManito_idx() {
+        return this.manito_idx;
+    }
+
+    public void setManito_idx(int manito_idx) {
+        this.manito_idx = manito_idx;
+    }
+
+    public String getManito() {
+        return this.manito;
+    }
+
+    public void setManito(String manito) {
+        this.manito = manito;
     }
 
     public String getNickname() {
@@ -55,5 +73,4 @@ public class UserInfoDTO {
     public void setBirth_date(String birth_date) {
         this.birth_date = birth_date;
     }
-
 }

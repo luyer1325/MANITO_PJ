@@ -130,12 +130,16 @@
         form.setAttribute("method", "post");
         form.submit();
       }
-
+      function modalTargetReset(){
+        const modalBtn = document.querySelector(".modal-open button[data-target='true']");
+        modalBtn.dataset.target = "false";
+      }
       window.addEventListener("DOMContentLoaded", () => {
         // 모달 외부창 클릭시 꺼짐
         const modal = document.querySelector(".modal-bg");
         modal.addEventListener("click", () => {
           hideModal(modal);
+          modalTargetReset(); //타겟 설정 초기화
         });
         // 달력, 시계 닫기이벤트 방지
         const modalCal = modal.querySelector("#cal");

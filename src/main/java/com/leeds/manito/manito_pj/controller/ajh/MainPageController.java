@@ -41,8 +41,8 @@ public class MainPageController {
     public String start(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("게임시작");
         manitoService.testSetting(model);
-        return "thymeleaf/ajh/start";
-        // return "thymeleaf/ajh/gameDetail"; // 임시경로
+        // return "thymeleaf/ajh/start";
+        return "thymeleaf/gameDetail"; // 임시경로
     }
 
     @GetMapping("/ajh5.do")
