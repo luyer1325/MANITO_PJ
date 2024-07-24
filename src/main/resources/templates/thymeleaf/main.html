@@ -20,6 +20,14 @@
           modal.style.opacity = "0";
         });
       });
+      function popupCenter(domain,url, title, w, h) {
+            document.domain=domain;
+            // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            // window.open 함수로 팝업 창을 엽니다.
+            window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+        }
     </script>
 </head>
   <body>
@@ -30,7 +38,10 @@
     </header>
     <main>
       <div class="button-area">
-        <a href="/invite.do" class="bt-size-fix bt-purple">마니또 설정하기</a>
+        <!--<a href="/invite.do" class="bt-size-fix bt-purple">마니또 설정하기</a>-->
+        <a class="bt-size-fix bt-purple" th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri=${kakao_redirect_uri})}"onclick="popupCenter('localhost',this.href, '카카오 로그인', 700, 800); return false;">
+          마니또 설정하기
+        </a>
         <button class="bt-size-fix bt-coral modal-open">마니또란?</button>
       </div>
       <div class="modal-bg">
