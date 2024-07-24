@@ -25,7 +25,13 @@
         event.stopPropagation();
         const target = event.currentTarget.parentNode;
         missionIndex++;
-        createMissionInput(target);
+        // createMissionInput(target);
+        const inputNode = document.createElement("input");
+        inputNode.setAttribute("type", "text");
+        inputNode.setAttribute("name", "");
+        inputNode.setAttribute("id", "");
+        inputNode.setAttribute("placeholder", "미션을 입력하세요");
+        target.appendChild(inputNode);
         // 추가버튼, span 맨 뒤로 옮기기
         const button = target.querySelector(".icon-plus");
         const descriptionSpan = target.querySelector(".description");
@@ -56,8 +62,7 @@
       function createMissionInput(target) {
         const addCode = `<input type="text" name="mission-${missionIndex}" id="mission-${missionIndex}" placeholder="미션 내용을 입력하세요" />
         <button type="button" class="icon-minus" onclick="minusMission()">x</button>`;
-        const originalCode = target.innerHTML;
-        target.innerHTML = originalCode + addCode;
+        target.innerHTML += addCode;
       }
       function minusMission() {
         event.preventDefault();
@@ -72,7 +77,7 @@
         if (tg.length == 1) {
           tg[0].dataset.pick = tg[0].value;
         } else {
-          tg.forEach(val => {
+          tg.forEach((val) => {
             val.dataset.pick = val.value;
           });
         }
@@ -80,7 +85,7 @@
       const groupDateload = function () {
         const tg = document.querySelectorAll("input[id^='start_date']");
         tg.forEach((val, idx) => {
-          if(val.dataset.pick){
+          if (val.dataset.pick) {
             val.value = val.dataset.pick;
           }
         });
@@ -89,12 +94,11 @@
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget.parentNode;
-        const originalCode = form.innerHTML;
         missionIndex++;
         missionGroup++;
         groupDateSave();
         const addCode = initMissionGroupCode();
-        form.innerHTML = originalCode + addCode;
+        form.innerHTML += addCode;
         groupDateload();
         const btn = form.querySelector(".add-group");
         form.appendChild(btn);
@@ -224,7 +228,7 @@
             <div class="select-group">
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date-0" placeholder="0000년 00월 00일 00:00" readonly data-pick=""/>
+                  <input type="text" id="start_date-0" placeholder="0000년 00월 00일 00:00" readonly data-pick="" />
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
