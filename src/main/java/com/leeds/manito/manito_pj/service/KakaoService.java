@@ -8,6 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.BufferedWriter;
@@ -26,14 +28,14 @@ public class KakaoService {
     @Value("${kakao_js_key}")
     private String jsKey;
 
-    public void test(Model model){
+    public void getSettings(Model model){
         model.addAttribute("kakao_api_key", apiKey);
         model.addAttribute("kakao_redirect_uri", redirectUri);
         model.addAttribute("kakao_js_key",jsKey);
         System.out.println(apiKey);
     }
     
-    public String getAccessToken(String code){
+    public String getAccessToken(HttpSession session,String code,Model model){
         String accessToken = "";
         String refreshToken = "";
         String reqUrl = "https://kauth.kakao.com/oauth/token";
@@ -75,6 +77,9 @@ public class KakaoService {
             JsonElement element = parser.parse(result);
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+            session.setAttribute("at", accessToken);
+            model.addAttribute("at",accessToken);
+            //model.addAttribute("rUrl","/thym-invite2.do");
 
             br.close();
             bw.close();
@@ -161,6 +166,8 @@ public class KakaoService {
             }
             String result = responseSB.toString();
             System.out.println("[kakao.kakaoLougout] responseBody = "+ result);
+
+            //model.addAttribute("rUrl","/invite.do");
         }catch(Exception e){
             e.printStackTrace();
         }

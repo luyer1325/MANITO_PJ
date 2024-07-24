@@ -19,19 +19,17 @@ public class KakaoController {
     @Autowired
     KakaoService kakaoservice;
 
-    @RequestMapping("/kakao/login.do")
-    public String kakaoLogin(Model model, ManitoInfoDTO manitoInfoDTO,@RequestParam String code,HttpSession session){
+    @RequestMapping("/kakao/login2.do")
+    public String kakaoLogin(Model model,@RequestParam String code,HttpSession session){
         String accessToken = code;
         System.out.println("어세스코드는 : "+accessToken);
-        kakaoservice.test(model);
-        accessToken = kakaoservice.getAccessToken(code);
+        kakaoservice.getSettings(model);
+        accessToken = kakaoservice.getAccessToken(session,code,model);
         kakaoservice.getUserInfo(model,accessToken);
-        model.addAttribute("at",accessToken);
         model.addAttribute("rUrl","/thym-invite2.do");
-        session.setAttribute("at", accessToken);
         return "thymeleaf/ljh/kakao";
     }
-    @RequestMapping("/kakao/logout.do")
+    @RequestMapping("/kakao/logout2.do")
     public String kakaoLogout(Model model, HttpSession session){
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@여기@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("잠시 :"+session.getAttribute("at"));

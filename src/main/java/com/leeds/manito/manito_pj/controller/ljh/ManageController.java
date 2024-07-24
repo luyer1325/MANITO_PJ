@@ -44,7 +44,8 @@ public class ManageController {
 
     @RequestMapping("/thym-invite.do")
     public String invite(Model model, ManitoInfoDTO manitoInfoDTO){
-        kakaoService.test(model);
+        kakaoService.getSettings(model);
+        model.addAttribute("kakao_redirect_uri", "http://localhost:8080/kakao/login2.do");
         return "thymeleaf/ljh/invite";
     }
 
@@ -52,7 +53,7 @@ public class ManageController {
     public String invite2(Model model, ManitoInfoDTO manitoInfoDTO, @ModelAttribute("at")String at){
         System.out.println("여기는 : " + at);
         manitoService.CreateManito(manitoInfoDTO); // 게임 생성
-        kakaoService.test(model);
+        kakaoService.getSettings(model);
         model.addAttribute("logout_redirect_uri", "http://localhost:8080/kakao/logout.do");
         return "thymeleaf/ljh/gameDetail";
     }
