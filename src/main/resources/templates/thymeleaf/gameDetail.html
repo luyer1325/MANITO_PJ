@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또 세부설정</title>
-    <link rel="stylesheet" th:href="@{/css/makeGame.css}"/>
+    <link rel="stylesheet" th:href="@{/css/makeGame.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
     <script type="text/javascript" th:src="@{/javascript/calendar.js}"></script>
@@ -43,7 +43,7 @@
             <div class="select-group">
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" />
+                  <input type="text" id="start_date-${missionIndex}" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" data-pick="" />
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
@@ -67,16 +67,38 @@
         targetButton.remove();
         targetInput.remove();
       }
+      const groupDateSave = function () {
+        const tg = document.querySelectorAll("input[id^='start_date']");
+        if (tg.length == 1) {
+          tg[0].dataset.pick = tg[0].value;
+        } else {
+          tg.forEach(val => {
+            val.dataset.pick = val.value;
+          });
+        }
+      };
+      const groupDateload = function () {
+        const tg = document.querySelectorAll("input[id^='start_date']");
+        tg.forEach((val, idx) => {
+          if(val.dataset.pick){
+            val.value = val.dataset.pick;
+          }
+        });
+      };
       function plusGroup() {
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget.parentNode;
         const originalCode = form.innerHTML;
+        missionIndex++;
         missionGroup++;
+        groupDateSave();
         const addCode = initMissionGroupCode();
         form.innerHTML = originalCode + addCode;
+        groupDateload();
         const btn = form.querySelector(".add-group");
         form.appendChild(btn);
+        // 데이터 매칭 테스트용
       }
       function minusGroup() {
         event.preventDefault();
@@ -155,6 +177,7 @@
         };
         // input 값 입력
         inputTarget.value = dateFormat(date, time);
+        inputTarget.dataset.pick = dateFormat(date, time);
         // 대상 data-target 초기화
         inputTargetParent.dataset.target = "false";
         // 모달 닫기
@@ -201,7 +224,7 @@
             <div class="select-group">
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" />
+                  <input type="text" id="start_date-0" placeholder="0000년 00월 00일 00:00" readonly data-pick=""/>
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
