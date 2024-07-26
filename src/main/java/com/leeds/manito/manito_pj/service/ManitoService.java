@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -20,6 +21,15 @@ public class ManitoService {
     @Autowired
     ManitoRepository manitoRepository;
 
+    //@Autowired
+    //ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public ManitoService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     /*
      * 마니또 게임의 생성 메소드
      * 
@@ -29,15 +39,19 @@ public class ManitoService {
      */
     public Integer CreateManito(ManitoInfoDTO manitoInfoDTO) {
         ManitoInfo me = ManitoInfo.builder()
-                .join_yn(manitoInfoDTO.getJoin_yn())
-                .show_yn(manitoInfoDTO.getShow_yn())
-                .mission_yn(manitoInfoDTO.getMission_yn())
-                .create_user("test")
+                .joinYn(manitoInfoDTO.getJoin_yn())
+                .showYn(manitoInfoDTO.getShow_yn())
+                .missionYn(manitoInfoDTO.getMission_yn())
+                .createUser("test")
                 .created(manitoInfoDTO.getCreated())
-                .end_date(manitoInfoDTO.getEnd_date())
+                .endDate(manitoInfoDTO.getEnd_date())
                 .build();
         this.manitoRepository.save(me);
         return manitoInfoDTO.getManito_idx();
+    }
+    public ManitoInfoDTO checkLogin(Model model,ManitoInfoDTO manitoInfoDTO){
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreate_user());
+        return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
 
     public void testSetting(Model model) {

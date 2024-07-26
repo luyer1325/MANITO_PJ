@@ -26,25 +26,25 @@ public class ManitoInfo {
     private int manito_idx;
 
     @Column(name = "create_user",length=20)
-    private String create_user;
+    private String createUser;
 
     @Column(name = "show_yn",length=2)
-    private String show_yn;
+    private String showYn;
 
     @Column(name = "join_yn",length=2)
-    private String join_yn;
+    private String joinYn;
 
     @Column(name = "mission_yn",length=2)
-    private String mission_yn;
+    private String missionYn;
 
     @Column(name = "mission_time", columnDefinition = "TIMESTAMP")
-    private String mission_time;
+    private String missionTime;
 
     @Column(name = "start_date", columnDefinition = "TIMESTAMP")
-    private String start_date;
+    private String startDate;
 
     @Column(name = "end_date", columnDefinition = "TIMESTAMP")
-    private String end_date;
+    private String endDate;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     private String created;

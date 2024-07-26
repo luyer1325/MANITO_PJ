@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.service.ManitoService;
@@ -43,11 +44,21 @@ public class ManageController {
         return "thymeleaf/ljh/makeGame";
     }
     @RequestMapping("/thym-checkLogin.do")
-    public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session){
-        //manitoInfoDTO = manitoService.checkLogin(model,manitoInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
-        System.out.println("@@@@@"+manitoInfoDTO.getCreate_user()+"@@@@@");
-        model.addAttribute("rUrl","/thym-makeGame.do");
+    public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session,@RequestParam("email") String email){
+        manitoInfoDTO.setCreate_user(email);
+        manitoInfoDTO = manitoService.checkLogin(model,manitoInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
+        System.out.println("@@@@@"+manitoInfoDTO.getManito_idx()+"@@@@@");
+        System.out.println("@@@@@"+model.getAttribute("email")+"@@@@@");
+        if(manitoInfoDTO.getCreate_user().equals("") || manitoInfoDTO.getCreate_user().isEmpty()){
+            model.addAttribute("rUrl","/thym-makeGame.do");
+        }else {
+            model.addAttribute("rUrl","/thym-start.do");
+        }
         return "thymeleaf/ljh/kakao";
+    }
+    @RequestMapping("/thym-start.do")
+    public String startGame(Model model, ManitoInfoDTO manitoInfoDTO){
+        return "thymeleaf/ljh/start";
     }
     @RequestMapping("/thym-gameDetail.do")
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session){

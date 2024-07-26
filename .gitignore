@@ -37,3 +37,4 @@ out/
 .vscode/
 /.metadata/
 keystore.p12
+src/main/resources/application-private.properties
