@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또 시작하기</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/start.css}" />
-    <script>
+    <script th:inline="javascript">
       window.addEventListener("DOMContentLoaded", function () {
         let member = "[[${memberlist}]]";
 
@@ -31,12 +31,13 @@
       <!-- 메인미션 구간 -->
       <div class="main-mission-area">
         <div class="mission-unit">
-          <span id="end-date" th:text="${endDate}"></span>까지 <br />
-          <span class="name" th:text="${target}"></span>에게 들키지 않고 마니또로 활동하세요.
+          <span id="end-date" th:text="${manitoInfoDTO.endDate}"></span>까지 <br />
+          <span th:text="${#temporals.createDate(manitoInfoDTO.endDate, 'yyyy-MM-dd HH:mm')}"></span>
+          <span class="name" th:text="${manitoInfoDTO.createUser}"></span>에게 들키지 않고 마니또로 활동하세요.
         </div>
         <div class="mission-unit">
-          <span id="end-date" th:text="${endDate}"></span>에 <br />
-          마니또 <span class="name" th:text="${manitoName}"></span>의 정체를 맞추세요.
+          <span id="end-date" th:text="${manitoInfoDTO.endDate}"></span>에 <br />
+          마니또 <span class="name" th:text="${manitoInfoDTO.createUser}"></span>의 정체를 맞추세요.
         </div>
       </div>
       <!-- 구분선 -->

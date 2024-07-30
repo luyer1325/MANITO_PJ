@@ -21,11 +21,8 @@ public class ManitoService {
 
     ManitoInfo manito = new ManitoInfo();
 
-    //@Autowired
-    //ModelMapper modelMapper;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public ManitoService(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
