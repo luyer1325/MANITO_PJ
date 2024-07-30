@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.thymeleaf.expression.Maps;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
@@ -20,6 +18,8 @@ public class ManitoService {
 
     @Autowired
     ManitoRepository manitoRepository;
+
+    ManitoInfo manito = new ManitoInfo();
 
     //@Autowired
     //ModelMapper modelMapper;
@@ -39,18 +39,22 @@ public class ManitoService {
      */
     public Integer CreateManito(ManitoInfoDTO manitoInfoDTO) {
         ManitoInfo me = ManitoInfo.builder()
-                .joinYn(manitoInfoDTO.getJoin_yn())
-                .showYn(manitoInfoDTO.getShow_yn())
-                .missionYn(manitoInfoDTO.getMission_yn())
-                .createUser("test")
+                .joinYn(manitoInfoDTO.getJoinYn())
+                .showYn(manitoInfoDTO.getShowYn())
+                .missionYn(manitoInfoDTO.getMissionYn())
+                .createUser(manitoInfoDTO.getCreateUser())
                 .created(manitoInfoDTO.getCreated())
-                .endDate(manitoInfoDTO.getEnd_date())
+                .endDate(manitoInfoDTO.getEndDate())
                 .build();
         this.manitoRepository.save(me);
-        return manitoInfoDTO.getManito_idx();
+        return manitoInfoDTO.getManitoIdx();
     }
     public ManitoInfoDTO checkLogin(Model model,ManitoInfoDTO manitoInfoDTO){
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreate_user());
+        System.out.println("현재 createUser :" + manitoInfoDTO.getCreateUser());
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser()).orElseGet(() -> manito);
+        //System.out.println("현재 manito_idx :"manitoInfo.getCreateUser());
+        // if(manitoInfo == null){
+        // }
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
 

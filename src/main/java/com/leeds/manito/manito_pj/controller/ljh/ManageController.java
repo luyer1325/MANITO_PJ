@@ -45,11 +45,12 @@ public class ManageController {
     }
     @RequestMapping("/thym-checkLogin.do")
     public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session,@RequestParam("email") String email){
-        manitoInfoDTO.setCreate_user(email);
+        manitoInfoDTO.setCreateUser(email);
         manitoInfoDTO = manitoService.checkLogin(model,manitoInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
-        System.out.println("@@@@@"+manitoInfoDTO.getManito_idx()+"@@@@@");
+        System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
         System.out.println("@@@@@"+model.getAttribute("email")+"@@@@@");
-        if(manitoInfoDTO.getCreate_user().equals("") || manitoInfoDTO.getCreate_user().isEmpty()){
+        System.out.println("@@@@@"+manitoInfoDTO.getCreateUser()+"@@@@@");
+        if(manitoInfoDTO.getCreateUser() == null || manitoInfoDTO.getCreateUser().trim().isEmpty()){
             model.addAttribute("rUrl","/thym-makeGame.do");
         }else {
             model.addAttribute("rUrl","/thym-start.do");
@@ -62,7 +63,7 @@ public class ManageController {
     }
     @RequestMapping("/thym-gameDetail.do")
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session){
-        manitoInfoDTO.setCreate_user((String)session.getAttribute("email"));
+        manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
         manitoService.CreateManito(manitoInfoDTO);
         return "thymeleaf/ljh/gameDetail";
     }

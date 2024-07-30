@@ -2,81 +2,80 @@ package com.leeds.manito.manito_pj.dto;
 
 
 public class ManitoInfoDTO {
-    private int manito_idx;
-    private String create_user;
-    private String show_yn;
-    private String join_yn;
-    private String mission_yn;
-    private String mission_time;
-    private String start_date;
-    private String end_date;
+    private int manitoIdx;
+    private String createUser;
+    private String showYn;
+    private String joinYn;
+    private String missionYn;
+    private String missionTime;
+    private String startDate;
+    private String endDate;
     private String created;
     private String modified;
     private String deleted;
 
-    public int getManito_idx() {
-        return this.manito_idx;
+    public int getManitoIdx() {
+        return this.manitoIdx;
     }
 
-    public void setManito_idx(int manito_idx) {
-        this.manito_idx = manito_idx;
+    public void setManitoIdx(int manitoIdx) {
+        this.manitoIdx = manitoIdx;
     }
 
-    public String getCreate_user() {
-        return this.create_user;
+    public String getCreateUser() {
+        return this.createUser;
     }
 
-    public void setCreate_user(String create_user) {
-        this.create_user = create_user;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
-    public String getShow_yn() {
-        return this.show_yn;
+    public String getShowYn() {
+        return this.showYn;
     }
 
-    public void setShow_yn(String show_yn) {
-        this.show_yn = show_yn;
+    public void setShowYn(String showYn) {
+        this.showYn = showYn;
     }
 
-    public String getJoin_yn() {
-        return this.join_yn;
+    public String getJoinYn() {
+        return this.joinYn;
     }
 
-    public void setJoin_yn(String join_yn) {
-        this.join_yn = join_yn;
+    public void setJoinYn(String joinYn) {
+        this.joinYn = joinYn;
     }
 
-    public String getMission_yn() {
-        return this.mission_yn;
+    public String getMissionYn() {
+        return this.missionYn;
     }
 
-    public void setMission_yn(String mission_yn) {
-        this.mission_yn = mission_yn;
+    public void setMissionYn(String missionYn) {
+        this.missionYn = missionYn;
     }
 
-    public String getMission_time() {
-        return this.mission_time;
+    public String getMissionTime() {
+        return this.missionTime;
     }
 
-    public void setMission_time(String mission_time) {
-        this.mission_time = mission_time;
+    public void setMissionTime(String missionTime) {
+        this.missionTime = missionTime;
     }
 
-    
-    public String getStart_date() {
-        return this.start_date;
+    public String getStartDate() {
+        return this.startDate;
     }
 
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getEnd_date() {
-        return this.end_date;
+    public String getEndDate() {
+        return this.endDate;
     }
 
-    public void setEnd_date(String end_date) {
-        this.end_date = end_date;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getCreated() {
@@ -99,8 +98,10 @@ public class ManitoInfoDTO {
         return this.deleted;
     }
 
-    public void setDelete(String deleted) {
+    public void setDeleted(String deleted) {
         this.deleted = deleted;
     }
+
+    
 
 }

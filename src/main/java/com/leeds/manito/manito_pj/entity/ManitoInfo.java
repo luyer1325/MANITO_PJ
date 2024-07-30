@@ -23,7 +23,7 @@ public class ManitoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "manito_idx")
-    private int manito_idx;
+    private int manitoIdx;
 
     @Column(name = "create_user",length=20)
     private String createUser;

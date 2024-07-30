@@ -30,9 +30,7 @@ public class KakaoController {
     public String kakaoLogin(Model model,@RequestParam String code,HttpSession session,RedirectAttributes rttr){
         String accessToken = kakaoService.getAccessToken(code);
         kakaoService.getUserInfo(session,model,accessToken);
-        String email = "luyer@naver.com";
-        //rttr.addAttribute("email",model.getAttribute("email"));
-        rttr.addAttribute("email",email);
+        rttr.addAttribute("email",model.getAttribute("email"));
         //model.addAttribute("rUrl","/thym-makeGame.do");
         return "redirect:/thym-checkLogin.do";
     }
