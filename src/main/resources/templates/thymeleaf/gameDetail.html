@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또 세부설정</title>
-    <link rel="stylesheet" th:href="@{/css/makeGame.css}" />
+    <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
     <script type="text/javascript" th:src="@{/javascript/calendar.js}"></script>
@@ -18,59 +18,82 @@
     <script src="../../static/javascript/calendar.js"></script>
     <script src="../../static/javascript/timePicker.js"></script> -->
     <script th:inline="javascript">
-      let missionIndex = 0;
-      let missionGroup = 0;
-      function plusMisson() {
+      let number = 0;
+      let degree = 0;
+      const inputDataSave = function () {
+        const tg = document.querySelectorAll("input[id^='mission-']");
+        if (tg.length == 1) {
+          tg[0].dataset.pick = tg[0].value;
+        } else {
+          tg.forEach((val) => {
+            val.dataset.pick = val.value;
+          });
+        }
+      };
+      const inputDateload = function () {
+        const tg = document.querySelectorAll("input[id^='mission-']");
+        tg.forEach((val, idx) => {
+          if (val.dataset.pick) {
+            val.value = val.dataset.pick;
+          }
+        });
+      };
+      function addMisson() {
         event.preventDefault();
         event.stopPropagation();
         const target = event.currentTarget.parentNode;
-        missionIndex++;
-        // createMissionInput(target);
-        const inputNode = document.createElement("input");
-        inputNode.setAttribute("type", "text");
-        inputNode.setAttribute("name", "");
-        inputNode.setAttribute("id", "");
-        inputNode.setAttribute("placeholder", "미션을 입력하세요");
-        target.appendChild(inputNode);
+        number++;
+        inputDataSave();
+        createMissionInput(target);
+        inputDateload();
+        // 새로생성한 input previous input에 삭제키 만들기
+        const delCode = `<button type="button" class="del-mission icon-delete" onclick="removeMission()"></button>`
+        const inputAll = target.querySelectorAll(".input-unit");
+        inputAll.forEach((inputUnit,index)=>{
+          if(index == inputAll.length-2){
+            inputUnit.innerHTML += delCode;
+          }
+        });
         // 추가버튼, span 맨 뒤로 옮기기
         const button = target.querySelector(".icon-plus");
-        const descriptionSpan = target.querySelector(".description");
+        // const descriptionSpan = target.querySelector(".description");
         target.appendChild(button);
-        target.appendChild(descriptionSpan);
+        // target.appendChild(descriptionSpan);
       }
-      function initMissionGroupCode() {
-        const missionGroupCode = `<div class="mission-group-${missionGroup}">
-            <h2 class="title">${missionGroup + 1}번 미션그룹</h2>
+      function createMissionInput(target) {
+        const addCode = `<div class="input-unit bt-white icon-pen"><input type="text" name="mission-${number}" id="mission-${number}" placeholder="미션 내용을 입력하세요" />
+        </div>`;
+        target.innerHTML += addCode;
+      }
+      const initMissionGroupCode = ()=>{
+        const missionGroupCode = `<div class="mission-group-${degree}">
+            <h2 class="title">미션그룹</h2>
             <div class="input-group">
-              <input type="text" name="mission-${missionIndex}" id="mission-${missionIndex}" placeholder="미션 내용을 입력하세요" />
-              <button class="icon-plus" onclick="plusMisson()">추가</button>
-              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" name="mission-${degree}-${number}" id="mission-${number}" placeholder="미션 내용을 입력하세요" />
+              </div>
+              <button class="add-mission icon-plus" onclick="addMisson()"></button>
             </div>
             <div class="select-group">
+              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date-${missionIndex}" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" data-pick="" />
+                  <input type="text" id="start_date-${degree}" placeholder="미션 공개 일정을 선택하세요" readonly th:field="*{start_date}" data-pick="" />
                 </button>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
             </div>
-            <button type="button" class="icon-minus" onclick="minusGroup()">그룹삭제</button>
+            <button type="button" class="bt-size-mini icon-delete" onclick="minusGroup()">그룹삭제</button>
           </div>
         `;
         return missionGroupCode;
       }
-      function createMissionInput(target) {
-        const addCode = `<input type="text" name="mission-${missionIndex}" id="mission-${missionIndex}" placeholder="미션 내용을 입력하세요" />
-        <button type="button" class="icon-minus" onclick="minusMission()">x</button>`;
-        target.innerHTML += addCode;
-      }
-      function minusMission() {
+      function removeMission() {
         event.preventDefault();
         event.stopPropagation();
         const targetButton = event.currentTarget;
-        const targetInput = targetButton.previousElementSibling;
-        targetButton.remove();
-        targetInput.remove();
+        const targetUnit = targetButton.parentNode;
+        targetUnit.remove();
       }
       const groupDateSave = function () {
         const tg = document.querySelectorAll("input[id^='start_date']");
@@ -90,19 +113,28 @@
           }
         });
       };
+      const missionDegreeSetting = () => {
+        const div = document.querySelectorAll("div[class^='mission-group-']");
+        console.log(div);
+      }
       function plusGroup() {
         event.preventDefault();
         event.stopPropagation();
+        number++;
+        degree++;
         const form = event.currentTarget.parentNode;
-        missionIndex++;
-        missionGroup++;
-        groupDateSave();
         const addCode = initMissionGroupCode();
+        inputDataSave();
+        groupDateSave();
         form.innerHTML += addCode;
+        inputDateload();
         groupDateload();
-        const btn = form.querySelector(".add-group");
-        form.appendChild(btn);
+        const addBtn = form.querySelector(".add-group");
+        // const submitBtn = form.querySelector(".submit-btn");
+        form.appendChild(addBtn);
+        // form.appendChild(submitBtn);
         // 데이터 매칭 테스트용
+        missionDegreeSetting();
       }
       function minusGroup() {
         event.preventDefault();
@@ -164,7 +196,6 @@
       function showFormDate(date) {
         return dateList[0] + "년" + dateList[1] + "월" + dateList[2] + "일 " + timeList[0] + ":" + timeList[1];
       }
-
       // 2. 선택완료
       function dateSetting() {
         const time = document.querySelector(".time-picker-view").innerText;
@@ -209,6 +240,36 @@
           e.stopPropagation();
         });
       });
+      // 입력창 검증
+      function validation() {
+        const sDate = document.querySelectorAll("input[id^=start_date]");
+        const mission = document.querySelectorAll("input[id^=mission-]");
+        console.log(sDate, mission);
+        let missionValid = 0,
+        sDateValid = 0;
+        sDate.forEach(val=>{
+          if(val.value.trim() == null || val.value.trim() == ""){
+            sDateValid++;
+          }
+        });
+        mission.forEach(val=>{
+          if(val.value.trim() == null || val.value.trim() == ""){
+            missionValid++;
+          }
+        })
+        console.log(sDateValid, missionValid);
+        if(sDateValid){
+          alert("미션 공개 일정을 선택해주세요.");
+          return false;
+        }else if(missionValid){
+          alert("미션을 입력해주세요. 사용하지 않는 미션은 제거해주세요.");
+          return false;
+        }
+        const form = document.querySelector("form");
+        form.setAttribute("action", "/test.do");
+        form.setAttribute("method", "post");
+        form.submit();
+      }
     </script>
   </head>
   <body>
@@ -219,23 +280,26 @@
       <div>
         <form>
           <div class="mission-group-0">
-            <h2 class="title">1번 미션그룹</h2>
+            <h2 class="title">미션그룹</h2>
             <div class="input-group">
-              <input type="text" name="mission-0" id="mission-0" placeholder="미션 내용을 입력하세요" />
-              <button class="icon-plus" onclick="plusMisson()">추가</button>
-              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" name="mission-0" id="mission-0" placeholder="미션 내용을 입력하세요" />
+              </div>
+              <button class="add-mission icon-plus" onclick="addMisson()"></button>
             </div>
             <div class="select-group">
+              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date-0" placeholder="0000년 00월 00일 00:00" readonly data-pick="" />
+                  <input type="text" id="start_date-0" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" />
                 </button>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
             </div>
           </div>
-          <button class="icon-plus add-group" onclick="plusGroup()">미션 추가하기</button>
+          <button class="bt-size-mini add-group icon-plus" onclick="plusGroup()">그룹추가</button>
         </form>
+        <button class="bt-size-fix bt-purple submit-btn" onclick="validation()">설정 완료</button>
       </div>
     </main>
     <!-- 모달 -->

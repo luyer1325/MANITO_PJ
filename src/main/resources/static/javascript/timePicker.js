@@ -11,23 +11,23 @@ window.addEventListener("DOMContentLoaded", () => {
 
     let hourInitPos = firstListPosition(hourList);
     let minInitPos = firstListPosition(minList);
-    console.log(
-      timeList[0].getBoundingClientRect().height,
-      "hourInitPos",
-      hourInitPos,
-      "minInitPos",
-      minInitPos
-    );
+    // console.log(
+    //   timeList[0].getBoundingClientRect().height,
+    //   "hourInitPos",
+    //   hourInitPos,
+    //   "minInitPos",
+    //   minInitPos
+    // );
 
     let ampmCurrentPos = moveDistance * 2;
-    console.log("hour크기",hourInitPos,"min위치",minInitPos,'initpos',moveDistance);
+    // console.log("hour크기",hourInitPos,"min위치",minInitPos,'initpos',moveDistance);
 
     // 데이터 뿌리기 전에 동적구현 데이터
     function firstListPosition(ol) {
       // 데이터 길이에 따라서 동적으로 위치 구현
       let listLenght = ol.querySelectorAll("li").length;
       let firstListPosition = moveDistance * 2 - Math.floor((listLenght - 1) / 2) * moveDistance;
-      console.log("리스트길이 초기값", listLenght, firstListPosition, moveDistance);
+      // console.log("리스트길이 초기값", listLenght, firstListPosition, moveDistance);
       return firstListPosition;
     }
 
@@ -151,7 +151,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     const timeSliderWraper = document.querySelectorAll(".time-slider-wraper ol");
-    console.log("슬라이드랩퍼", timeSliderWraper);
+    // console.log("슬라이드랩퍼", timeSliderWraper);
     timeSliderWraper.forEach((item, idx) => {
       goDrag(item, idx);
     });

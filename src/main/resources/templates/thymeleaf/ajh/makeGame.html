@@ -19,14 +19,24 @@
     <script src="../../../static/javascript/calendar.js"></script>
     <script src="../../../static/javascript/timePicker.js"></script> -->
     <script>
+      function popupCenter(domain,url, title, w, h) {
+        document.domain=domain;
+        // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+        var left = (screen.width / 2) - (w / 2);
+        var top = (screen.height / 2) - (h / 2);            // window.open 함수로 팝업 창을 엽니다.
+        window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+      }
+
       function showModal(modalTarget) {
         modalTarget.style.opacity = 1;
         modalTarget.style.zIndex = 999;
       }
+
       function hideModal(modalTarget) {
         modalTarget.style.opacity = 0;
         modalTarget.style.zIndex = -999;
       }
+
       // 모달 위치 설정
       function initPosSetting(modalTarget, clickElement) {
         let posX = clickElement.getBoundingClientRect().left + clickElement.getBoundingClientRect().width + 20;
@@ -39,6 +49,7 @@
         // 대상 data-target true로 변경
         clickElement.dataset.target = "true";
       }
+
       function openCal() {
         event.preventDefault();
         event.stopPropagation();
@@ -56,9 +67,11 @@
         showModal(modalCal);
         hideModal(modalTimer);
       }
+
       function showFormDate(date) {
         return dateList[0] + "년" + dateList[1] + "월" + dateList[2] + "일 " + timeList[0] + ":" + timeList[1];
       }
+
       // 2. 선택완료
       function dateSetting() {
         const time = document.querySelector(".time-picker-view").innerText;
@@ -67,9 +80,12 @@
         const inputTargetParent = document.querySelector("button[data-target='true']");
         const inputTarget = inputTargetParent.querySelector("input[type='text']");
         const dateFormat = (date, time) => {
+          time = time.replace(/\s/g,''); // 공백제거
           let dateList = date.split("-");
           let timeList = time.split(" : ");
-          return dateList[0] + "년" + dateList[1] + "월" + dateList[2] + "일 " + timeList[0] + ":" + timeList[1];
+          //return dateList[0] + "년" + dateList[1] + "월" + dateList[2] + "일 " + timeList[0] + ":" + timeList[1];
+          let dateVal = date+' '+time;
+          return dateVal;
         };
         // input 값 입력
         inputTarget.value = dateFormat(date, time);
@@ -78,10 +94,35 @@
         // 모달 닫기
         hideModal(modal);
       }
+
       function validation() {
-        const date = document.querySelector("#end_date").value.trim();
-        if (date == null || date == "") {
+        const eDate = document.querySelector("#end_date").value.trim();
+        const sDate = document.querySelector("#start_date").value.trim();
+        let joinCnt=0
+        ,showCnt =0
+        ,missionCnt = 0;
+        for (var i = 0; i < 2; i++) {
+          if(document.getElementsByName('joinYn')[i].matches(":checked"))joinCnt++;
+          if(document.getElementsByName('showYn')[i].matches(":checked"))showCnt++;
+          if(document.getElementsByName('missionYn')[i].matches(":checked"))missionCnt++;
+        }
+        if(!joinCnt){
+          alert("관리자 참가 여부를 선택해주세요.");
+          return false;
+        }else if(!showCnt){
+          alert("참가자 공개 여부를 선택해주세요.")
+          return false;
+        }else if(!missionCnt){
+          alert("미션 사용 여부를 선택해주세요.")
+          return false;
+        }else if(sDate == null || sDate == ""){
+          alert("시작시점을 선택해주세요.")
+          return false;
+        }else if (eDate == null || eDate == "") {
           alert("종료일자를 선택해주세요.");
+          return false;
+        }else if(sDate > eDate){
+          alert("시작일자는 종료일자보다 빠를 수 없습니다.")
           return false;
         }
         const form = document.querySelector("form[name='make-manito']");
@@ -89,11 +130,16 @@
         form.setAttribute("method", "post");
         form.submit();
       }
+      function modalTargetReset(){
+        const modalBtn = document.querySelector(".modal-open button[data-target='true']");
+        modalBtn.dataset.target = "false";
+      }
       window.addEventListener("DOMContentLoaded", () => {
         // 모달 외부창 클릭시 꺼짐
         const modal = document.querySelector(".modal-bg");
         modal.addEventListener("click", () => {
           hideModal(modal);
+          modalTargetReset(); //타겟 설정 초기화
         });
         // 달력, 시계 닫기이벤트 방지
         const modalCal = modal.querySelector("#cal");
@@ -113,31 +159,31 @@
     </header>
     <main>
       <div>
-        <form name="make-manito" th:action th:object="${manitoInfoDTO}" onsubmit="validation()">
+        <form name="make-manito" th:action th:object="${manitoInfoDTO}" onsubmit="validation()" method="post">
           <ul>
             <li class="select-group">
               <h2 class="title">관리자 게임 참가 여부</h2>
               <div class="select-block">
                 <input
                   type="radio"
-                  name="admin_join"
-                  id="admin-join-y"
-                  th:checked="${manitoInfoDTO.join_yn eq 'Y'}"
-                  th:field="*{join_yn}"
+                  name="joinYn"
+                  id="join_y"
+                  th:checked="${manitoInfoDTO.joinYn eq 'Y'}"
+                  th:field="*{joinYn}"
                   value="Y"
                 />
-                <label class="bt-white" for="admin-join-y">
+                <label class="bt-white" for="join_y">
                   <span class="icon-check">참가</span>
                 </label>
                 <input
                   type="radio"
-                  name="admin_join"
-                  id="admin-join-n"
-                  th:checked="${manitoInfoDTO.join_yn eq 'N'}"
-                  th:field="*{join_yn}"
+                  name="joinYn"
+                  id="join_n"
+                  th:checked="${manitoInfoDTO.joinYn eq 'N'}"
+                  th:field="*{joinYn}"
                   value="N"
                 />
-                <label class="bt-white" for="admin-join-n">
+                <label class="bt-white" for="join_n">
                   <span class="icon-check">관전</span>
                 </label>
               </div>
@@ -148,24 +194,24 @@
               <div class="select-block">
                 <input
                   type="radio"
-                  name="show_yn"
-                  id="show-y"
-                  th:checked="${manitoInfoDTO.show_yn eq 'Y'}"
-                  th:field="*{show_yn}"
+                  name="showYn"
+                  id="show_y"
+                  th:checked="${manitoInfoDTO.showYn eq 'Y'}"
+                  th:field="*{showYn}"
                   value="Y"
                 />
-                <label class="bt-white" for="show-y">
+                <label class="bt-white" for="show_y">
                   <span class="icon-check">공개</span>
                 </label>
                 <input
                   type="radio"
-                  name="show_yn"
-                  id="show-n"
-                  th:checked="${manitoInfoDTO.show_yn eq 'N'}"
-                  th:field="*{show_yn}"
+                  name="showYn"
+                  id="show_n"
+                  th:checked="${manitoInfoDTO.showYn eq 'N'}"
+                  th:field="*{showYn}"
                   value="N"
                 />
-                <label class="bt-white" for="show-n">
+                <label class="bt-white" for="show_n">
                   <span class="icon-check">비공개</span>
                 </label>
               </div>
@@ -176,35 +222,26 @@
               <div class="select-block">
                 <input
                   type="radio"
-                  name="mission"
-                  id="mission-y"
-                  th:checked="${manitoInfoDTO.mission_yn eq 'Y'}"
-                  th:field="*{mission_yn}"
+                  name="missionYn"
+                  id="mission_y"
+                  th:checked="${manitoInfoDTO.missionYn eq 'Y'}"
+                  th:field="*{missionYn}"
                   value="Y"
                 />
-                <label class="bt-white" for="mission-y">
+                <label class="bt-white" for="mission_y">
                   <span class="icon-check">미션없음</span>
                 </label>
                 <input
                   type="radio"
-                  name="mission"
-                  id="mission-n"
-                  th:checked="${manitoInfoDTO.mission_yn eq 'N'}"
-                  th:field="*{mission_yn}"
+                  name="missionYn"
+                  id="mission_n"
+                  th:checked="${manitoInfoDTO.missionYn eq 'N'}"
+                  th:field="*{missionYn}"
                   value="N"
                 />
-                <label class="bt-white" for="mission-n">
+                <label class="bt-white" for="mission_n">
                   <span class="icon-check">미션있음</span>
                 </label>
-              </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
-            </li>
-            <li class="select-group">
-              <h2 class="title">마니또 종료 시점</h2>
-              <div class="select-block modal-open">
-                <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="end_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{end_date}" />
-                </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
             </li>
@@ -212,7 +249,16 @@
               <h2 class="title">마니또 시작 시점</h2>
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" />
+                  <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{startDate}" />
+                </button>
+              </div>
+              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+            </li>
+            <li class="select-group">
+              <h2 class="title">마니또 종료 시점</h2>
+              <div class="select-block modal-open">
+                <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                  <input type="text" id="end_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{endDate}" />
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>

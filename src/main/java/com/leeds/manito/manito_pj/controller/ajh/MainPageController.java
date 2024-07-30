@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.service.ManitoService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class MainPageController {
@@ -58,4 +60,12 @@ public class MainPageController {
         manitoService.testEndSetting2(model);
         return "thymeleaf/ajh/end2";
     }
+
+    @PostMapping("/test")
+    public String test(Model model, MissionInfoDTO missionInfoDTO) {
+        System.out.println("세팅완료");
+
+        return "thymeleft/ajh/test";
+    }
+
 }

@@ -58,8 +58,15 @@
 }
 /* 버튼 - size-auto */
 .bt-size-auto {
-  width:max-content;
+  width: max-content;
   padding: 0 2rem;
+}
+.bt-size-mini {
+  height: auto;
+  width: max-content;
+  padding: 1rem 2rem;
+  font-size: 2.4rem;
+  border-radius: 15px;
 }
 /* 버튼 색 */
 .bt-coral {
@@ -73,7 +80,7 @@
 
 /* [ 모달 ]
 - 구조 : .modal-bg > .modal > .modal-area > .title + .body + .close */
-.modal-bg{
+.modal-bg {
   background-color: #0000000e;
   z-index: -999;
   position: fixed;
@@ -114,7 +121,15 @@
   color: #fff;
   line-height: 3rem;
 }
-
+/* 펜아이콘 */
+.icon-pen::before{
+  content: '\f305';
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  padding-right: 2rem;
+}
 /* 달력아이콘 */
 .icon-cal::after {
   content: "\f274";
@@ -181,12 +196,11 @@ input[type="checkbox"] + label .icon-check-front::before {
 }
 /* 삭제아이콘 */
 .icon-delete::after {
-  content: "\2b";
+  content: "\f00d";
   display: inline-block;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
-  color: var(--d-purple);
-  transform: rotate(90deg);
+  color: var(--coral);
 }
 /* 헤더 타이틀 */
 .header-title {
@@ -195,9 +209,9 @@ input[type="checkbox"] + label .icon-check-front::before {
   text-align: center;
 }
 
-.f-coral{
+.f-coral {
   color: var(--coral);
 }
-.f-purple{
+.f-purple {
   color: var(--d-purple);
 }
