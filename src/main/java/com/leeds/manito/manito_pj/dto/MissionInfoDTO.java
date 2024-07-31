@@ -1,4 +1,5 @@
 package com.leeds.manito.manito_pj.dto;
+import java.util.List;
 
 public class MissionInfoDTO {
     private int manito_idx;
@@ -11,6 +12,7 @@ public class MissionInfoDTO {
     private String created;
     private String modified;
     private String delete;
+    private List<MissionInfoDTO> missionList;
 
     public int getManito_idx() {
         return this.manito_idx;
@@ -92,4 +94,11 @@ public class MissionInfoDTO {
         this.delete = delete;
     }
 
+    public List<MissionInfoDTO> getList() {
+        return this.missionList;
+    }
+
+    public void setMissionList(List<MissionInfoDTO> missionList) {
+        this.missionList = missionList;
+    }
 }

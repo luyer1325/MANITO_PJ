@@ -1,4 +1,6 @@
 package com.leeds.manito.manito_pj.entity;
+import java.time.LocalDateTime;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -46,12 +48,11 @@ public class ManitoInfo {
     private String missionTime;
 
     @Column(name = "start_date", columnDefinition = "TIMESTAMP")
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
     private String startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "end_date", columnDefinition = "TIMESTAMP")
-    private String endDate;
+    private LocalDateTime endDate;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     private String created;
