@@ -21,7 +21,7 @@ public class ManageController {
     @Autowired
     ManitoService manitoService;
 
-    @RequestMapping("/thym-invite2.do")
+    @RequestMapping("/thym-createGame.do")
     public String invite2(Model model, ManitoInfoDTO manitoInfoDTO, @ModelAttribute("at")String at){
         manitoService.CreateManito(manitoInfoDTO); // 게임 생성
         //kakaoService.getSettings(model);
@@ -48,17 +48,18 @@ public class ManageController {
         manitoInfoDTO.setCreateUser(email);
         manitoInfoDTO = manitoService.checkLogin(model,manitoInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
         System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
-        System.out.println("@@@@@"+model.getAttribute("email")+"@@@@@");
         System.out.println("@@@@@"+manitoInfoDTO.getCreateUser()+"@@@@@");
+        model.addAttribute("manitoInfoDTO", manitoInfoDTO);
         if(manitoInfoDTO.getCreateUser() == null || manitoInfoDTO.getCreateUser().trim().isEmpty()){
             model.addAttribute("rUrl","/thym-makeGame.do");
         }else {
             model.addAttribute("rUrl","/thym-start.do");
         }
-        return "thymeleaf/ljh/kakao";
+        return "thymeleaf/ljh/kakao2";
     }
     @RequestMapping("/thym-start.do")
     public String startGame(Model model, ManitoInfoDTO manitoInfoDTO){
+        model.addAttribute("manitoInfoDTO", manitoInfoDTO);
         return "thymeleaf/ljh/start";
     }
     @RequestMapping("/thym-gameDetail.do")

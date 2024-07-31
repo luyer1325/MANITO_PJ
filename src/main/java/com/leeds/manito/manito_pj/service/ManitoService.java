@@ -31,7 +31,6 @@ public class ManitoService {
     // ModelMapper modelMapper;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public ManitoService(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }

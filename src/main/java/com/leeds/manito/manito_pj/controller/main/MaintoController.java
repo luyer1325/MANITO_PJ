@@ -43,6 +43,7 @@ public class MaintoController {
     @RequestMapping("/detail.do")
     public String requestMethodName() {
         //@RequestParam String param
+        
         return "thymeleaf/gameDetail";
     }
     

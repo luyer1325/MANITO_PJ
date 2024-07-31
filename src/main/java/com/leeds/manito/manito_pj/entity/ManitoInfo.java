@@ -1,4 +1,10 @@
 package com.leeds.manito.manito_pj.entity;
+import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,13 +44,15 @@ public class ManitoInfo {
     private String missionYn;
 
     @Column(name = "mission_time", columnDefinition = "TIMESTAMP")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private String missionTime;
 
     @Column(name = "start_date", columnDefinition = "TIMESTAMP")
     private String startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "end_date", columnDefinition = "TIMESTAMP")
-    private String endDate;
+    private LocalDateTime endDate;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     private String created;

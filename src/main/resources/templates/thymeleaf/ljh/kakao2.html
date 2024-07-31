@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <title>abc</title>
+    <link rel="stylesheet" th:href="@{/css/makeGame.css}">
+    <script th:inline="javascript">
+        const rUrl = /*[[${rUrl}]]*/'';
+
+        $(document).ready(function(){
+            const at = /*[[${at}]]*/'';
+            var f= document.forms.popupForm;
+            document.domain = "localhost"; 
+            opener.name = "manitoIvt";
+            f.target = opener.name;
+            f.action = rUrl;
+            f.submit();
+            //self.close();
+        });
+</script>
+<body>
+<form name="popupForm" method="post" th:object="${manitoInfoDTO}">
+    <!-- <input type="hidden" name="at" th:value="${at}"> -->
+    <input type="text" name="manitoIdx" th:value="${manitoInfoDTO.manitoIdx}">
+    <input type="hidden" name="createUser" th:value="${manitoInfoDTO.createUser}">
+    <input type="hidden" name="startDate" th:value="${manitoInfoDTO.startDate}">
+    <input type="text" name="endDate" th:value="${manitoInfoDTO.endDate}">
+    <input type="hidden" name="showYn" th:value="${manitoInfoDTO.showYn}">
+    <input type="hidden" name="joinYn" th:value="${manitoInfoDTO.joinYn}">
+</form>
+</body>
+</html>

@@ -96,15 +96,15 @@
       }
 
       function validation() {
-        const eDate = document.querySelector("#end_date").value.trim();
-        const sDate = document.querySelector("#start_date").value.trim();
+        const eDate = document.querySelector("#endDate").value.trim();
+        const sDate = document.querySelector("#startDate").value.trim();
         let joinCnt=0
         ,showCnt =0
         ,missionCnt = 0;
         for (var i = 0; i < 2; i++) {
-          if(document.getElementsByName('join_yn')[i].matches(":checked"))joinCnt++;
-          if(document.getElementsByName('show_yn')[i].matches(":checked"))showCnt++;
-          if(document.getElementsByName('mission_yn')[i].matches(":checked"))missionCnt++;
+          if(document.getElementsByName('joinYn')[i].matches(":checked"))joinCnt++;
+          if(document.getElementsByName('showYn')[i].matches(":checked"))showCnt++;
+          if(document.getElementsByName('missionYn')[i].matches(":checked"))missionCnt++;
         }
         if(!joinCnt){
           alert("관리자 참가 여부를 선택해주세요.");
@@ -161,10 +161,10 @@
               <div class="select-block">
                 <input
                   type="radio"
-                  name="join_yn"
+                  name="joinYn"
                   id="join_y"
-                  th:checked="${manitoInfoDTO.join_yn eq 'Y'}"
-                  th:field="*{join_yn}"
+                  th:checked="${manitoInfoDTO.joinYn eq 'Y'}"
+                  th:field="*{joinYn}"
                   value="Y"
                 />
                 <label class="bt-white" for="join_y">
@@ -172,10 +172,10 @@
                 </label>
                 <input
                   type="radio"
-                  name="join_yn"
+                  name="joinYn"
                   id="join_n"
-                  th:checked="${manitoInfoDTO.join_yn eq 'N'}"
-                  th:field="*{join_yn}"
+                  th:checked="${manitoInfoDTO.joinYn eq 'N'}"
+                  th:field="*{joinYn}"
                   value="N"
                 />
                 <label class="bt-white" for="join_n">
@@ -189,10 +189,10 @@
               <div class="select-block">
                 <input
                   type="radio"
-                  name="show_yn"
+                  name="showYn"
                   id="show_y"
-                  th:checked="${manitoInfoDTO.show_yn eq 'Y'}"
-                  th:field="*{show_yn}"
+                  th:checked="${manitoInfoDTO.showYn eq 'Y'}"
+                  th:field="*{showYn}"
                   value="Y"
                 />
                 <label class="bt-white" for="show_y">
@@ -200,10 +200,10 @@
                 </label>
                 <input
                   type="radio"
-                  name="show_yn"
+                  name="showYn"
                   id="show_n"
-                  th:checked="${manitoInfoDTO.show_yn eq 'N'}"
-                  th:field="*{show_yn}"
+                  th:checked="${manitoInfoDTO.showYn eq 'N'}"
+                  th:field="*{showYn}"
                   value="N"
                 />
                 <label class="bt-white" for="show_n">
@@ -217,10 +217,10 @@
               <div class="select-block">
                 <input
                   type="radio"
-                  name="mission_yn"
+                  name="missionYn"
                   id="mission_y"
-                  th:checked="${manitoInfoDTO.mission_yn eq 'Y'}"
-                  th:field="*{mission_yn}"
+                  th:checked="${manitoInfoDTO.missionYn eq 'Y'}"
+                  th:field="*{missionYn}"
                   value="Y"
                 />
                 <label class="bt-white" for="mission_y">
@@ -228,10 +228,10 @@
                 </label>
                 <input
                   type="radio"
-                  name="mission_yn"
+                  name="missionYn"
                   id="mission_n"
-                  th:checked="${manitoInfoDTO.mission_yn eq 'N'}"
-                  th:field="*{mission_yn}"
+                  th:checked="${manitoInfoDTO.missionYn eq 'N'}"
+                  th:field="*{missionYn}"
                   value="N"
                 />
                 <label class="bt-white" for="mission_n">
@@ -244,7 +244,7 @@
               <h2 class="title">마니또 시작 시점</h2>
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{start_date}" />
+                  <input type="text" id="startDate" placeholder="0000년 00월 00일 00:00" readonly th:field="*{startDate}" />
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
@@ -253,7 +253,7 @@
               <h2 class="title">마니또 종료 시점</h2>
               <div class="select-block modal-open">
                 <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                  <input type="text" id="end_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{end_date}" />
+                  <input type="text" id="endDate" placeholder="0000년 00월 00일 00:00" readonly th:field="*{endDate}" />
                 </button>
               </div>
               <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
