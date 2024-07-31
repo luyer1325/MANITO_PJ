@@ -1,21 +1,21 @@
 package com.leeds.manito.manito_pj.dto;
 
 public class UserInfoDTO {
-    private String user_id;
+    private String userId;
     private String name;
-    private int manito_idx;
+    private int manitoIdx;
     private String manito;
     private String nickname;
     private String gender;
-    private String kakao_id;
-    private String birth_date;
+    private String kakaoId;
+    private String birthDate;
 
-    public String getUser_id() {
-        return this.user_id;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -26,12 +26,12 @@ public class UserInfoDTO {
         this.name = name;
     }
 
-    public int getManito_idx() {
-        return this.manito_idx;
+    public int getManitoIdx() {
+        return this.manitoIdx;
     }
 
-    public void setManito_idx(int manito_idx) {
-        this.manito_idx = manito_idx;
+    public void setManitoIdx(int manitoIdx) {
+        this.manitoIdx = manitoIdx;
     }
 
     public String getManito() {
@@ -58,19 +58,19 @@ public class UserInfoDTO {
         this.gender = gender;
     }
 
-    public String getKakao_id() {
-        return this.kakao_id;
+    public String getKakaoId() {
+        return this.kakaoId;
     }
 
-    public void setKakao_id(String kakao_id) {
-        this.kakao_id = kakao_id;
+    public void setKakaoId(String kakaoId) {
+        this.kakaoId = kakaoId;
     }
 
-    public String getBirth_date() {
-        return this.birth_date;
+    public String getBirthDate() {
+        return this.birthDate;
     }
 
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 }
