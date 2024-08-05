@@ -4,7 +4,7 @@ public class UserInfoDTO {
     private String userId;
     private String name;
     private int manitoIdx;
-    private String manito;
+    private String manitoTarget;
     private String nickname;
     private String gender;
     private String kakaoId;
@@ -34,12 +34,12 @@ public class UserInfoDTO {
         this.manitoIdx = manitoIdx;
     }
 
-    public String getManito() {
-        return this.manito;
+    public String getManitoTarget() {
+        return this.manitoTarget;
     }
 
-    public void setManito(String manito) {
-        this.manito = manito;
+    public void setManito(String manitoTarget) {
+        this.manitoTarget = manitoTarget;
     }
 
     public String getNickname() {

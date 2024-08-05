@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.service.KakaoService;
 import com.leeds.manito.manito_pj.service.ManitoService;
+import com.leeds.manito.manito_pj.service.ManitoService2;
 import com.leeds.manito.manito_pj.util.AES;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 
 
@@ -20,6 +24,13 @@ public class ManageController {
 
     @Autowired
     ManitoService manitoService;
+
+    @Autowired
+    ManitoService2 manitoService2;
+
+    @Autowired
+    KakaoService kakaoService;
+
     @Autowired
     AES aes;
 
@@ -32,7 +43,10 @@ public class ManageController {
     }
     
     @RequestMapping("/thym-ljh.do")
-    public String thym(Model model, ManitoInfoDTO manitoInfoDTO){
+    public String thym(Model model, ManitoInfoDTO manitoInfoDTO, @RequestParam("idx")String encIdx){
+        String idx = aes.decrypt_AES(encIdx);
+        manitoInfoDTO = manitoService2.getManitoInfo(model,idx);
+        manitoService2.insertUser(model, manitoInfoDTO, idx);
         return "thymeleaf/ljh/accept";
     }
 
@@ -63,7 +77,8 @@ public class ManageController {
     public String startGame(Model model, ManitoInfoDTO manitoInfoDTO ,HttpSession session){
         manitoService.getInfo(model, session);
         model.addAttribute("manitoInfoDTO", manitoInfoDTO);
-        String ps = aes.encrypt_AES(manitoInfoDTO.getCreateUser());
+        String ps = aes.encrypt_AES(String.valueOf(manitoInfoDTO.getManitoIdx()));
+        model.addAttribute("encIdx", ps);
         System.out.println("암호화 : "+ps);
         System.out.println("복호화 : "+aes.decrypt_AES(ps));
 
@@ -76,7 +91,18 @@ public class ManageController {
         manitoService.CreateManito(manitoInfoDTO);
         return "thymeleaf/ljh/gameDetail";
     }
-
+    @RequestMapping("/testtt.do")
+    public String test(Model model) {
+        kakaoService.getSettings(model);
+        model.addAttribute("logout_redirect_uri", "http://localhost:8080/kakao/logout.do");
+        return "thymeleaf/ljh/gameDetail";
+    }
+    @RequestMapping("/testttt.do")
+    public String test2() {
+        
+        return "thymeleaf/ljh/test2";
+    }
+    
     
 
 }

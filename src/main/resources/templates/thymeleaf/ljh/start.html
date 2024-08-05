@@ -20,6 +20,7 @@
 
       var abc = /*[[${at}]]*/'';
       const key = /*[[${kakao_js_key}]]*/'';
+      const idx = /*[[${encIdx}]]*/'';
 
       Kakao.init(key);
         console.log(Kakao.isInitialized());//ey 값을 가져오는지 확인
@@ -33,7 +34,7 @@
                     imageUrl: imgUrl1,
                     link: {
                         mobileWebUrl: 'http://localhost:8080', //모바일로 눌렀을 때
-                        webUrl: 'http://localhost:8080/thym-ljh.do' // 컴퓨터로 눌렀을 때
+                        webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx // 컴퓨터로 눌렀을 때
                     },
                 },
                 buttons: [ // 버튼 눌렀을 때 링크주소
@@ -41,7 +42,7 @@
                         title: '테스트 결과보기',
                         link: {
                             mobileWebUrl: 'http://localhost:8080',
-                            webUrl: 'http://localhost:8080/thym-ljh.do'
+                            webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx
                         },
                     },
                 ]
