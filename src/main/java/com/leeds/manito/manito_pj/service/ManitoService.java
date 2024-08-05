@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
+import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
+import com.leeds.manito.manito_pj.repository.MissionRepositiory;
 
 @Service
 public class ManitoService {
@@ -19,8 +22,13 @@ public class ManitoService {
     @Autowired
     ManitoRepository manitoRepository;
 
+    @Autowired
+    MissionRepositiory missionRepositiory;
+
     ManitoInfo manito = new ManitoInfo();
 
+    // @Autowired
+    // ModelMapper modelMapper;
     private final ModelMapper modelMapper;
 
     public ManitoService(ModelMapper modelMapper) {
@@ -46,10 +54,26 @@ public class ManitoService {
         this.manitoRepository.save(me);
         return manitoInfoDTO.getManitoIdx();
     }
-    public ManitoInfoDTO checkLogin(Model model,ManitoInfoDTO manitoInfoDTO){
+
+    public void CreateMission(MissionInfoDTO missionInfoDTO) {
+        MissionInfo mi = MissionInfo.builder()
+                .degree(missionInfoDTO.getDegree())
+                .content(missionInfoDTO.getContent())
+                .missionTime(missionInfoDTO.getMissionTime())
+                // .manitoIdx(missionInfoDTO.getManitoIdx())
+                // .title(missionInfoDTO.getTitle())
+                // .deleted(missionInfoDTO.getDeleted())
+                // .created(missionInfoDTO.getCreated())
+                // .modified(missionInfoDTO.getModified())
+                .build();
+        this.missionRepositiory.save(mi);
+    }
+
+    public ManitoInfoDTO checkLogin(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("현재 createUser :" + manitoInfoDTO.getCreateUser());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser()).orElseGet(() -> manito);
-        //System.out.println("현재 manito_idx :"manitoInfo.getCreateUser());
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser())
+                .orElseGet(() -> manito);
+        // System.out.println("현재 manito_idx :"manitoInfo.getCreateUser());
         // if(manitoInfo == null){
         // }
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);

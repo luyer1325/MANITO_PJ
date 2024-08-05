@@ -1,33 +1,31 @@
 package com.leeds.manito.manito_pj.dto;
-import java.util.List;
 
 public class MissionInfoDTO {
-    private int manito_idx;
-    private int index;
+    private int manitoIdx;
+    private int missionIdx;
     private int degree;
-    private String contact_user;
-    private String mission_time;
+    private String contactUser;
+    private String missionTime;
     private String title;
     private String content;
     private String created;
     private String modified;
-    private String delete;
-    private List<MissionInfoDTO> missionList;
+    private String deleted;
 
-    public int getManito_idx() {
-        return this.manito_idx;
+    public int getManitoIdx() {
+        return this.manitoIdx;
     }
 
-    public void setManito_idx(int manito_idx) {
-        this.manito_idx = manito_idx;
+    public void setManitoIdx(int manitoIdx) {
+        this.manitoIdx = manitoIdx;
     }
 
-    public int getIndex() {
-        return this.index;
+    public int getMissionIdx() {
+        return this.missionIdx;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setMissionIdx(int missionIdx) {
+        this.missionIdx = missionIdx;
     }
 
     public int getDegree() {
@@ -38,20 +36,20 @@ public class MissionInfoDTO {
         this.degree = degree;
     }
 
-    public String getContact_user() {
-        return this.contact_user;
+    public String getContactUser() {
+        return this.contactUser;
     }
 
-    public void setContact_user(String contact_user) {
-        this.contact_user = contact_user;
+    public void setContactUser(String contactUser) {
+        this.contactUser = contactUser;
     }
 
-    public String getMission_time() {
-        return this.mission_time;
+    public String getMissionTime() {
+        return this.missionTime;
     }
 
-    public void setMission_time(String mission_time) {
-        this.mission_time = mission_time;
+    public void setMissionTime(String missionTime) {
+        this.missionTime = missionTime;
     }
 
     public String getTitle() {
@@ -86,19 +84,12 @@ public class MissionInfoDTO {
         this.modified = modified;
     }
 
-    public String getDelete() {
-        return this.delete;
+    public String getDeleted() {
+        return this.deleted;
     }
 
-    public void setDelete(String delete) {
-        this.delete = delete;
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
     }
 
-    public List<MissionInfoDTO> getList() {
-        return this.missionList;
-    }
-
-    public void setMissionList(List<MissionInfoDTO> missionList) {
-        this.missionList = missionList;
-    }
 }

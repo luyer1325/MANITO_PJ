@@ -1,11 +1,12 @@
 package com.leeds.manito.manito_pj.controller.ajh;
 
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.google.gson.Gson;
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.service.ManitoService;
@@ -61,11 +62,13 @@ public class MainPageController {
         return "thymeleaf/ajh/end2";
     }
 
-    @PostMapping("/test")
-    public String test(Model model, MissionInfoDTO missionInfoDTO) {
+    @PostMapping("/test2.do")
+    public void test(Model model, @RequestBody String jsonData, @ModelAttribute MissionInfoDTO missionInfoDTO) {
+        Gson gson = new Gson();
+        MissionInfoDTO mission = gson.fromJson(jsonData, MissionInfoDTO.class);
         System.out.println("세팅완료");
-
-        return "thymeleft/ajh/test";
+        System.out.println("getContent" + mission.getContent());
+        manitoService.CreateMission(mission);
+        // return "thymeleaf/ajh/test";
     }
-
 }
