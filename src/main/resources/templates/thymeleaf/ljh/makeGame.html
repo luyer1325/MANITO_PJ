@@ -155,6 +155,8 @@
     <main>
       <div>
         <form name="make-manito" th:action th:object="${manitoInfoDTO}" onsubmit="validation()" method="post">
+          <input type="text" name="createUser" th:value="${manitoInfoDTO.createUser}">
+          <!-- <input type="text" name="createUser" th:field="*{createUser}"> -->
           <ul>
             <li class="select-group">
               <h2 class="title">관리자 게임 참가 여부</h2>

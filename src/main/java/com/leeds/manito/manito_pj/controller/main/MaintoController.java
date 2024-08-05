@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.UserInfoDTO;
+import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.service.KakaoService;
 
 import jakarta.servlet.http.HttpSession;
@@ -49,10 +51,10 @@ public class MaintoController {
     
 
     @RequestMapping("/kakao/login.do")
-    public String kakaoLogin(Model model,@RequestParam("code") String code,HttpSession session){
+    public String kakaoLogin(Model model,@RequestParam("code") String code,HttpSession session,UserInfoDTO userinfoDTO){
         kakaoService.getSettings(model); // Key값 받아오는 서비스
         String accessToken = kakaoService.getAccessToken(code); // 허용토큰 받는 서비스
-        kakaoService.getUserInfo(session,model,accessToken); //유저 정보 받는 서비스
+        kakaoService.getUserInfo(session,model,accessToken,userinfoDTO); //유저 정보 받는 서비스
         model.addAttribute("rUrl","/invite.do");// redirect Url - kakao.html에서 부모창 redirect url로  이동
         return "thymeleaf/ljh/kakao";
     }

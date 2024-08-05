@@ -30,17 +30,18 @@ public class ManitoService2 {
         this.modelMapper = modelMapper;
     }
 
-    public void insertUser(Model model, ManitoInfoDTO manitoInfoDTO, String idx){
+    public void insertUser(Model model, ManitoInfoDTO manitoInfoDTO,int idx){
         UserInfo ui = UserInfo.builder()
+            .manitoIdx(idx)
             .kakaoId("")
             .name("")
-            .userId("")
+            .userId(manitoInfoDTO.getCreateUser())
             .build();
         //return userRepository.save(ui).getManitoIdx();
     }
 
-    public ManitoInfoDTO getManitoInfo(Model model, String idx){
-        ManitoInfo manitoInfo = manitoRepository.findBymanitoIdx(Integer.parseInt(idx)).orElseGet(() -> manito);
+    public ManitoInfoDTO getManitoInfo(Model model, int idx){
+        ManitoInfo manitoInfo = manitoRepository.findBymanitoIdx(idx).orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
 }
