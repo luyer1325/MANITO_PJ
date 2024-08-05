@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
+import com.leeds.manito.manito_pj.dto.UserInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
@@ -75,9 +76,9 @@ public class ManitoService {
         this.missionRepositiory.save(mi);
     }
 
-    public ManitoInfoDTO checkLogin(Model model, ManitoInfoDTO manitoInfoDTO) {
-        System.out.println("현재 createUser :" + manitoInfoDTO.getCreateUser());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser())
+    public ManitoInfoDTO checkLogin(Model model, UserInfoDTO userInfoDTO) {
+        System.out.println("현재 createUser :" + userInfoDTO.getUserId());
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(userInfoDTO.getUserId())
                 .orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
