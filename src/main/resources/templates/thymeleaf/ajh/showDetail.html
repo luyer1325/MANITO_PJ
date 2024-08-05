@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또 설정 보기</title>
+    <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
+
+    <!-- 테스트용 -->
+    <script th:inline="javascript">
+
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="header-title">마니또 게임에 미션을 세부설정 할 수 있어요.</h1>
+    </header>
+    <main>
+      <div>
+        <form onsubmit="validation()" action="/test.do" id="missionForm" method="POST">
+          <th:block th:each="missionGp : missionGroupDTO">
+            <div th:class='"mission-group-"+${missionGp.degree}'>
+              <h2 class="title" th:text='"미션그룹"+${missionGp.degree}'></h2>
+              <div class="input-group">
+                <div class="input-unit bt-white icon-pen" th:each="mission : missionGp.missions">
+                  <input 
+                    type="text" 
+                    name='"mission-"+${missionGp.degree}+"-"+${mission.missionIdx}' 
+                    id='"mission-"+${mission.missionIdx}' 
+                    data-pick="" 
+                    th:placeholder="미션 내용을 입력하세요"
+                    th:value="${mission.content}"
+                    readonly />
+                </div>
+              </div>
+              <div class="select-group">
+                <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+                <div class="select-block modal-open">
+                  <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                    <input 
+                      type="text" 
+                      id='"start_date-"+${missionGp.degree}' 
+                      placeholder="미션 공개 일정을 선택하세요" 
+                      readonly 
+                      data-pick=""
+                      th:value="${missionGp.missionTime}"/>
+                  </button>
+                </div>
+                <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+            </div>
+          </th:block>
+        </form>
+        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">확인</button>
+      </div>
+    </main>
+  </body>
+</html>

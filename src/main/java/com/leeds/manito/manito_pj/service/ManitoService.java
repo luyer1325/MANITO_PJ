@@ -57,8 +57,8 @@ public class ManitoService {
                 .created(manitoInfoDTO.getCreated())
                 .endDate(manitoInfoDTO.getEndDate())
                 .build();
-        this.manitoRepository.save(me);
-        return manitoInfoDTO.getManitoIdx();
+        int idx = this.manitoRepository.save(me).getManitoIdx();
+        return idx;
     }
 
     public void CreateMission(MissionInfoDTO missionInfoDTO) {
@@ -66,7 +66,7 @@ public class ManitoService {
                 .degree(missionInfoDTO.getDegree())
                 .content(missionInfoDTO.getContent())
                 .missionTime(missionInfoDTO.getMissionTime())
-                // .manitoIdx(missionInfoDTO.getManitoIdx())
+                .manitoIdx(missionInfoDTO.getManitoIdx())
                 // .title(missionInfoDTO.getTitle())
                 // .deleted(missionInfoDTO.getDeleted())
                 // .created(missionInfoDTO.getCreated())
@@ -77,12 +77,23 @@ public class ManitoService {
 
     public ManitoInfoDTO checkLogin(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("현재 createUser :" + manitoInfoDTO.getCreateUser());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser()).orElseGet(() -> manito);
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser())
+                .orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
-    public void getInfo(Model model, HttpSession session){
+
+    public void getInfo(Model model, HttpSession session) {
         model.addAttribute("at", session.getAttribute("at"));
         model.addAttribute("kakao_js_key", jsKey);
+    }
+
+    public boolean missionYN(Integer maintoIdx) {
+        ManitoInfo manitoInfo = manitoRepository.findById(maintoIdx).orElseGet(() -> manito);
+        if (manitoInfo.getMissionYn().equals("Y")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void testSetting(Model model) {

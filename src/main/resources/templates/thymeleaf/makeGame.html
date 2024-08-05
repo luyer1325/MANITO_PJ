@@ -215,7 +215,7 @@
                   <span class="icon-check">비공개</span>
                 </label>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">마니또 게임의 참여자의 목록을 다른 참여자가 볼 수 있습니다.</small>
             </li>
             <li class="select-group">
               <h2 class="title">미션 사용 여부</h2>
@@ -229,7 +229,7 @@
                   value="Y"
                 />
                 <label class="bt-white" for="mission_y">
-                  <span class="icon-check">미션없음</span>
+                  <span class="icon-check">미션있음</span>
                 </label>
                 <input
                   type="radio"
@@ -240,10 +240,10 @@
                   value="N"
                 />
                 <label class="bt-white" for="mission_n">
-                  <span class="icon-check">미션있음</span>
+                  <span class="icon-check">미션없음</span>
                 </label>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">마니또에 미션을 설정할 수 있습니다.</small>
             </li>
             <li class="select-group">
               <h2 class="title">마니또 시작 시점</h2>
@@ -252,7 +252,7 @@
                   <input type="text" id="start_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{startDate}" />
                 </button>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">마니또가 시작되는 시점을 선택합니다.</small>
             </li>
             <li class="select-group">
               <h2 class="title">마니또 종료 시점</h2>
@@ -261,7 +261,7 @@
                   <input type="text" id="end_date" placeholder="0000년 00월 00일 00:00" readonly th:field="*{endDate}" />
                 </button>
               </div>
-              <small class="description">관리자가 마니또에 직접 참여할 지 관전만 할 지 선택합니다.</small>
+              <small class="description">마니또가 종료되는 시점을 선택합니다.</small>
             </li>
             <li>
               <button class="bt-size-auto bt-purple" type="submit">구성원 초대하기</button>

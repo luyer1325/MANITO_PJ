@@ -1,36 +1,306 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head th:replace="thymeleaf/base = common_header(~{::title},~{::link},~{::script})">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또 세부설정</title>
-    <link rel="stylesheet" th:href="@{}">
-    <script>
-        function plusMisson(){
-            event.preventDefault();
-            const target = event.currentTarget.parentNode;
-            const button = document.querySelector("button[class='icon-plus']");
-            const inputNode = document.createElement("input");
-            inputNode.setAttribute("type","text");
-            inputNode.setAttribute("name","");
-            inputNode.setAttribute("id","");
-            inputNode.setAttribute("placeholder","미션을 입력하세요");
-            console.log(button,inputNode);
-            target.appendChild(inputNode);
-            target.appendChild(button);
+    <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
+    <script type="text/javascript" th:src="@{/javascript/calendar.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/timePicker.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/modal.js}"></script>
+
+    <!-- 테스트용 -->
+    <!-- <link rel="stylesheet" href="../../static/css/calendar.css" />
+    <link rel="stylesheet" href="../../static/css/timePicker.css" />
+    <link rel="stylesheet" href="../../static/css/main.css" />
+    <link rel="stylesheet" href="../../static/css/makeGame.css" />
+    <script src="../../static/javascript/calendar.js"></script>
+    <script src="../../static/javascript/timePicker.js"></script> -->
+    <script th:inline="javascript">
+      let number = 0;
+      let degree = 0;
+      const inputDataSave = function () {
+        const tg = document.querySelectorAll("input[id^='mission-']");
+        tg.forEach((val, idx) => {
+          val.dataset.pick = val.value;
+        });
+      };
+      const inputDateload = function () {
+        const tg = document.querySelectorAll("input[id^='mission-']");
+        tg.forEach((val, idx) => {
+          val.value = val.dataset.pick;
+        });
+      };
+      function addMisson() {
+        event.preventDefault();
+        event.stopPropagation();
+        const target = event.currentTarget.parentNode;
+        number++;
+        inputDataSave();
+        createMissionInput(target);
+        // 새로생성한 input previous input에 삭제키 만들기
+        const delCode = `<button type="button" class="del-mission icon-delete" onclick="removeMission()"></button>`;
+        const inputAll = target.querySelectorAll(".input-unit");
+        inputAll.forEach((inputUnit, index) => {
+          if (index == inputAll.length - 2) {
+            inputUnit.innerHTML += delCode;
+          }
+        });
+        inputDateload();
+        // 추가버튼, span 맨 뒤로 옮기기
+        const button = target.querySelector(".icon-plus");
+        // const descriptionSpan = target.querySelector(".description");
+        target.appendChild(button);
+        // target.appendChild(descriptionSpan);
+      }
+      function createMissionInput(target) {
+        const addCode = `<div class="input-unit bt-white icon-pen"><input type="text" name="mission-${degree}-${number}" id="mission-${number}" data-pick="" placeholder="미션 내용을 입력하세요" />
+              </div>`;
+        target.innerHTML += addCode;
+      }
+      const initMissionGroupCode = () => {
+        const missionGroupCode = `<div class="mission-group-${degree}">
+                  <h2 class="title">미션그룹</h2>
+                  <div class="input-group">
+                    <div class="input-unit bt-white icon-pen">
+                      <input type="text" name="mission-${degree}-${number}" id="mission-${number}" data-pick="" placeholder="미션 내용을 입력하세요" />
+                    </div>
+                    <button class="add-mission icon-plus" onclick="addMisson()"></button>
+                  </div>
+                  <div class="select-group">
+                    <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+                    <div class="select-block modal-open">
+                      <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                        <input type="text" id="start_date-${degree}" placeholder="미션 공개 일정을 선택하세요" readonly th:field="*{start_date}" data-pick="" />
+                      </button>
+                    </div>
+                    <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+                  </div>
+                  <button type="button" class="bt-size-mini icon-delete" onclick="minusGroup()">그룹삭제</button>
+                </div>
+              `;
+        return missionGroupCode;
+      };
+      function removeMission() {
+        event.preventDefault();
+        event.stopPropagation();
+        const targetButton = event.currentTarget;
+        const targetUnit = targetButton.parentNode;
+        targetUnit.remove();
+      }
+      const groupDateSave = function () {
+        const tg = document.querySelectorAll("input[id^='start_date']");
+        if (tg.length == 1) {
+          tg[0].dataset.pick = tg[0].value;
+        } else {
+          tg.forEach((val) => {
+            val.dataset.pick = val.value;
+          });
         }
+      };
+      const groupDateload = function () {
+        const tg = document.querySelectorAll("input[id^='start_date']");
+        tg.forEach((val, idx) => {
+          if (val.dataset.pick) {
+            val.value = val.dataset.pick;
+          }
+        });
+      };
+      const missionDegreeSetting = () => {
+        const div = document.querySelectorAll("div[class^='mission-group-']");
+        console.log(div);
+      };
+      function plusGroup() {
+        event.preventDefault();
+        event.stopPropagation();
+        number++;
+        degree++;
+        const form = event.currentTarget.parentNode;
+        const addCode = initMissionGroupCode();
+        inputDataSave();
+        groupDateSave();
+        form.innerHTML += addCode;
+        inputDateload();
+        groupDateload();
+        const addBtn = form.querySelector(".add-group");
+        // const submitBtn = form.querySelector(".submit-btn");
+        form.appendChild(addBtn);
+        // form.appendChild(submitBtn);
+        // 데이터 매칭 테스트용
+        missionDegreeSetting();
+      }
+      function minusGroup() {
+        event.preventDefault();
+        event.stopPropagation();
+        const targetButton = event.currentTarget;
+        const targetGroup = targetButton.parentNode;
+        targetGroup.remove();
+      }
+
+      // 입력창 검증
+      function validation() {
+        event.preventDefault(); //기본 폼 전송 막기
+        const sDate = document.querySelectorAll("input[id^=start_date]");
+        const mission = document.querySelectorAll("input[id^=mission-]");
+        console.log("검증입력 대상", sDate, mission);
+        let missionValid = 0,
+          sDateValid = 0;
+        sDate.forEach((val) => {
+          if (val.value.trim() == null || val.value.trim() == "") {
+            sDateValid++;
+          }
+        });
+        mission.forEach((val) => {
+          if (val.value.trim() == null || val.value.trim() == "") {
+            missionValid++;
+          }
+        });
+        console.log(sDateValid, missionValid);
+        if (sDateValid) {
+          alert("미션 공개 일정을 선택해주세요.");
+          return false;
+        } else if (missionValid) {
+          alert("미션을 입력해주세요. 사용하지 않는 미션은 제거해주세요.");
+          return false;
+        }
+        let fetchData = (data) => {
+          return {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+        };
+        const form = document.querySelector("form");
+        const missionList = formDataSetting();
+        for (i = 0; i < missionList.length; i++) {
+          fetch("/test2.do", fetchData(missionList[i]))
+            .then((response) => response.json())
+            .then((response) => console.log(response))
+            .catch((err) => {
+              alert(err);
+            });
+          if (i == missionList.length - 1) {
+            fetch("http://localhost:8080/test.do", fetchData(missionList[i]))
+              .then((response) => response.json())
+              .then((response) => {
+                if (response) form.submit();
+              })
+              .catch((err) => {
+                alert(err);
+              });
+          }
+        }
+      }
+      function formDataSetting() {
+        let mission = [];
+        let seq = 0;
+        let manitoIdx = "[[${manitoIdx}]]";
+        const missionGroup = document.querySelectorAll("div[class^=mission-group-]");
+        console.log(manitoIdx);
+        missionGroup.forEach((group, index) => {
+          let input = group.querySelectorAll("input[id^=mission-]");
+          let sDate = group.querySelector("input[id^=start_date]").value;
+          input.forEach((val, idx) => {
+            mission[seq] = {
+              degree: index,
+              missionTime: sDate,
+              content: val.value,
+              manitoIdx: parseInt(manitoIdx),
+            };
+            seq++;
+          });
+        });
+        // const input = document.querySelectorAll("input[id^=mission-]");
+        // input.forEach((val, idx) => {
+        //   let temp = val.getAttribute("name").split("-")[1];
+        //   const dateID = "#start_date-" + temp;
+        //   const sDate = document.querySelector(dateID).value;
+        //   mission[idx] = {
+        //     degree: temp,
+        //     missionTime: sDate,
+        //     content: val.value,
+        //   };
+        // });
+        // console.log(mission);
+        return mission;
+      }
     </script>
-</head>
-<body> 
+  </head>
+  <body>
     <header>
-        <h1 class="header-title">마니또 게임에 미션을 세부설정 할 수 있어요.</h1>
+      <h1 class="header-title">마니또 게임에 미션을 세부설정 할 수 있어요.</h1>
     </header>
-    <main> 
-        <div>
-            <form>
-                <input type="text" name="" id="" placeholder="미션을 입력하세요" /><button class="icon-plus" onclick="plusMisson()">추가</button>
-            </form>
-        </div>
+    <main>
+      <div>
+        <form onsubmit="validation()" action="/test.do" id="missionForm" method="POST">
+          <div class="mission-group-0">
+            <h2 class="title">미션그룹</h2>
+            <div class="input-group">
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" name="mission-0-0" id="mission-0" data-pick="" placeholder="미션 내용을 입력하세요" />
+              </div>
+              <button class="add-mission icon-plus" onclick="addMisson()"></button>
+            </div>
+            <div class="select-group">
+              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+              <div class="select-block modal-open">
+                <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                  <input type="text" id="start_date-0" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" />
+                </button>
+              </div>
+              <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+            </div>
+          </div>
+          <button class="bt-size-mini add-group icon-plus" onclick="plusGroup()">그룹추가</button>
+        </form>
+        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">설정 완료</button>
+      </div>
     </main>
-</body>
+    <!-- 모달 -->
+    <div class="modal-bg">
+      <!-- 달력 -->
+      <div class="modal" id="cal">
+        <div class="modal-area">
+          <div class="title">미션시작 일자</div>
+          <div class="body">
+            <div class="calendar">
+              <div class="calendar-tit">
+                <div class="calendar-btn bt-previous"></div>
+                <div class="year-month"></div>
+                <div class="calendar-btn bt-next"></div>
+              </div>
+              <div class="calendar-body"></div>
+              <input type="text" class="calendar-hidden" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 시계 -->
+      <div class="modal" id="timer">
+        <div class="modal-area">
+          <div class="time-picker-area">
+            <section class="time-picker-header">
+              <div class="title">미션시작 시간</div>
+              <div class="time-picker-view"></div>
+            </section>
+            <section class="time-picker-body">
+              <div class="time-pick-box blue-back"><span>:</span></div>
+              <div class="time-slider hour-slider"></div>
+              <div class="time-slider minute-slider"></div>
+              <!-- <div class="time-pick-box"></div> -->
+            </section>
+            <section class="time-picker-footer">
+              <div class="button-box">
+                <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
