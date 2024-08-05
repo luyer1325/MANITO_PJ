@@ -8,24 +8,27 @@
 
         $(document).ready(function(){
             const at = /*[[${at}]]*/'';
+            const check = /*[[${manitoInfoDTO.createUser}]]*/'';
+            alert(check);
             var f= document.forms.popupForm;
             document.domain = "localhost"; 
             opener.name = "manitoIvt";
             f.target = opener.name;
             f.action = rUrl;
             f.submit();
-            //self.close();
+            self.close();
         });
 </script>
 <body>
-<form name="popupForm" method="post" th:object="${manitoInfoDTO}">
+<form name="popupForm" method="post" th:object="${userInfoDTO}">
     <!-- <input type="hidden" name="at" th:value="${at}"> -->
-    <input type="text" name="manitoIdx" th:value="${manitoInfoDTO.manitoIdx}">
-    <input type="hidden" name="createUser" th:value="${manitoInfoDTO.createUser}">
-    <input type="hidden" name="startDate" th:value="${manitoInfoDTO.startDate}">
+    <!-- <input type="text" name="manitoIdx" th:value="${manitoInfoDTO.manitoIdx}"> -->
+    <input type="hidden" name="userId" th:value="${userInfoDTO.userId}">
+    <input type="hidden" name="kakaoId" th:value="${userInfoDTO.kakaoId}">
+    <!-- <input type="hidden" name="startDate" th:value="${manitoInfoDTO.startDate}">
     <input type="text" name="endDate" th:value="${manitoInfoDTO.endDate}">
     <input type="hidden" name="showYn" th:value="${manitoInfoDTO.showYn}">
-    <input type="hidden" name="joinYn" th:value="${manitoInfoDTO.joinYn}">
+    <input type="hidden" name="joinYn" th:value="${manitoInfoDTO.joinYn}"> -->
 </form>
 </body>
 </html>

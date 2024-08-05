@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.leeds.manito.manito_pj.dto.UserInfoDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -90,7 +91,7 @@ public class KakaoService {
         return accessToken;
     }
 
-    public void getUserInfo(HttpSession session,Model model,String accessToken){
+    public UserInfoDTO getUserInfo(HttpSession session,Model model,String accessToken,UserInfoDTO userInfoDTO){
         String reqUrl = "https://kapi.kakao.com/v2/user/me";
         try{
             URL url = new URL(reqUrl);
@@ -120,23 +121,24 @@ public class KakaoService {
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
             JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakaoAccount.getAsJsonObject().get("email").getAsString();
+            String id = element.getAsJsonObject().get("id").getAsString();
 
-            model.addAttribute("nickname", nickname);
-            model.addAttribute("email", email);
+            userInfoDTO.setNickname(nickname);
+            userInfoDTO.setUserId(email);
+            userInfoDTO.setKakaoId(id);
             model.addAttribute("at", accessToken);
             session.setAttribute("email", email);
             session.setAttribute("at", accessToken);
             br.close();
-
         }catch (Exception e){
             e.printStackTrace();
         }
+        return userInfoDTO;
     }
 
     public void kakaoLogout(Model model){

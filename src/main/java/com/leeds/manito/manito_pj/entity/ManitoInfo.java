@@ -23,8 +23,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ManitoInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // 기본키 지정
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //AutoIncrement
     @Column(name = "manito_idx")
     private int manitoIdx;
 
