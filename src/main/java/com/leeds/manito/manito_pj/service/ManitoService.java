@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,6 +16,8 @@ import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
 import com.leeds.manito.manito_pj.repository.MissionRepositiory;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ManitoService {
@@ -34,6 +37,9 @@ public class ManitoService {
     public ManitoService(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
+
+    @Value("${kakao_js_key}")
+    private String jsKey;
 
     /*
      * 마니또 게임의 생성 메소드
@@ -71,12 +77,12 @@ public class ManitoService {
 
     public ManitoInfoDTO checkLogin(Model model, ManitoInfoDTO manitoInfoDTO) {
         System.out.println("현재 createUser :" + manitoInfoDTO.getCreateUser());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser())
-                .orElseGet(() -> manito);
-        // System.out.println("현재 manito_idx :"manitoInfo.getCreateUser());
-        // if(manitoInfo == null){
-        // }
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(manitoInfoDTO.getCreateUser()).orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
+    }
+    public void getInfo(Model model, HttpSession session){
+        model.addAttribute("at", session.getAttribute("at"));
+        model.addAttribute("kakao_js_key", jsKey);
     }
 
     public void testSetting(Model model) {

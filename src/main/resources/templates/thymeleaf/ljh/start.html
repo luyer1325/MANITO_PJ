@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마니또 시작하기</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/start.css}" />
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
     <script th:inline="javascript">
       window.addEventListener("DOMContentLoaded", function () {
         let member = "[[${memberlist}]]";
@@ -16,11 +17,42 @@
           listView.classList.toggle("on");
         });
       });
+
+      var abc = /*[[${at}]]*/'';
+      const key = /*[[${kakao_js_key}]]*/'';
+
+      Kakao.init(key);
+        console.log(Kakao.isInitialized());//ey 값을 가져오는지 확인
+        function sendLink() {
+            var imgUrl1 = 'http://k.kakaocdn.net/dn/ckrKco/btrVqfPjQSG/z2wmewdXkyWCzLZ406q0c0/kakaolink40_original.png';
+            Kakao.Link.sendDefault({
+                objectType: 'feed',
+                content: { // 이미지 눌렀을때 링크주소
+                    title: '마니또 게임에 초대되었습니다',
+                    description: '이정한님이 마니또게임을 초대하였습니다.',
+                    imageUrl: imgUrl1,
+                    link: {
+                        mobileWebUrl: 'http://localhost:8080', //모바일로 눌렀을 때
+                        webUrl: 'http://localhost:8080/thym-ljh.do' // 컴퓨터로 눌렀을 때
+                    },
+                },
+                buttons: [ // 버튼 눌렀을 때 링크주소
+                    {
+                        title: '테스트 결과보기',
+                        link: {
+                            mobileWebUrl: 'http://localhost:8080',
+                            webUrl: 'http://localhost:8080/thym-ljh.do'
+                        },
+                    },
+                ]
+            });
+        }
     </script>
   </head>
   <body>
     <nav>
       <button class="bt-size-auto bt-purple">참가자 보기</button>
+      <button id ="kakao-link-btn" class="bt-size-auto bt-purple" onclick="javascript:sendLink()">초대하기</button>
       <div class="member">
         <ul>
           <li th:each="member: ${memberlist}"><span th:text="${member}"></span></li>

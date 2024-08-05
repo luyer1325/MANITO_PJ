@@ -25,6 +25,7 @@ public class KakaoService {
 
     @Value("${kakao_redirect_uri}")
     private String redirectUri;
+    
     @Value("${kakao_js_key}")
     private String jsKey;
 

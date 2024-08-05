@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.service.ManitoService;
+import com.leeds.manito.manito_pj.util.AES;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,6 +20,8 @@ public class ManageController {
 
     @Autowired
     ManitoService manitoService;
+    @Autowired
+    AES aes;
 
     @RequestMapping("/thym-createGame.do")
     public String invite2(Model model, ManitoInfoDTO manitoInfoDTO, @ModelAttribute("at")String at){
@@ -29,9 +31,9 @@ public class ManageController {
         return "thymeleaf/ljh/gameDetail";
     }
     
-    @PostMapping("/thym-ljh.do")
+    @RequestMapping("/thym-ljh.do")
     public String thym(Model model, ManitoInfoDTO manitoInfoDTO){
-        return "thymeleaf/ljh/invite";
+        return "thymeleaf/ljh/accept";
     }
 
     @RequestMapping("/thym-invite.do")
@@ -44,7 +46,7 @@ public class ManageController {
         return "thymeleaf/ljh/makeGame";
     }
     @RequestMapping("/thym-checkLogin.do")
-    public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session,@RequestParam("email") String email){
+    public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,@RequestParam("email") String email){
         manitoInfoDTO.setCreateUser(email);
         manitoInfoDTO = manitoService.checkLogin(model,manitoInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
         System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
@@ -58,8 +60,14 @@ public class ManageController {
         return "thymeleaf/ljh/kakao2";
     }
     @RequestMapping("/thym-start.do")
-    public String startGame(Model model, ManitoInfoDTO manitoInfoDTO){
+    public String startGame(Model model, ManitoInfoDTO manitoInfoDTO ,HttpSession session){
+        manitoService.getInfo(model, session);
         model.addAttribute("manitoInfoDTO", manitoInfoDTO);
+        String ps = aes.encrypt_AES(manitoInfoDTO.getCreateUser());
+        System.out.println("암호화 : "+ps);
+        System.out.println("복호화 : "+aes.decrypt_AES(ps));
+
+        
         return "thymeleaf/ljh/start";
     }
     @RequestMapping("/thym-gameDetail.do")
