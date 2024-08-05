@@ -47,7 +47,7 @@ public class ManageController {
     public String thym(Model model, ManitoInfoDTO manitoInfoDTO, @RequestParam("idx")String encIdx){
         int idx = Integer.parseInt(aes.decrypt_AES(encIdx));
         manitoInfoDTO = manitoService2.getManitoInfo(model,idx);
-        manitoService2.insertUser(model, manitoInfoDTO, idx);
+        //manitoService2.insertUser(model, manitoInfoDTO, idx);
         return "thymeleaf/ljh/accept";
     }
 
@@ -67,16 +67,17 @@ public class ManageController {
         userInfoDTO.setUserId("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
         session.setAttribute("email", "imsi@naver.com");
 
-        manitoInfoDTO = manitoService.checkLogin(model,userInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
+        manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId());// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
         System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
         System.out.println("@@@@@"+manitoInfoDTO.getCreateUser()+"@@@@@");
-        model.addAttribute("manitoInfoDTO", manitoInfoDTO);
-        model.addAttribute("userInfoDTO", userInfoDTO);
+
         if(manitoInfoDTO.getCreateUser() == null || manitoInfoDTO.getCreateUser().trim().isEmpty()){
             manitoInfoDTO.setCreateUser("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
             session.setAttribute("email", "imsi@naver.com");
+            model.addAttribute("userInfoDTO", userInfoDTO);
             model.addAttribute("rUrl","/thym-makeGame.do");
         }else {
+            model.addAttribute("manitoInfoDTO", manitoInfoDTO);
             model.addAttribute("rUrl","/thym-start.do");
         }
         return "thymeleaf/ljh/kakao2";
@@ -97,7 +98,10 @@ public class ManageController {
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session){
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
         int idx = manitoService.CreateManito(manitoInfoDTO);
-        manitoService2.insertUser(model,manitoInfoDTO,idx);
+
+        if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
+            manitoService2.insertUser(session,idx);
+        }
         return "thymeleaf/ljh/gameDetail";
     }
     @RequestMapping("/testtt.do")

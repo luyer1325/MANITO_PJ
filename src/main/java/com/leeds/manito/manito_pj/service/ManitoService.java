@@ -76,9 +76,9 @@ public class ManitoService {
         this.missionRepositiory.save(mi);
     }
 
-    public ManitoInfoDTO checkLogin(Model model, UserInfoDTO userInfoDTO) {
-        System.out.println("현재 createUser :" + userInfoDTO.getUserId());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(userInfoDTO.getUserId())
+    public ManitoInfoDTO checkLogin(String id) {
+        System.out.println("현재 createUser :" + id);
+        ManitoInfo manitoInfo = manitoRepository.findByCreateUser(id)
                 .orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
