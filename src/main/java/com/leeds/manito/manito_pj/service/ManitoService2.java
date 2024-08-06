@@ -11,14 +11,16 @@ import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
 import com.leeds.manito.manito_pj.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class ManitoService2 {
     
     @Autowired
     ManitoRepository manitoRepository;
 
-    //@Autowired
-    //UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
     ManitoInfo manito = new ManitoInfo();
 
@@ -30,12 +32,12 @@ public class ManitoService2 {
         this.modelMapper = modelMapper;
     }
 
-    public void insertUser(Model model, ManitoInfoDTO manitoInfoDTO,int idx){
+    public void insertUser(HttpSession session,int idx){
+        //String abc = (String)session.getAttribute("kakaoId");
         UserInfo ui = UserInfo.builder()
             .manitoIdx(idx)
-            .kakaoId("")
-            .name("")
-            .userId(manitoInfoDTO.getCreateUser())
+            .userId((String)session.getAttribute("email"))
+            .kakaoId((String)session.getAttribute("kakaoId"))
             .build();
         //return userRepository.save(ui).getManitoIdx();
     }
@@ -43,5 +45,9 @@ public class ManitoService2 {
     public ManitoInfoDTO getManitoInfo(Model model, int idx){
         ManitoInfo manitoInfo = manitoRepository.findBymanitoIdx(idx).orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
+    }
+
+    public long checkCnt(String kakaoId){
+        return userRepository.countByKakaoId(kakaoId);
     }
 }

@@ -134,6 +134,7 @@ public class KakaoService {
             model.addAttribute("at", accessToken);
             session.setAttribute("email", email);
             session.setAttribute("at", accessToken);
+            session.setAttribute("kakaoId", id);
             br.close();
         }catch (Exception e){
             e.printStackTrace();

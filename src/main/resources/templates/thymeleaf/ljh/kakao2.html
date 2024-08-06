@@ -8,7 +8,7 @@
 
         $(document).ready(function(){
             const at = /*[[${at}]]*/'';
-            const check = /*[[${manitoInfoDTO.createUser}]]*/'';
+            const check = /*[[${userInfoDTO.userId}]]*/'';
             alert(check);
             var f= document.forms.popupForm;
             document.domain = "localhost"; 
@@ -23,8 +23,8 @@
 <form name="popupForm" method="post" th:object="${userInfoDTO}">
     <!-- <input type="hidden" name="at" th:value="${at}"> -->
     <!-- <input type="text" name="manitoIdx" th:value="${manitoInfoDTO.manitoIdx}"> -->
-    <input type="hidden" name="userId" th:value="${userInfoDTO.userId}">
-    <input type="hidden" name="kakaoId" th:value="${userInfoDTO.kakaoId}">
+    <input type="hidden" name="userId" th:value="${userInfoDTO.userId}"/>
+    <input type="hidden" name="kakaoId" th:value="${userInfoDTO.kakaoId}"/>
     <!-- <input type="hidden" name="startDate" th:value="${manitoInfoDTO.startDate}">
     <input type="text" name="endDate" th:value="${manitoInfoDTO.endDate}">
     <input type="hidden" name="showYn" th:value="${manitoInfoDTO.showYn}">
