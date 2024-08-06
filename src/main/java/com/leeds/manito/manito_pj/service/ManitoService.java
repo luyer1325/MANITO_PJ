@@ -1,6 +1,7 @@
 package com.leeds.manito.manito_pj.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.google.gson.reflect.TypeToken;
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.dto.UserInfoDTO;
@@ -30,6 +32,7 @@ public class ManitoService {
     MissionRepositiory missionRepositiory;
 
     ManitoInfo manito = new ManitoInfo();
+    List<MissionInfo> mission = new ArrayList<MissionInfo>();
 
     // @Autowired
     // ModelMapper modelMapper;
@@ -88,13 +91,19 @@ public class ManitoService {
         model.addAttribute("kakao_js_key", jsKey);
     }
 
-    public boolean missionYN(Integer maintoIdx) {
-        ManitoInfo manitoInfo = manitoRepository.findById(maintoIdx).orElseGet(() -> manito);
+    public boolean missionYN(int manitoIdx) {
+        ManitoInfo manitoInfo = manitoRepository.findById(manitoIdx).orElseGet(() -> manito);
         if (manitoInfo.getMissionYn().equals("Y")) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public List<MissionInfoDTO> getAllMissions(int manitoIdx) {
+        List<MissionInfo> missionInfoList = missionRepositiory.findBymanitoIdx(manitoIdx);
+        return modelMapper.map(missionInfoList, new TypeToken<List<MissionInfoDTO>>() {
+        }.getType());
     }
 
     public void testSetting(Model model) {

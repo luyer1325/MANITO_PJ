@@ -1,5 +1,7 @@
 package com.leeds.manito.manito_pj.controller.ajh;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,9 +93,11 @@ public class MainPageController {
         Gson gson = new Gson();
         MissionInfoDTO mission = gson.fromJson(jsonData, MissionInfoDTO.class);
         System.out.println("세팅완료");
+        manitoService.CreateMission(mission);
         System.out.println("manitoIdx : " + mission.getManitoIdx());
         model.addAttribute("manitoIdx", mission.getManitoIdx());
-        manitoService.CreateMission(mission);
+        List<MissionInfoDTO> missionInfoList = manitoService.getAllMissions(mission.getManitoIdx());
+        model.addAttribute("missionGroup", missionInfoList);
         return "thymeleaf/ajh/showDetail";
     }
 }

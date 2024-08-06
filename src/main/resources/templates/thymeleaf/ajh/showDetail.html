@@ -8,7 +8,7 @@
 
     <!-- 테스트용 -->
     <script th:inline="javascript">
-
+        console.log("[[${missionGroup}]]");
     </script>
   </head>
   <body>
@@ -17,8 +17,8 @@
     </header>
     <main>
       <div>
-        <form onsubmit="validation()" action="/test.do" id="missionForm" method="POST">
-          <th:block th:each="missionGp : missionGroupDTO">
+        <!-- <form onsubmit="validation()" action="/test.do" id="missionForm" method="POST">
+          <th:block th:each="missionGp : missionGroup">
             <div th:class='"mission-group-"+${missionGp.degree}'>
               <h2 class="title" th:text='"미션그룹"+${missionGp.degree}'></h2>
               <div class="input-group">
@@ -50,7 +50,7 @@
             </div>
           </th:block>
         </form>
-        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">확인</button>
+        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">확인</button> -->
       </div>
     </main>
   </body>
