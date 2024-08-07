@@ -71,7 +71,7 @@ public class ManageController {
         manitoInfoDTO.setCreateUser("imsi@naver.com");
         session.setAttribute("email", "imsi@naver.com");
 
-        manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId());// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
+        manitoInfoDTO = manitoService.checkLogin(userInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
         System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
         System.out.println("@@@@@"+manitoInfoDTO.getCreateUser()+"@@@@@");
 
@@ -105,6 +105,8 @@ public class ManageController {
 
         if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
             manitoService2.insertUser(session,idx);
+        }else{
+            //manitoService2.updateUser(session,idx);// 회원정보가 있을 시 manitoIdx 변경하기 마니또의 게임이 끝났는지 체크하는 로직 생성 필요
         }
         return "thymeleaf/ljh/gameDetail";
     }
@@ -117,16 +119,20 @@ public class ManageController {
     @RequestMapping("/thym-accept.do")
     public String accept(Model model,HttpSession session,UserInfoDTO userInfoDTO) {
         int idx = (Integer)session.getAttribute("idx");
-
+        //처음 들어올 경우 idx만 있음 유저 정보 없음
+        //두번째일경우 idx있음
         userInfoDTO = manitoService2.checkUser(idx); // manitoIdx로 카카오 초대받은 User 정보 검색
-        ManitoInfoDTO manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId()); //User정보로 Manito 정보검색 --> 수정되어야함
-
-        model.addAttribute("manitoInfoDTO",manitoInfoDTO);
-
+        //userInfoDTO = null
+        System.out.println("현재 여기 1");
         if(userInfoDTO.getKakaoId() == null || userInfoDTO.getKakaoId().trim().isEmpty()){
-            manitoService2.insertUser(session, idx);
+            System.out.println("현재 여기 1.5");
+           userInfoDTO = manitoService2.insertUser(session, idx);
         }
+        System.out.println("현재 여기 2");
         
+        ManitoInfoDTO manitoInfoDTO = manitoService.checkLogin(userInfoDTO); //User정보로 Manito 정보검색 --> 수정되어야함
+        
+        model.addAttribute("manitoInfoDTO",manitoInfoDTO);
         model.addAttribute("userInfoDTO", userInfoDTO);
         model.addAttribute("rUrl","/thym-start.do");
         return "thymeleaf/ljh/kakao2";

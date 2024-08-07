@@ -34,14 +34,19 @@ public class ManitoService2 {
         this.modelMapper = modelMapper;
     }
 
-    public void insertUser(HttpSession session,int idx){
-        //String abc = (String)session.getAttribute("kakaoId");
+    public UserInfoDTO insertUser(HttpSession session,int idx){
+        String abc = (String)session.getAttribute("kakaoId");
+        String bbc = (String)session.getAttribute("email");
+        System.out.println("abaaa = "+ abc +" , "+bbc);
+
+
         UserInfo ui = UserInfo.builder()
             .manitoIdx(idx)
             .userId((String)session.getAttribute("email"))
             .kakaoId((String)session.getAttribute("kakaoId"))
             .build();
-        //return userRepository.save(ui).getManitoIdx();
+        UserInfo userInfo = userRepository.save(ui); // 저장된 엔티티 반환
+        return modelMapper.map(userInfo,UserInfoDTO.class);
     }
 
     public ManitoInfoDTO getManitoInfo(Model model, int idx){
