@@ -50,8 +50,8 @@ public class KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=").append(apiKey);
-            //sb.append("&redirect_uri=").append(redirectUri);
-            sb.append("&redirect_uri=").append("http://localhost:8080/kakao/accept.do");
+            sb.append("&redirect_uri=").append(redirectUri);
+            //sb.append("&redirect_uri=").append("http://localhost:8080/kakao/accept.do");
             sb.append("&code=").append(code);
 
             bw.write(sb.toString());

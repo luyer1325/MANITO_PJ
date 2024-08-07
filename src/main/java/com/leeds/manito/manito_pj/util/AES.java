@@ -20,8 +20,6 @@ public class AES {
             
             // 암호화/복호화 기능이 포함된 객체 생성
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            System.out.println("@@@@@@@"+aesKey);
-            System.out.println("@@@@@@@"+aesKey);
 
             // 키로 비밀키 생성
             SecretKeySpec keySpec = new SecretKeySpec(aesKey.getBytes(), "AES");

@@ -58,8 +58,8 @@ public class ManitoService2 {
         return userRepository.countByKakaoId(kakaoId);
     }
 
-    public UserInfoDTO checkUser(int idx){
-        UserInfo userInfo= userRepository.findByManitoIdx(idx).orElseGet(()-> user);
+    public UserInfoDTO checkUser(UserInfoDTO userInfoDTO){
+        UserInfo userInfo= userRepository.findByManitoIdxOrUserId(userInfoDTO.getManitoIdx(),userInfoDTO.getUserId()).orElseGet(()-> user);
         return modelMapper.map(userInfo, UserInfoDTO.class);
     }
 }
