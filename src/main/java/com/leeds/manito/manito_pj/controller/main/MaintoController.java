@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.UserInfoDTO;
-import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.service.KakaoService;
 
 import jakarta.servlet.http.HttpSession;

@@ -42,4 +42,12 @@ public class KakaoController {
         session.invalidate();
         return "thymeleaf/ljh/kakao";
     }
+    @RequestMapping("/kakao/accept.do")
+    public String kakaoAccept(Model model,UserInfoDTO userInfoDTO,@RequestParam("code") String code,HttpSession session,RedirectAttributes rttr){
+        String accessToken = kakaoService.getAccessToken(code);
+        UserInfoDTO user = kakaoService.getUserInfo(session,model,accessToken,userInfoDTO);
+        rttr.addFlashAttribute("userInfoDTO",user); //addAttribute --> 파라미터 형식 / addFlashAttribute--> 플래시형식
+        //rttr.addAttribute("idx", idx);
+        return "redirect:/thym-accept.do";
+    }
 }

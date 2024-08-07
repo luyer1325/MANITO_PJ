@@ -44,9 +44,12 @@ public class ManageController {
     }
     
     @RequestMapping("/thym-ljh.do")
-    public String thym(Model model, ManitoInfoDTO manitoInfoDTO, @RequestParam("idx")String encIdx){
+    public String thym(Model model,HttpSession session ,ManitoInfoDTO manitoInfoDTO, @RequestParam("idx")String encIdx){
+        kakaoService.getSettings(model);
         int idx = Integer.parseInt(aes.decrypt_AES(encIdx));
+        session.setAttribute("idx", idx);
         manitoInfoDTO = manitoService2.getManitoInfo(model,idx);
+        model.addAttribute("manitoInfoDTO", manitoInfoDTO);
         //manitoService2.insertUser(model, manitoInfoDTO, idx);
         return "thymeleaf/ljh/accept";
     }
@@ -65,6 +68,7 @@ public class ManageController {
         UserInfoDTO userInfoDTO = (UserInfoDTO)model.getAttribute("userInfoDTO");
 
         userInfoDTO.setUserId("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
+        manitoInfoDTO.setCreateUser("imsi@naver.com");
         session.setAttribute("email", "imsi@naver.com");
 
         manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId());// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
@@ -110,10 +114,22 @@ public class ManageController {
         model.addAttribute("logout_redirect_uri", "http://localhost:8080/kakao/logout.do");
         return "thymeleaf/ljh/gameDetail";
     }
-    @RequestMapping("/testttt.do")
-    public String test2() {
+    @RequestMapping("/thym-accept.do")
+    public String accept(Model model,HttpSession session,UserInfoDTO userInfoDTO) {
+        int idx = (Integer)session.getAttribute("idx");
+
+        userInfoDTO = manitoService2.checkUser(idx); // manitoIdx로 카카오 초대받은 User 정보 검색
+        ManitoInfoDTO manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId()); //User정보로 Manito 정보검색 --> 수정되어야함
+
+        model.addAttribute("manitoInfoDTO",manitoInfoDTO);
+
+        if(userInfoDTO.getKakaoId() == null || userInfoDTO.getKakaoId().trim().isEmpty()){
+            manitoService2.insertUser(session, idx);
+        }
         
-        return "thymeleaf/ljh/test2";
+        model.addAttribute("userInfoDTO", userInfoDTO);
+        model.addAttribute("rUrl","/thym-start.do");
+        return "thymeleaf/ljh/kakao2";
     }
     
     

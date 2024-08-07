@@ -6,7 +6,14 @@
     <title>마니또 초대수락</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/accept.css}" />
     <script>
-
+        function popupCenter(domain,url, title, w, h) {
+            document.domain=domain;
+            // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            // window.open 함수로 팝업 창을 엽니다.
+            window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+        }
     </script>
 </head>
 <body>
@@ -15,7 +22,9 @@
     </header>
     <main>
         <div class="button-area">
-            <a href="/ajh4.do" class="bt-size-fix bt-coral">초대수락</a>
+            <a class="bt-size-fix bt-coral" th:attr="href=@{https://kauth.kakao.com/oauth/authorize(response_type='code', client_id=${kakao_api_key}, redirect_uri='http://localhost:8080/kakao/accept.do')}"onclick="popupCenter('localhost',this.href, '카카오 로그인', 700, 800); return false;">
+                수락하기
+            </a>
             <button class="bt-size-fix bt-purple">마니또 참가자 보기</button>
         </div>
     </main>

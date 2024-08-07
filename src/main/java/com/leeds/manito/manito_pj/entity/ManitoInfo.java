@@ -1,5 +1,6 @@
 package com.leeds.manito.manito_pj.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -50,6 +51,7 @@ public class ManitoInfo {
     @Column(name = "end_date", length=20)
     private String endDate;
 
+    @CreationTimestamp
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     private String created;
 

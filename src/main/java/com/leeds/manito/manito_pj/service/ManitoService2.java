@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.UserInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
@@ -23,6 +24,7 @@ public class ManitoService2 {
     UserRepository userRepository;
 
     ManitoInfo manito = new ManitoInfo();
+    UserInfo user = new UserInfo();
 
     // @Autowired
     // ModelMapper modelMapper;
@@ -49,5 +51,10 @@ public class ManitoService2 {
 
     public long checkCnt(String kakaoId){
         return userRepository.countByKakaoId(kakaoId);
+    }
+
+    public UserInfoDTO checkUser(int idx){
+        UserInfo userInfo= userRepository.findByManitoIdx(idx).orElseGet(()-> user);
+        return modelMapper.map(userInfo, UserInfoDTO.class);
     }
 }

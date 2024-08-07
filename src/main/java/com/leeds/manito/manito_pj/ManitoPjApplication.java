@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.web.bind.annotation.RestController;
 // import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.context.annotation.ComponentScan;
 
 
 // DB 접속 정보 application.properties 파일에 있으며 해당파일 주석 참고

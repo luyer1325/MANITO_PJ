@@ -25,7 +25,6 @@ public class UserInfo {
     private int manitoIdx;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id", length= 20)
     private String userId;
 
