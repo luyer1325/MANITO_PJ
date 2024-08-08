@@ -38,8 +38,6 @@ public class ManageController {
     @RequestMapping("/thym-createGame.do")
     public String invite2(Model model, ManitoInfoDTO manitoInfoDTO, @ModelAttribute("at")String at){
         int idx = manitoService.CreateManito(manitoInfoDTO); // 게임 생성
-        //kakaoService.getSettings(model);
-        //model.addAttribute("logout_redirect_uri", "http://localhost:8080/kakao/logout.do");
         return "thymeleaf/ljh/gameDetail";
     }
     
@@ -67,17 +65,14 @@ public class ManageController {
     public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session){
         UserInfoDTO userInfoDTO = (UserInfoDTO)model.getAttribute("userInfoDTO");
 
-        userInfoDTO.setUserId("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
-        manitoInfoDTO.setCreateUser("imsi@naver.com");
-        session.setAttribute("email", "imsi@naver.com");
-
-        manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId());// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
-        System.out.println("@@@@@"+manitoInfoDTO.getManitoIdx()+"@@@@@");
-        System.out.println("@@@@@"+manitoInfoDTO.getCreateUser()+"@@@@@");
-
-        if(manitoInfoDTO.getCreateUser() == null || manitoInfoDTO.getCreateUser().trim().isEmpty()){
-            manitoInfoDTO.setCreateUser("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
-            session.setAttribute("email", "imsi@naver.com");
+        //userInfoDTO.setUserId("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
+        //manitoInfoDTO.setCreateUser("imsi@naver.com");
+        //session.setAttribute("email", "imsi@naver.com");
+        userInfoDTO = manitoService2.checkUser(userInfoDTO); // 날짜를 체크해야함
+        manitoInfoDTO = manitoService.checkLogin(userInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
+        if(manitoInfoDTO.getCreateUser() == null && userInfoDTO.getUserId() == null){
+            //manitoInfoDTO.setCreateUser("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
+            //session.setAttribute("email", "imsi@naver.com");
             model.addAttribute("userInfoDTO", userInfoDTO);
             model.addAttribute("rUrl","/thym-makeGame.do");
         }else {
@@ -105,6 +100,8 @@ public class ManageController {
 
         if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
             manitoService2.insertUser(session,idx);
+        }else{
+            //manitoService2.updateUser(session,idx);// 회원정보가 있을 시 manitoIdx 변경하기 마니또의 게임이 끝났는지 체크하는 로직 생성 필요
         }
         return "thymeleaf/ljh/gameDetail";
     }
@@ -117,16 +114,15 @@ public class ManageController {
     @RequestMapping("/thym-accept.do")
     public String accept(Model model,HttpSession session,UserInfoDTO userInfoDTO) {
         int idx = (Integer)session.getAttribute("idx");
+        userInfoDTO.setManitoIdx(idx);
 
-        userInfoDTO = manitoService2.checkUser(idx); // manitoIdx로 카카오 초대받은 User 정보 검색
-        ManitoInfoDTO manitoInfoDTO = manitoService.checkLogin(userInfoDTO.getUserId()); //User정보로 Manito 정보검색 --> 수정되어야함
-
-        model.addAttribute("manitoInfoDTO",manitoInfoDTO);
-
+        userInfoDTO = manitoService2.checkUser(userInfoDTO); // manitoIdx로 카카오 초대받은 User 정보 검색
         if(userInfoDTO.getKakaoId() == null || userInfoDTO.getKakaoId().trim().isEmpty()){
-            manitoService2.insertUser(session, idx);
+           userInfoDTO = manitoService2.insertUser(session, idx);
         }
+        ManitoInfoDTO manitoInfoDTO = manitoService.checkLogin(userInfoDTO); //User정보로 Manito 정보검색 --> 수정되어야함
         
+        model.addAttribute("manitoInfoDTO",manitoInfoDTO);
         model.addAttribute("userInfoDTO", userInfoDTO);
         model.addAttribute("rUrl","/thym-start.do");
         return "thymeleaf/ljh/kakao2";

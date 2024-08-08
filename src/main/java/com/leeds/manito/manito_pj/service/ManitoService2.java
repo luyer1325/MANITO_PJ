@@ -34,14 +34,19 @@ public class ManitoService2 {
         this.modelMapper = modelMapper;
     }
 
-    public void insertUser(HttpSession session,int idx){
-        //String abc = (String)session.getAttribute("kakaoId");
+    public UserInfoDTO insertUser(HttpSession session,int idx){
+        String abc = (String)session.getAttribute("kakaoId");
+        String bbc = (String)session.getAttribute("email");
+        System.out.println("abaaa = "+ abc +" , "+bbc);
+
+
         UserInfo ui = UserInfo.builder()
             .manitoIdx(idx)
             .userId((String)session.getAttribute("email"))
             .kakaoId((String)session.getAttribute("kakaoId"))
             .build();
-        //return userRepository.save(ui).getManitoIdx();
+        UserInfo userInfo = userRepository.save(ui); // 저장된 엔티티 반환
+        return modelMapper.map(userInfo,UserInfoDTO.class);
     }
 
     public ManitoInfoDTO getManitoInfo(Model model, int idx){
@@ -53,8 +58,8 @@ public class ManitoService2 {
         return userRepository.countByKakaoId(kakaoId);
     }
 
-    public UserInfoDTO checkUser(int idx){
-        UserInfo userInfo= userRepository.findByManitoIdx(idx).orElseGet(()-> user);
+    public UserInfoDTO checkUser(UserInfoDTO userInfoDTO){
+        UserInfo userInfo= userRepository.findByManitoIdxOrUserId(userInfoDTO.getManitoIdx(),userInfoDTO.getUserId()).orElseGet(()-> user);
         return modelMapper.map(userInfo, UserInfoDTO.class);
     }
 }
