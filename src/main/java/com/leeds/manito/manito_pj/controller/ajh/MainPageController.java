@@ -1,5 +1,6 @@
 package com.leeds.manito.manito_pj.controller.ajh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.google.gson.Gson;
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.MissionGroup;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
+import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.service.ManitoService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,14 +41,32 @@ public class MainPageController {
     @PostMapping("/ajh3.do")
     public String accept(Model model, ManitoInfoDTO manitoInfoDTO) {
         int idx = manitoService.CreateManito(manitoInfoDTO);
-        boolean missionYn = manitoService.missionYN(idx);
-        System.out.println("세부설정" + idx + "미션여부 : " + missionYn);
+        ManitoInfo manito = manitoService.showInfo(idx);
+        System.out.println("세부설정" + idx + "마니또 엔티티 : " + manito);
         model.addAttribute("manitoIdx", idx);
-        if (missionYn) {
+        MissionInfoDTO mission = new MissionInfoDTO();
+        List<MissionInfoDTO> missions = new ArrayList<>();
+        missions.add(mission);
+        missions.add(mission);
+        missions.add(mission);
+        MissionGroup missionGroup = new MissionGroup();
+        missionGroup.setMissions(missions);
+        missionGroup.setMissionTime(manito.getStartDate());
+        List<MissionGroup> missionGroups = new ArrayList<>();
+        missionGroups.add(missionGroup);
+        missionGroups.add(missionGroup);
+        model.addAttribute("missionGroups", missionGroups);
+        if (manito.getMissionYn().equals("Y")) {
             return "thymeleaf/ajh/gameDetail";
         } else {
             return "thymeleaf/ajh/start";
         }
+    }
+
+    @PostMapping("/test3.do")
+    public String test3(Model model, MissionGroup missionGroup) {
+        model.addAttribute("missionGroup", missionGroup);
+        return "thymeleaf/ajh/showDetail";
     }
 
     @RequestMapping("/ajh4.do")
@@ -79,13 +100,13 @@ public class MainPageController {
     }
 
     @PostMapping("/test2.do")
-    public void test2(Model model, @RequestBody String jsonData, @ModelAttribute MissionInfoDTO missionInfoDTO) {
+    public String test2(Model model, @RequestBody String jsonData, @ModelAttribute MissionInfoDTO missionInfoDTO) {
         Gson gson = new Gson();
         MissionInfoDTO mission = gson.fromJson(jsonData, MissionInfoDTO.class);
-        System.out.println("세팅완료");
-        System.out.println("getContent" + mission.getContent());
-        manitoService.CreateMission(mission);
-        // return "thymeleaf/ajh/test";
+        System.out.println("세팅완료" + mission);
+        // System.out.println("getContent" + mission.getContent());
+        // manitoService.CreateMission(mission);
+        return "thymeleaf/ajh/showDetail";
     }
 
     @PostMapping("/test.do")
@@ -100,4 +121,5 @@ public class MainPageController {
         model.addAttribute("missionGroup", missionInfoList);
         return "thymeleaf/ajh/showDetail";
     }
+
 }

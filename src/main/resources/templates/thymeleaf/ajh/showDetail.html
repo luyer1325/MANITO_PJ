@@ -8,7 +8,7 @@
 
     <!-- 테스트용 -->
     <script th:inline="javascript">
-        console.log("[[${missionGroup}]]");
+
     </script>
   </head>
   <body>
@@ -17,40 +17,28 @@
     </header>
     <main>
       <div>
-        <!-- <form onsubmit="validation()" action="/test.do" id="missionForm" method="POST">
-          <th:block th:each="missionGp : missionGroup">
-            <div th:class='"mission-group-"+${missionGp.degree}'>
-              <h2 class="title" th:text='"미션그룹"+${missionGp.degree}'></h2>
-              <div class="input-group">
-                <div class="input-unit bt-white icon-pen" th:each="mission : missionGp.missions">
-                  <input 
-                    type="text" 
-                    name='"mission-"+${missionGp.degree}+"-"+${mission.missionIdx}' 
-                    id='"mission-"+${mission.missionIdx}' 
-                    data-pick="" 
-                    th:placeholder="미션 내용을 입력하세요"
-                    th:value="${mission.content}"
-                    readonly />
-                </div>
+        <form id="missionForm" onsubmit="validation()" action="#" th:object="${missionGroups}" method="POST">
+          <div class="mission-group" th:each="missionGroup : *${missionGroup}">
+            <h2 class="title">미션그룹</h2>
+            <div class="input-group">
+              <div th:each="mission, stat : *{missions}" class="input-unit bt-white icon-pen">
+                <input type="text" th:field="*{missions[__${stat.index}__].content}" data-pick="" placeholder="미션 내용을 입력하세요" readonly/>
               </div>
-              <div class="select-group">
-                <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
-                <div class="select-block modal-open">
-                  <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                    <input 
-                      type="text" 
-                      id='"start_date-"+${missionGp.degree}' 
-                      placeholder="미션 공개 일정을 선택하세요" 
-                      readonly 
-                      data-pick=""
-                      th:value="${missionGp.missionTime}"/>
-                  </button>
-                </div>
-                <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+              <button class="add-mission icon-plus" onclick="addMisson()" type="button"></button>
             </div>
-          </th:block>
+            <div class="select-group">
+              <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+              <div class="select-block modal-open">
+                <button type="button" class="bt-white bt-white-fix icon-cal" onclick="" data-target="false">
+                  <input type="text" th:field="*{missionTime}" placeholder="미션 공개 일정을 선택하세요" data-pick="" readonly/>
+                </button>
+              </div>
+              <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+            </div>
+          </div>
+          <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">그룹추가</button>
         </form>
-        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">확인</button> -->
+        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">확인</button>
       </div>
     </main>
   </body>

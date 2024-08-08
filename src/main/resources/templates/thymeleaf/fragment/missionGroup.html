@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <th:block th:fragment="show_missionList(missionGroup, groupIdx)">
+        <div class="mission-group">
+          <h2 class="title">미션그룹</h2>
+          <div class="input-group">
+            <div class="input-unit bt-white icon-pen" th:each="mission, stat : ${missionGroup.missions}">
+                <!-- <div th:text="${mission.content}"></div> -->
+              <input type="text" th:field="{mission.content}" data-pick="" placeholder="미션 내용을 입력하세요" />
+            </div>
+            <button class="add-mission icon-plus" onclick="addMission()" type="button"></button>
+          </div>
+          <div class="select-group">
+            <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+            <div class="select-block modal-open">
+              <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                <!-- <input type="text" th:field="${missionGroup.getMissionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" /> -->
+              </button>
+            </div>
+            <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+          </div>
+        </div>
+    </th:block>
+  </body>
+</html>

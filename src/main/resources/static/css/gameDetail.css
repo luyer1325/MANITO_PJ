@@ -18,7 +18,7 @@ input[type="text"] {
     cursor: pointer;
   }
 /* 미션그룹 */
-div[class^="mission-group-"] {
+div[class^="mission-group"] {
   position: relative;
   margin: 1.5rem auto;
   width: 93rem;
@@ -29,7 +29,7 @@ div[class^="mission-group-"] {
   box-sizing: border-box;
   box-shadow: var(--l-shadow);
 }
-div[class^="mission-group-"]::before {
+div[class^="mission-group"]::before {
   content: "";
   position: absolute;
   left: -1rem;
@@ -58,28 +58,28 @@ h2.title::after {
   background-color: var(--coral);
 }
 /* 색상 */
-div[class^="mission-group-"]:nth-child(4n+1)::before{
+div[class^="mission-group"]:nth-child(4n+1)::before{
 background-color: var(--coral);
 }
-div[class^="mission-group-"]:nth-child(4n+2)::before{
+div[class^="mission-group"]:nth-child(4n+2)::before{
     background-color: var(--yellow);
 }
-div[class^="mission-group-"]:nth-child(4n+3)::before{
+div[class^="mission-group"]:nth-child(4n+3)::before{
     background-color: var(--green);
 }
-div[class^="mission-group-"]:nth-child(4n+0)::before{
+div[class^="mission-group"]:nth-child(4n+0)::before{
     background-color: var(--d-purple);
 }
-div[class^="mission-group-"]:nth-child(4n+1) h2.title::after {
+div[class^="mission-group"]:nth-child(4n+1) h2.title::after {
     background-color: var(--coral);
 }
-div[class^="mission-group-"]:nth-child(4n+2) h2.title::after {
+div[class^="mission-group"]:nth-child(4n+2) h2.title::after {
     background-color: var(--yellow);
 }
-div[class^="mission-group-"]:nth-child(4n+3) h2.title::after {
+div[class^="mission-group"]:nth-child(4n+3) h2.title::after {
     background-color: var(--green);
 }
-div[class^="mission-group-"]:nth-child(4n+0) h2.title::after {
+div[class^="mission-group"]:nth-child(4n+0) h2.title::after {
     background-color: var(--d-purple);
 }
 /* 버튼 기본 */

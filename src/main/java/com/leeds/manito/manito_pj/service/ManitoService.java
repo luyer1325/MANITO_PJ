@@ -100,6 +100,11 @@ public class ManitoService {
         }
     }
 
+    public ManitoInfo showInfo(int manitoIdx) {
+        ManitoInfo manitoInfo = manitoRepository.findById(manitoIdx).orElseGet(() -> manito);
+        return manitoInfo;
+    }
+
     public List<MissionInfoDTO> getAllMissions(int manitoIdx) {
         List<MissionInfo> missionInfoList = missionRepositiory.findBymanitoIdx(manitoIdx);
         return modelMapper.map(missionInfoList, new TypeToken<List<MissionInfoDTO>>() {
