@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="~{thymeleaf/base :: common_header(~{::title},~{::link},~{::script})}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또 세부설정</title>
+    <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
+    <script type="text/javascript" th:src="@{/javascript/calendar.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/timePicker.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/modal.js}"></script>
+    <script th:inline="javascript">
+      function addGroup(){
+        
+      }
+      function addMission(){
+
+      }
+      function validation(){
+        event.preventDefault();
+        const form = document.querySelector("form");
+        form.action = "/test3.do";
+        form.submit();
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="header-title">마니또 게임에 미션을 세부설정 할 수 있어요.</h1>
+    </header>
+    <main>
+      <div>
+        <form id="missionForm" onsubmit="validation()" action="#" th:object="${missionGroups}" method="POST">
+          <th:block th:each="missionGroup, groupStat : ${missionGroups}">
+            <!-- <div th:replace="~{thymeleaf/fragment/missionGroup :: show_missionList(${missionGroup},${groupStat.index})}"></div> -->
+            <div class="mission-group">
+              <h2 class="title">미션그룹</h2>
+              <div class="input-group">
+                <div class="input-unit bt-white icon-pen" th:each="mission, stat : *{missions}">
+                    <!-- <div th:text="${mission.content}"></div> -->
+                  <input type="text" th:field="*{content}" data-pick="" placeholder="미션 내용을 입력하세요" />
+                </div>
+                <button class="add-mission icon-plus" onclick="addMission()" type="button"></button>
+              </div>
+              <div class="select-group">
+                <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+                <div class="select-block modal-open">
+                  <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                    <!-- <input type="text" th:field="${missionGroup.getMissionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" /> -->
+                  </button>
+                </div>
+                <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+              </div>
+            </div>
+          </th:block>
+          <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">그룹추가</button>
+        </form>
+        <button class="bt-size-fix bt-purple submit-btn" type="submit" form="missionForm">설정 완료</button>
+      </div>
+    </main>
+    <!-- 모달 -->
+    <div class="modal-bg">
+      <!-- 달력 -->
+      <div class="modal" id="cal">
+        <div class="modal-area">
+          <div class="title">미션시작 일자</div>
+          <div class="body">
+            <div class="calendar">
+              <div class="calendar-tit">
+                <div class="calendar-btn bt-previous"></div>
+                <div class="year-month"></div>
+                <div class="calendar-btn bt-next"></div>
+              </div>
+              <div class="calendar-body"></div>
+              <input type="text" class="calendar-hidden" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 시계 -->
+      <div class="modal" id="timer">
+        <div class="modal-area">
+          <div class="time-picker-area">
+            <section class="time-picker-header">
+              <div class="title">미션시작 시간</div>
+              <div class="time-picker-view"></div>
+            </section>
+            <section class="time-picker-body">
+              <div class="time-pick-box blue-back"><span>:</span></div>
+              <div class="time-slider hour-slider"></div>
+              <div class="time-slider minute-slider"></div>
+              <!-- <div class="time-pick-box"></div> -->
+            </section>
+            <section class="time-picker-footer">
+              <div class="button-box">
+                <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

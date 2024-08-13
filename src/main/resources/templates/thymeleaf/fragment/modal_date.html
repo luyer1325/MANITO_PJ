@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <th:block th:fragment="modal()">
+        <!-- 모달 -->
+    <div class="modal-bg">
+        <!-- 달력 -->
+        <div class="modal" id="cal">
+          <div class="modal-area">
+            <div class="title">미션시작 일자</div>
+            <div class="body">
+              <div class="calendar">
+                <div class="calendar-tit">
+                  <div class="calendar-btn bt-previous"></div>
+                  <div class="year-month"></div>
+                  <div class="calendar-btn bt-next"></div>
+                </div>
+                <div class="calendar-body"></div>
+                <input type="text" class="calendar-hidden" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 시계 -->
+        <div class="modal" id="timer">
+          <div class="modal-area">
+            <div class="time-picker-area">
+              <section class="time-picker-header">
+                <div class="title">미션시작 시간</div>
+                <div class="time-picker-view"></div>
+              </section>
+              <section class="time-picker-body">
+                <div class="time-pick-box blue-back"><span>:</span></div>
+                <div class="time-slider hour-slider"></div>
+                <div class="time-slider minute-slider"></div>
+                <!-- <div class="time-pick-box"></div> -->
+              </section>
+              <section class="time-picker-footer">
+                <div class="button-box">
+                  <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </th:block>
+</body>
+</html>
