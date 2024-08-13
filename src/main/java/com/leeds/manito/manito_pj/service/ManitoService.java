@@ -60,6 +60,7 @@ public class ManitoService {
                 .createUser(manitoInfoDTO.getCreateUser())
                 .created(manitoInfoDTO.getCreated())
                 .endDate(manitoInfoDTO.getEndDate())
+                .startDate(manitoInfoDTO.getStartDate())
                 .build();
         int idx = this.manitoRepository.save(me).getManitoIdx();
         return idx;
@@ -75,12 +76,13 @@ public class ManitoService {
         this.missionRepositiory.save(mi);
     }
 
-    public ManitoInfoDTO checkLogin(UserInfoDTO userInfoDTO) {
-        System.out.println("현재 createUser :" + userInfoDTO.getUserId());
-        ManitoInfo manitoInfo = manitoRepository.findByCreateUserOrManitoIdx(userInfoDTO.getUserId(),userInfoDTO.getManitoIdx(),1)
-                .orElseGet(() -> manito);
-        return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
-    }
+    // public ManitoInfoDTO checkLogin(UserInfoDTO userInfoDTO) {
+    // System.out.println("현재 createUser :" + userInfoDTO.getUserId());
+    // ManitoInfo manitoInfo =
+    // manitoRepository.findByCreateUserOrManitoIdx(userInfoDTO.getUserId(),userInfoDTO.getManitoIdx(),1)
+    // .orElseGet(() -> manito);
+    // return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
+    // }
 
     public void getInfo(Model model, HttpSession session) {
         model.addAttribute("at", session.getAttribute("at"));
