@@ -74,7 +74,7 @@ function popupCenter(domain, url, title, w, h) {
     hideModal(modal);
   }
   //모달 타겟 리셋
-  function modalTargetReset() {
+  const modalTargetReset = ()=>{
     const modalBtn = document.querySelector(".modal-open button[data-target='true']");
     modalBtn.dataset.target = "false";
   }
