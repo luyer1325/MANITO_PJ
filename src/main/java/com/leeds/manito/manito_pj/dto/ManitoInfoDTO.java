@@ -2,6 +2,7 @@ package com.leeds.manito.manito_pj.dto;
 
 public class ManitoInfoDTO {
     private int manitoIdx;
+    private String status;  //B 진행전, I 진행중, C 게임 종료
     private String createUser;
     private String showYn;
     private String joinYn;
@@ -20,6 +21,14 @@ public class ManitoInfoDTO {
     public void setManitoIdx(int manitoIdx) {
         this.manitoIdx = manitoIdx;
     }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    };
 
     public String getCreateUser() {
         return this.createUser;

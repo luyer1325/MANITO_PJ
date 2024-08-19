@@ -32,6 +32,9 @@ public class ManitoInfo {
     @Column(name = "create_user",length=20)
     private String createUser;
 
+    @Column(name = "status",length=2)
+    private String status;
+
     @Column(name = "show_yn",length=2)
     private String showYn;
 

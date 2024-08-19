@@ -54,6 +54,7 @@ public class ManitoService {
      */
     public Integer CreateManito(ManitoInfoDTO manitoInfoDTO) {
         ManitoInfo me = ManitoInfo.builder()
+                .status("B")
                 .joinYn(manitoInfoDTO.getJoinYn())
                 .showYn(manitoInfoDTO.getShowYn())
                 .missionYn(manitoInfoDTO.getMissionYn())
