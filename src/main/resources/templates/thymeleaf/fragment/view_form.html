@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <th:block th:fragment="view_form(form)">
+      <form th:object="${form}">
+        <div class="mission-group">
+          <h2 class="title" th:text="|*{missions[0].degree}번째 미션|"></h2>
+          <div class="input-group" id="mission-list">
+            <th:block th:each="mission, stat : *{missions}">
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" th:field="*{missions[__${stat.index}__].content}" data-pick="" readonly />
+                <input type="hidden" th:field="*{missions[__${stat.index}__].degree}" data-pick="" readonly />
+                <input type="hidden" th:field="*{missions[__${stat.index}__].missionTime}" data-pick="" readonly />
+                <input type="hidden" th:field="*{missions[__${stat.index}__].manitoIdx}" data-pick="" readonly />
+              </div>
+            </th:block>
+          </div>
+          <div class="select-group">
+            <div class="select-block modal-open">
+              <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                <input type="text" th:field="*{missions[0].missionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </th:block>
+  </body>
+</html>

@@ -9,27 +9,22 @@
     <th:block th:fragment="add_form(form)">
       <form th:object="${form}" method="POST">
         <div class="mission-group">
-          <h2 class="title" th:text="|미션그룹 *{missions[0].degree}|"></h2>
+          <h2 class="title" th:text="|*{missions[0].degree}번째 미션|"></h2>
           <div class="input-group" th:each="mission, stat : *{missions}">
             <div class="input-unit bt-white icon-pen">
               <input type="text" th:field="*{missions[__${stat.index}__].content}" data-pick="" placeholder="미션 내용을 입력하세요" />
-              
               <button th:if="${stat.index} == (*{missions.size} - 1)" class="add-mission icon-plus" type="button"></button>
               <button th:unless="${stat.index} == (*{missions.size} - 1)" class="del-mission icon-delete" type="button"></button>
             </div>
+            <input type="hidden" th:field="*{missions[__${stat.index}__].degree}" data-pick="" readonly />
+            <input type="hidden" th:if="${stat.index} > 0" th:field="*{missions[__${stat.index}__].missionTime}" data-pick="" readonly />
+            <input type="hidden" th:field="*{missions[__${stat.index}__].manitoIdx}" data-pick="" readonly />
           </div>
           <div class="select-group">
             <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
             <div class="select-block modal-open">
               <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
-                <input type="hidden" th:field="*{missions[0].degree}" />
-                <input
-                  type="text"
-                  th:field="*{missions[0].missionTime}"
-                  placeholder="미션 공개 일정을 선택하세요"
-                  readonly
-                  data-pick=""
-                />
+                <input type="text" th:field="*{missions[0].missionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" />
               </button>
             </div>
             <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>

@@ -49,10 +49,13 @@ public class MainPageController {
     public String accept(Model model, ManitoInfoDTO manitoInfoDTO) {
         int idx = manitoService.CreateManito(manitoInfoDTO);
         ManitoInfo manito = manitoService.showInfo(idx);
-        System.out.println("세부설정" + idx + "마니또 엔티티 : " + manito.getStartDate());
+        // 기본 manito 정보 전달
         model.addAttribute("manitoIdx", idx);
-        Missions missions = missionService.TempMissions(idx, manito.getStartDate());
-        model.addAttribute("form", missions);
+        model.addAttribute("sDate", manito.getStartDate());
+        model.addAttribute("eDate", manito.getEndDate());
+        // missions 빈 객체 전달
+        model.addAttribute("form",
+                missionService.TempMissions(idx, manito.getStartDate()));
         if (manito.getMissionYn().equals("Y")) {
             return "thymeleaf/ajh/gameDetail";
         } else {
@@ -60,22 +63,64 @@ public class MainPageController {
         }
     }
 
-    @RequestMapping("/ajh3.do/add")
-    public String getMethodName(Model model, Missions missions) {
+    @PostMapping("/ajh3.do/update/mission/add")
+    public String addMission(Model model,
+            @RequestBody String jsonData) {
+        Gson gson = new Gson();
+        Missions missions = gson.fromJson(jsonData, Missions.class);
         missionService.addTempMissions(missions);
         model.addAttribute("form", missions);
+        return "thymeleaf/ajh/gameDetail :: #formContainer";
+    }
+
+    @PostMapping("/ajh3.do/update/mission/remove")
+    public String removeMission(Model model,
+            @RequestBody String jsonData) {
+        Gson gson = new Gson();
+        Missions missions = gson.fromJson(jsonData, Missions.class);
+        model.addAttribute("form", missions);
+        return "thymeleaf/ajh/gameDetail :: #formContainer";
+    }
+
+    @PostMapping("/ajh3.do/update/group/add")
+    public String addGroup(Model model,
+            @RequestParam String eDate,
+            @RequestParam String sDate,
+            @RequestParam String manitoIdx,
+            @RequestParam String degree) {
+        System.out.println("eDate:" + eDate + "sDate:" + sDate + "manitoIdx:" + manitoIdx + "degree:" + degree);
+        int idx = Integer.parseInt(manitoIdx);
+        int degreeNum = Integer.parseInt(degree);
+        // 기본 manito 정보 전달
+        model.addAttribute("manitoIdx", idx);
+        model.addAttribute("sDate", sDate);
+        model.addAttribute("eDate", eDate);
+        // missions 빈 객체 전달
+        model.addAttribute("form",
+                missionService.addTempMissions(missionService.TempMissions(idx, sDate, degreeNum)));
         return "thymeleaf/ajh/gameDetail";
     }
 
-    // @PostMapping("/test3.do")
-    // public String test3(Model model, MissionGroup missionGroup) {
-    // model.addAttribute("missionGroup", missionGroup);
-    // return "thymeleaf/ajh/showDetail";
-    // }
+    @PostMapping("/ajh3.do/register")
+    public String test3(Model model, Missions missions,
+            String eDate,
+            String sDate,
+            String manitoIdx) {
+        Gson gson = new Gson();
+
+        System.out.println(gson.toJson(missions));
+        missionService.createMission(missions);
+
+        model.addAttribute("form", missions);
+        model.addAttribute("manitoIdx", manitoIdx);
+        model.addAttribute("sDate", sDate);
+        model.addAttribute("eDate", eDate);
+        return "thymeleaf/ajh/showDetail";
+    }
 
     @RequestMapping("/ajh4.do")
     public String detail(Model model, ManitoInfoDTO manitoInfoDTO) {
-        System.out.println("게임시작" + model.getAttribute("manitoIdx"));
+        System.out.println("게임시작:" + model.getAttribute("manitoIdx"));
         // manitoService.testSetting(model);
         // return "thymeleaf/ajh/start";
         return "thymeleaf/start";

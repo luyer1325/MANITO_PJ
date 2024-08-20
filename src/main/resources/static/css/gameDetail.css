@@ -4,6 +4,12 @@ body {
   background-color: var(--purple);
   padding-top: 8.3rem;
 }
+header{
+  padding-bottom: 12.9rem;
+}
+form{
+  margin-bottom: 14.9rem;
+}
 label {
   cursor: pointer;
 }
