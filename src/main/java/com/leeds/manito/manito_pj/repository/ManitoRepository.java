@@ -4,11 +4,6 @@ import org.springframework.stereotype.Repository;
 
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
 
@@ -31,6 +26,6 @@ public interface ManitoRepository extends JpaRepository<ManitoInfo,Integer>{
     Optional<ManitoInfo> findByCreateUserOrManitoIdx(@Param("createUser")String createUser, @Param("manitoIdx")int manitoIdx); 
     Optional<ManitoInfo> findBymanitoIdx(int manitoIdx);
     List<ManitoInfo> findByStartDate(String time);
-    @Procedure(name = "game_setting")
-    int setGameSetting(String out);
+    @Procedure(procedureName  = "game_setting") //프로시저를 만들때 out 파라미터를 만들어야하며, 레파지토리에서는 in파라미터만 넣어주고 out파라미터는 따로 데이터를 안넣어도 된다.
+    int setGameSetting();
 }

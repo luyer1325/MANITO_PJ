@@ -1,6 +1,5 @@
 package com.leeds.manito.manito_pj.service;
 
-import org.eclipse.tags.shaded.org.apache.xalan.xsltc.dom.ArrayNodeListIterator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
 import com.leeds.manito.manito_pj.repository.UserRepository;
 import java.util.List;
-import java.util.ArrayList;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -60,6 +58,7 @@ public class ManitoService2 {
     public UserInfoDTO checkUser(UserInfoDTO userInfoDTO){
         UserInfo userInfo= userRepository.findByManitoIdxOrUserId(userInfoDTO.getManitoIdx(),userInfoDTO.getUserId()).orElseGet(()-> user);
         return modelMapper.map(userInfo, UserInfoDTO.class);
+
     }
 
     public void startGame(String time){
@@ -69,6 +68,7 @@ public class ManitoService2 {
     @Transactional
     public void gameSetting(){
         String abc = "out";
-        manitoRepository.setGameSetting(abc);
+        // int aaa = manitoRepository.setGameSetting();
+        // System.out.println("스케쥴러 ="+ aaa);
     }
 }

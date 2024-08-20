@@ -27,7 +27,7 @@ public class ManitoSchedule {
                 System.out.println("스케줄러가 돌아가는 중입니다. ("+ time + ")");
                 
                 //manitoService2.startGame(time);
-                //manitoService2.gameSetting();
+                manitoService2.gameSetting();
 
         }
 }
