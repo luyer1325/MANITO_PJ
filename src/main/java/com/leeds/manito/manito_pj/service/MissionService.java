@@ -6,13 +6,9 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import com.google.gson.reflect.TypeToken;
-import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.dto.Missions;
-import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
 import com.leeds.manito.manito_pj.repository.MissionRepositiory;

@@ -11,8 +11,10 @@ import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.UserInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
 import com.leeds.manito.manito_pj.repository.UserRepository;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ManitoService2 {
@@ -35,11 +37,6 @@ public class ManitoService2 {
     }
 
     public UserInfoDTO insertUser(HttpSession session,int idx){
-        String abc = (String)session.getAttribute("kakaoId");
-        String bbc = (String)session.getAttribute("email");
-        System.out.println("abaaa = "+ abc +" , "+bbc);
-
-
         UserInfo ui = UserInfo.builder()
             .manitoIdx(idx)
             .userId((String)session.getAttribute("email"))
@@ -61,5 +58,17 @@ public class ManitoService2 {
     public UserInfoDTO checkUser(UserInfoDTO userInfoDTO){
         UserInfo userInfo= userRepository.findByManitoIdxOrUserId(userInfoDTO.getManitoIdx(),userInfoDTO.getUserId()).orElseGet(()-> user);
         return modelMapper.map(userInfo, UserInfoDTO.class);
+
+    }
+
+    public void startGame(String time){
+        List<ManitoInfo> list = manitoRepository.findByStartDate(time);
+    }
+
+    @Transactional
+    public void gameSetting(){
+        String abc = "out";
+        // int aaa = manitoRepository.setGameSetting();
+        // System.out.println("스케쥴러 ="+ aaa);
     }
 }

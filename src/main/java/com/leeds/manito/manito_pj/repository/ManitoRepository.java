@@ -1,17 +1,16 @@
 package com.leeds.manito.manito_pj.repository;
 
 import org.springframework.stereotype.Repository;
+
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
-import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.List;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 @Repository
@@ -26,4 +25,7 @@ public interface ManitoRepository extends JpaRepository<ManitoInfo,Integer>{
     @Query(value = "select mi.* from Manito_Info mi where (mi.create_User = :createUser or mi.manito_Idx = :manitoIdx) and mi.deleted  is null and Date_Format(mi.end_Date,'%Y-%m-%d %H:%i:%s')>now()", nativeQuery = true) //네이티브 쿼리
     Optional<ManitoInfo> findByCreateUserOrManitoIdx(@Param("createUser")String createUser, @Param("manitoIdx")int manitoIdx); 
     Optional<ManitoInfo> findBymanitoIdx(int manitoIdx);
+    List<ManitoInfo> findByStartDate(String time);
+    @Procedure(procedureName  = "game_setting") //프로시저를 만들때 out 파라미터를 만들어야하며, 레파지토리에서는 in파라미터만 넣어주고 out파라미터는 따로 데이터를 안넣어도 된다.
+    int setGameSetting();
 }
