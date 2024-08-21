@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.UserInfoDTO;
@@ -63,15 +64,11 @@ public class ManageController {
     @RequestMapping("/thym-checkLogin.do")
     public String checkLogin(Model model, ManitoInfoDTO manitoInfoDTO,HttpSession session){
         UserInfoDTO userInfoDTO = (UserInfoDTO)model.getAttribute("userInfoDTO");
-
-        //userInfoDTO.setUserId("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
-        //manitoInfoDTO.setCreateUser("imsi@naver.com");
-        //session.setAttribute("email", "imsi@naver.com");
-        userInfoDTO = manitoService2.checkUser(userInfoDTO); // 날짜를 체크해야함
+        userInfoDTO = manitoService2.checkKakaoId(userInfoDTO.getKakaoId());
+        //userInfoDTO = manitoService2.checkUser(userInfoDTO); // 날짜를 체크해야함
         manitoInfoDTO = manitoService.checkLogin(userInfoDTO);// 로그인 한 아이디에서 이미 생성된 게임이 있는지 체크하여 url 변경
-        if(manitoInfoDTO.getCreateUser() == null && userInfoDTO.getUserId() == null){
-            //manitoInfoDTO.setCreateUser("imsi@naver.com");// 카카오 초대를 위한 더미 아이디 설정
-            //session.setAttribute("email", "imsi@naver.com");
+        //if(manitoInfoDTO.getCreateUser() == null && userInfoDTO.getUserId() == null){
+        if(userInfoDTO.getManitoIdx() == 0){
             model.addAttribute("userInfoDTO", userInfoDTO);
             model.addAttribute("rUrl","/thym-makeGame.do");
         }else {
@@ -93,15 +90,15 @@ public class ManageController {
         return "thymeleaf/ljh/start";
     }
     @RequestMapping("/thym-gameDetail.do")
-    public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session){
+    public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session,RedirectAttributes rttr ){
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
         int idx = manitoService.CreateManito(manitoInfoDTO);
-
         if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
             manitoService2.insertUser(session,idx);
         }else{
             //manitoService2.updateUser(session,idx);// 회원정보가 있을 시 manitoIdx 변경하기 마니또의 게임이 끝났는지 체크하는 로직 생성 필요
         }
+        rttr.addFlashAttribute("manitoInfoDTO",manitoInfoDTO);
         return "thymeleaf/ljh/gameDetail";
     }
     @RequestMapping("/testtt.do")

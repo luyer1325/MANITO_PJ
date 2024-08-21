@@ -12,4 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<UserInfo,String>{
     Long countByKakaoId(String kakaoId);
     Optional<UserInfo> findByManitoIdxOrUserId(int idx,String userId);
+    Optional<UserInfo> findByKakaoId(String kakaoId);
 }

@@ -65,6 +65,11 @@ public class ManitoService2 {
         List<ManitoInfo> list = manitoRepository.findByStartDate(time);
     }
 
+    public UserInfoDTO checkKakaoId(String kakaoId){
+        UserInfo userInfo = userRepository.findByKakaoId(kakaoId).orElseGet(()-> user);
+        return modelMapper.map(userInfo,UserInfoDTO.class);
+    }
+
     @Transactional
     public void gameSetting(){
         String abc = "out";

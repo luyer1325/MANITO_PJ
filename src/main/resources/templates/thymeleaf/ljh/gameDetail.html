@@ -8,28 +8,29 @@
 
         var abc = /*[[${at}]]*/'';
         const key = /*[[${kakao_js_key}]]*/'';
+        const idx = /*[[${encIdx}]]*/'';
 
-        Kakao.init(key);
+      Kakao.init(key);
         console.log(Kakao.isInitialized());//ey 값을 가져오는지 확인
         function sendLink() {
             var imgUrl1 = 'http://k.kakaocdn.net/dn/ckrKco/btrVqfPjQSG/z2wmewdXkyWCzLZ406q0c0/kakaolink40_original.png';
             Kakao.Link.sendDefault({
                 objectType: 'feed',
-                content: {
+                content: { // 이미지 눌렀을때 링크주소
                     title: '마니또 게임에 초대되었습니다',
                     description: '이정한님이 마니또게임을 초대하였습니다.',
                     imageUrl: imgUrl1,
                     link: {
-                        mobileWebUrl: 'http://localhost:8080',
-                        webUrl: 'http://localhost:8080'
+                        mobileWebUrl: 'http://localhost:8080', //모바일로 눌렀을 때
+                        webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx // 컴퓨터로 눌렀을 때
                     },
                 },
-                buttons: [
+                buttons: [ // 버튼 눌렀을 때 링크주소
                     {
                         title: '테스트 결과보기',
                         link: {
                             mobileWebUrl: 'http://localhost:8080',
-                            webUrl: 'http://localhost:8080'
+                            webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx
                         },
                     },
                 ]

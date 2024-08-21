@@ -29,7 +29,8 @@ public class KakaoController {
 
     @RequestMapping("/kakao/login2.do")
     public String kakaoLogin(Model model,UserInfoDTO userInfoDTO,@RequestParam String code,HttpSession session,RedirectAttributes rttr){
-        String accessToken = kakaoService.getAccessToken(code);
+        int num = 2;
+        String accessToken = kakaoService.getAccessToken(code,2);
         UserInfoDTO user = kakaoService.getUserInfo(session,model,accessToken,userInfoDTO);
         rttr.addFlashAttribute("userInfoDTO",user); //addAttribute --> 파라미터 형식 / addFlashAttribute--> 플래시형식
         //model.addAttribute("rUrl","/thym-makeGame.do");
@@ -44,7 +45,8 @@ public class KakaoController {
     }
     @RequestMapping("/kakao/accept.do")
     public String kakaoAccept(Model model,UserInfoDTO userInfoDTO,@RequestParam("code") String code,HttpSession session,RedirectAttributes rttr){
-        String accessToken = kakaoService.getAccessToken(code);
+        int num = 3;
+        String accessToken = kakaoService.getAccessToken(code,num);
         UserInfoDTO user = kakaoService.getUserInfo(session,model,accessToken,userInfoDTO);
         rttr.addFlashAttribute("userInfoDTO",user); //addAttribute --> 파라미터 형식 / addFlashAttribute--> 플래시형식
         //rttr.addAttribute("idx", idx);

@@ -26,6 +26,10 @@ public class KakaoService {
 
     @Value("${kakao_redirect_uri}")
     private String redirectUri;
+    @Value("${kakao_redirect_uri2}")
+    private String redirectUri2;
+    @Value("${kakao_redirect_uri3}")
+    private String redirectUri3;
     
     @Value("${kakao_js_key}")
     private String jsKey;
@@ -37,7 +41,7 @@ public class KakaoService {
         System.out.println(apiKey);
     }
     
-    public String getAccessToken(String code){
+    public String getAccessToken(String code, int num){
         String accessToken = "";
         String reqUrl = "https://kauth.kakao.com/oauth/token";
         try{
@@ -50,8 +54,12 @@ public class KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=").append(apiKey);
-            sb.append("&redirect_uri=").append(redirectUri);
-            //sb.append("&redirect_uri=").append("http://localhost:8080/kakao/accept.do");
+            
+            switch(num){
+                case 1 : sb.append("&redirect_uri=").append(redirectUri);
+                case 2 : sb.append("&redirect_uri=").append(redirectUri2);
+                case 3 : sb.append("&redirect_uri=").append(redirectUri3);
+            }
             sb.append("&code=").append(code);
 
             bw.write(sb.toString());
