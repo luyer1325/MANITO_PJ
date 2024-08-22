@@ -52,24 +52,25 @@
   </head>
   <body>
     <nav>
-      <!-- <button th:if="${manitoInfoDTO.status.equals('I')}" class="bt-size-auto bt-purple">참가자 보기</button> -->
+      <button th:if="${manitoInfoDTO.status=='I'}" class="bt-size-auto bt-purple">참가자 보기</button>
       <button id ="kakao-link-btn" class="bt-size-auto bt-purple" onclick="javascript:sendLink()">초대하기</button>
       <div class="member">
-        <!-- <ul>
-          <li th:each="member: ${memberlist}"><span th:text="${member}"></span></li>
-        </ul> -->
+        <ul>
+          <li th:each="member: ${memberList}"><span th:text="${member.nickname}"></span></li>
+        </ul>
       </div>
     </nav>
     <main>
       <!-- 메인미션 구간 -->
       <div class="main-mission-area">
         <div class="mission-unit">
+          <input type="hidden" id="check" value="N">
           <span id="end-date" th:text="${manitoInfoDTO.endDate}"></span>까지 <br />
-          <span class="name" th:text="${manitoInfoDTO.createUser}"></span>에게 들키지 않고 마니또로 활동하세요.
+          <span class="name" th:text="${userInfoDTO.manitoTarget}"></span>에게 들키지 않고 마니또로 활동하세요.
         </div>
         <div class="mission-unit">
           <span id="end-date" th:text="${manitoInfoDTO.endDate}"></span>에 <br />
-          마니또 <span class="name" th:text="${manitoInfoDTO.createUser}"></span>의 정체를 맞추세요.
+          마니또 <span class="name" th:text="${manito}"></span>의 정체를 맞추세요.
         </div>
       </div>
       <!-- 구분선 -->
@@ -91,7 +92,7 @@
     <footer>
       <div>
         당신을 도와주는 마니또는<br />
-        <span class="name" th:text="${manitoName}"></span>라는 닉네임을 가지고 있습니다.
+        <span class="name" th:text="${manito}"></span>라는 닉네임을 가지고 있습니다.
       </div>
     </footer>
   </body>
