@@ -55,18 +55,6 @@
       }
       // 미션추가
       function addMission() {
-        const ms = document.querySelector("#ms");
-        let index = ms.querySelectorAll("input[id$='.content']");
-        index = index[index.length -1];
-        console.log(index);
-        ms.innerHTML += `<div class="input-unit bt-white icon-pen">
-                <input type="text" th:field="*{missions[__${stat.index}__].content}" data-pick="" placeholder="미션 내용을 입력하세요" />
-                <button th:if="${stat.index} == (*{missions.size} - 1)" class="add-mission icon-plus" type="button"></button>
-                <button th:unless="${stat.index} == (*{missions.size} - 1)" class="del-mission icon-delete" type="button"></button>
-              </div>`
-      }
-      // 미션추가
-      function addMission2() {
         let data = getMission(-1); //전체미션 가져오기
         console.log(data);
         fetch("/ajh3.do/update/mission/add", {
@@ -167,7 +155,35 @@
     </header>
     <main>
       <div id="formContainer">
-        <th:block th:replace="~{thymeleaf/fragment/add_form :: add_form(${form})}"></th:block>
+      <form method="POST">
+        <div class="mission-group">
+          <!-- <h2 class="title" th:text="|${form.degree}번째 미션|"></h2> -->
+          <div id="ms">
+            <div class="input-group" th:each="mission, stat : ${missions}">
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" data-pick="" th:field="*{missions[stat.index].content}" placeholder="미션 내용을 입력하세요" />
+                <button th:if="${stat.index} == (${missions.size} - 1)" class="add-mission icon-plus" type="button"></button>
+                <button th:unless="${stat.index} == (${missions.size} - 1)" class="del-mission icon-delete" type="button"></button>
+              </div>
+              <!-- <input type="hidden" th:field="*{missions[__${stat.index}__].degree}" data-pick="" readonly />
+              <input type="hidden" th:field="*{missions[__${stat.index}__].missionTime}" data-pick="" readonly />
+              <input type="hidden" th:field="*{missions[__${stat.index}__].manitoIdx}" data-pick="" readonly /> -->
+            </div>
+          </div>
+          <div class="select-group">
+            <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+            <div class="select-block modal-open">
+              <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                <!-- <input type="text" th:field="${form.missionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" /> -->
+              </button>
+            </div>
+            <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+          </div>
+        </div>
+        <!-- <input type="hidden" th:field="${form.sDate}" /> -->
+        <!-- <input type="hidden" th:field="${form.eDate}" /> -->
+        <!-- <input type="hidden" th:field="${form.manitoIdx}" /> -->
+      </form>
       </div>
       <!-- <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">그룹추가</button> -->
       <button class="bt-size-fix bt-purple submit-btn" type="button" onclick="validation()">설정 완료</button>

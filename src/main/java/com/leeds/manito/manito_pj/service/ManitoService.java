@@ -18,7 +18,7 @@ import com.leeds.manito.manito_pj.dto.UserInfoDTO;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
-import com.leeds.manito.manito_pj.repository.MissionRepositiory;
+import com.leeds.manito.manito_pj.repository.MissionRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,7 +29,7 @@ public class ManitoService {
     ManitoRepository manitoRepository;
 
     @Autowired
-    MissionRepositiory missionRepositiory;
+    MissionRepository missionRepository;
 
     ManitoInfo manito = new ManitoInfo();
     List<MissionInfo> mission = new ArrayList<MissionInfo>();
@@ -74,14 +74,14 @@ public class ManitoService {
                 .missionTime(missionInfoDTO.getMissionTime())
                 .manitoIdx(missionInfoDTO.getManitoIdx())
                 .build();
-        this.missionRepositiory.save(mi);
+        this.missionRepository.save(mi);
     }
 
     public ManitoInfoDTO checkLogin(UserInfoDTO userInfoDTO) {
         System.out.println("현재 createUser :" + userInfoDTO.getUserId());
-        ManitoInfo manitoInfo =
-        manitoRepository.findByCreateUserOrManitoIdx(userInfoDTO.getUserId(),userInfoDTO.getManitoIdx())
-        .orElseGet(() -> manito);
+        ManitoInfo manitoInfo = manitoRepository
+                .findByCreateUserOrManitoIdx(userInfoDTO.getUserId(), userInfoDTO.getManitoIdx())
+                .orElseGet(() -> manito);
         return modelMapper.map(manitoInfo, ManitoInfoDTO.class);
     }
 
@@ -105,7 +105,7 @@ public class ManitoService {
     }
 
     public List<MissionInfoDTO> getAllMissions(int manitoIdx) {
-        List<MissionInfo> missionInfoList = missionRepositiory.findBymanitoIdx(manitoIdx);
+        List<MissionInfo> missionInfoList = missionRepository.findAllBymanitoIdx(manitoIdx);
         return modelMapper.map(missionInfoList, new TypeToken<List<MissionInfoDTO>>() {
         }.getType());
     }

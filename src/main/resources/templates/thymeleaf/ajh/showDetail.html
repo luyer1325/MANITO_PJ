@@ -6,6 +6,8 @@
     <title>마니또 설정 보기</title>
     <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
     <script th:inline="javascript">
+      var a = /*[[${a}]]*/"";
+      var form = /*[[${form}]]*/"";
       function addGroup() {
         let currentDegree = document.querySelectorAll("input[name$='.degree']");
         console.log(currentDegree);
@@ -24,8 +26,10 @@
       <h1 class="header-title">마니또 게임의 설정이 완료되었습니다.</h1>
     </header>
     <main>
-      <div>
+      <div th:each=" form : ${a}">
+        <!-- <div> -->
         <th:block th:replace="~{thymeleaf/fragment/view_form :: view_form(${form})}"></th:block>
+      </div>
         <form id="add-form">
           <input type="hidden" th:name="sDate" th:value="${sDate}" />
           <input type="hidden" th:name="eDate" th:value="${eDate}" />
@@ -33,7 +37,6 @@
           <input type="hidden" name="degree" value="" />
           <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">미션추가</button>
         </form>
-      </div>
     </main>
   </body>
 </html>

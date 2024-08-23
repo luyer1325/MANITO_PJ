@@ -2,6 +2,7 @@ package com.leeds.manito.manito_pj.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.dto.Missions;
 import com.leeds.manito.manito_pj.entity.MissionInfo;
 import com.leeds.manito.manito_pj.repository.ManitoRepository;
-import com.leeds.manito.manito_pj.repository.MissionRepositiory;
+import com.leeds.manito.manito_pj.repository.MissionRepository;
 
 @Service
 public class MissionService {
@@ -19,7 +20,7 @@ public class MissionService {
     ManitoRepository manitoRepository;
 
     @Autowired
-    MissionRepositiory missionRepositiory;
+    MissionRepository missionRepository;
 
     // @Autowired
     // ModelMapper modelMapper;
@@ -40,7 +41,7 @@ public class MissionService {
                     .missionTime(item.getMissionTime())
                     .manitoIdx(item.getManitoIdx())
                     .build();
-            this.missionRepositiory.save(mi).getMissionIdx();
+            this.missionRepository.save(mi).getMissionIdx();
             // int num = this.missionRepositiory.save(mi).getMissionIdx();
             // missionIdxList.add(num);
         });
@@ -48,8 +49,14 @@ public class MissionService {
     }
 
     // db mission 불러오기
-    public void getMissionByManitoIdx(int manitoIdx) {
-
+    public Missions searchMissions(int manitoIdx) {
+        List<MissionInfo> missionList = missionRepository.findAllBymanitoIdx(manitoIdx);
+        List<MissionInfoDTO> missions = missionList.stream()
+                .map(missionInfo -> modelMapper.map(missionInfo, MissionInfoDTO.class))
+                .collect(Collectors.toList());
+        Missions missions2 = new Missions();
+        missions2.setMissions(missions);
+        return missions2;
     }
     // public int CreateMission(MissionInfoDTO missionInfoDTO) {
     // MissionInfo mi = MissionInfo.builder()
@@ -62,33 +69,39 @@ public class MissionService {
     // return this.missionRepositiory.save(mi).getMissionIdx();
     // }
 
-    public Missions TempMissions(int manitoIdx, String startDate) {
+    public Missions initMission(int manitoIdx, String startDate, String endDate) {
         Missions missions = new Missions();
         MissionInfoDTO tempMission = new MissionInfoDTO();
-        tempMission.setManitoIdx(manitoIdx);
-        tempMission.setMissionTime(startDate);
+        missions.setManitoIdx(manitoIdx);
+        missions.setMissionTime(startDate);
+        missions.setSDate(startDate);
+        missions.setEDate(endDate);
+        missions.setDegree(0);
+        missions.addMissions(tempMission);
+        missions.addMissions(tempMission);
         missions.addMissions(tempMission);
         return missions;
     }
 
-    public Missions TempMissions(int manitoIdx, String startDate, int degree) {
-        Missions missions = new Missions();
-        MissionInfoDTO tempMission = new MissionInfoDTO();
-        tempMission.setManitoIdx(manitoIdx);
-        tempMission.setDegree(degree);
-        tempMission.setMissionTime(startDate);
-        missions.addMissions(tempMission);
-        return missions;
-    }
+    // public Missions TempMissions(int manitoIdx, String startDate, int degree) {
+    // Missions missions = new Missions();
+    // MissionInfoDTO tempMission = new MissionInfoDTO();
+    // tempMission.setManitoIdx(manitoIdx);
+    // tempMission.setDegree(degree);
+    // tempMission.setMissionTime(startDate);
+    // missions.addMissions(tempMission);
+    // return missions;
+    // }
 
-    public Missions addTempMissions(Missions missions) {
+    public List<MissionInfoDTO> addMission(List<MissionInfoDTO> missions) {
         MissionInfoDTO tempMission = new MissionInfoDTO();
-        List<MissionInfoDTO> tempList = missions.getMissions();
-        tempMission.setManitoIdx(tempList.get(0).getManitoIdx());
-        tempMission.setDegree(tempList.get(0).getDegree());
-        tempMission.setMissionTime(tempList.get(0).getMissionTime());
-        System.out.println("여기 : " + tempList.get(0).getMissionTime());
-        missions.addMissions(tempMission);
+        missions.add(tempMission);
+        // List<MissionInfoDTO> tempList = missions.getMissions();
+        // tempMission.setManitoIdx(tempList.get(0).getManitoIdx());
+        // tempMission.setDegree(tempList.get(0).getDegree());
+        // tempMission.setMissionTime(tempList.get(0).getMissionTime());
+        // System.out.println("여기 : " + tempList.get(0).getMissionTime());
+        // missions.addMissions(tempMission);
         return missions;
     }
 
