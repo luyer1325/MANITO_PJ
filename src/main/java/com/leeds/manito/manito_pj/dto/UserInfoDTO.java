@@ -1,6 +1,6 @@
 package com.leeds.manito.manito_pj.dto;
 
-public class UserInfoDTO {
+public class UserInfoDTO extends defaultInfoDTO{
     private String userId;
     private String name;
     private int manitoIdx;

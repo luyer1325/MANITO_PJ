@@ -80,9 +80,12 @@ public class ManageController {
     @RequestMapping("/thym-start.do")
     public String startGame(Model model, ManitoInfoDTO manitoInfoDTO ,HttpSession session){
         manitoService.getInfo(model, session);
-        model.addAttribute("manitoInfoDTO", manitoInfoDTO);
+        UserInfoDTO userInfoDTO = manitoService2.checkKakaoId((String)session.getAttribute("kakaoId"));
         String ps = aes.encrypt_AES(String.valueOf(manitoInfoDTO.getManitoIdx()));
         model.addAttribute("encIdx", ps);
+
+        manitoService2.startGameSetting(model, manitoInfoDTO,userInfoDTO); // 게임시작 설정
+
         System.out.println("암호화 : "+ps);
         System.out.println("복호화 : "+aes.decrypt_AES(ps));
 
@@ -91,8 +94,11 @@ public class ManageController {
     }
     @RequestMapping("/thym-gameDetail.do")
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session,RedirectAttributes rttr ){
+        kakaoService.getSettings(model);
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
         int idx = manitoService.CreateManito(manitoInfoDTO);
+        String ps = aes.encrypt_AES(String.valueOf(idx));
+        model.addAttribute("encIdx", ps);
         if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
             manitoService2.insertUser(session,idx);
         }else{
