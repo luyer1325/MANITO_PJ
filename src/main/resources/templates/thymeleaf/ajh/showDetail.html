@@ -9,10 +9,10 @@
       var a = /*[[${a}]]*/"";
       var form = /*[[${form}]]*/"";
       function addGroup() {
-        let currentDegree = document.querySelectorAll("input[name$='.degree']");
-        console.log(currentDegree);
-        let addGroupDegree = parseInt(currentDegree[currentDegree.length - 1].value) + 1;
-        document.querySelector("input[name='degree']").value = addGroupDegree;
+        let lastDegree = document.querySelectorAll("h2.title");
+        let nextDegree = parseInt(lastDegree[lastDegree.length - 1].innerText.split("번째")[0]);
+        console.log(typeof nextDegree, nextDegree + 1);
+        document.querySelector("input[name='degree']").value = nextDegree + 1;
 
         const form = document.querySelector("#add-form");
         form.action = "/ajh3.do/update/group/add";
@@ -26,13 +26,11 @@
       <h1 class="header-title">마니또 게임의 설정이 완료되었습니다.</h1>
     </header>
     <main>
-      <div th:each=" form : ${a}">
+      <th:block th:each=" form : ${a}">
         <!-- <div> -->
         <th:block th:replace="~{thymeleaf/fragment/view_form :: view_form(${form})}"></th:block>
-      </div>
+      </th:block>
         <form id="add-form">
-          <input type="hidden" th:name="sDate" th:value="${sDate}" />
-          <input type="hidden" th:name="eDate" th:value="${eDate}" />
           <input type="hidden" th:name="manitoIdx" th:value="${manitoIdx}" />
           <input type="hidden" name="degree" value="" />
           <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">미션추가</button>

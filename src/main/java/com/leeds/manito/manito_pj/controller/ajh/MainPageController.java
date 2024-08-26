@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
 import com.leeds.manito.manito_pj.dto.MissionInfoDTO;
 import com.leeds.manito.manito_pj.dto.Missions;
 import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.service.ManitoService;
 import com.leeds.manito.manito_pj.service.MissionService;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,12 +53,12 @@ public class MainPageController {
         int idx = manitoService.CreateManito(manitoInfoDTO);
         ManitoInfo manito = manitoService.showInfo(idx);
         // 기본 manito 정보 전달
-        // model.addAttribute("manitoIdx", idx);
-        // model.addAttribute("sDate", manito.getStartDate());
-        // model.addAttribute("eDate", manito.getEndDate());
+        model.addAttribute("manitoIdx", idx);
+        model.addAttribute("sDate", manito.getStartDate());
+        model.addAttribute("eDate", manito.getEndDate());
         // missions 빈 객체 전달
         model.addAttribute("form",
-                missionService.initMission(idx, manito.getStartDate(), manito.getEndDate()));
+                missionService.TempMissions(idx, manito.getStartDate()));
         if (manito.getMissionYn().equals("Y")) {
             return "thymeleaf/ajh/gameDetail";
         } else {
@@ -70,50 +70,39 @@ public class MainPageController {
     public String addMission(Model model,
             @RequestBody String jsonData) {
         Gson gson = new Gson();
-        Type list = new TypeToken<List<MissionInfoDTO>>() {
-        }.getType();
-        List<MissionInfoDTO> gsonMission = gson.fromJson(jsonData, list);
-        List<MissionInfoDTO> missions = missionService.addMission(gsonMission);
-        Missions mission = new Missions();
-        mission.setMissions(missions);
-        // System.out.println("미션내용!! " + gson.toJson(missions));
-        // missionService.addMission(missions);
-        // model.addAttribute("form", missions);
-        model.addAttribute("missions", mission.getMissions());
-        // return "thymeleaf/ajh/gameDetail :: #formContainer";
-        return "thymeleaf/ajh/gtest :: #ms";
-
+        Missions missions = gson.fromJson(jsonData, Missions.class);
+        missionService.addTempMissions(missions);
+        model.addAttribute("form", missions);
+        return "thymeleaf/ajh/gameDetail :: #formContainer";
     }
 
     @PostMapping("/ajh3.do/update/mission/remove")
     public String removeMission(Model model,
-            @RequestBody String jsonData, String num) {
+            @RequestBody String jsonData) {
         Gson gson = new Gson();
         Missions missions = gson.fromJson(jsonData, Missions.class);
         model.addAttribute("form", missions);
         return "thymeleaf/ajh/gameDetail :: #formContainer";
     }
 
-    // @PostMapping("/ajh3.do/update/group/add")
-    // public String addGroup(Model model,
-    // @RequestParam String eDate,
-    // @RequestParam String sDate,
-    // @RequestParam String manitoIdx,
-    // @RequestParam String degree) {
-    // System.out.println("eDate:" + eDate + "sDate:" + sDate + "manitoIdx:" +
-    // manitoIdx + "degree:" + degree);
-    // int idx = Integer.parseInt(manitoIdx);
-    // int degreeNum = Integer.parseInt(degree);
-    // // 기본 manito 정보 전달
-    // model.addAttribute("manitoIdx", idx);
-    // model.addAttribute("sDate", sDate);
-    // model.addAttribute("eDate", eDate);
-    // // missions 빈 객체 전달
-    // model.addAttribute("form",
-    // missionService.addTempMissions(missionService.initMission(idx, sDate,
-    // degreeNum)));
-    // return "thymeleaf/ajh/gameDetail";
-    // }
+    @PostMapping("/ajh3.do/update/group/add")
+    public String addGroup(Model model,
+            @RequestParam String manitoIdx,
+            @RequestParam String degree) {
+        System.out.println("그룹추가" + "manitoIdx:" + manitoIdx + "degree:" + degree);
+        int idx = Integer.parseInt(manitoIdx);
+        int degreeNum = Integer.parseInt(degree);
+        String eDate = manitoService.showInfo(idx).getEndDate();
+        String sDate = manitoService.showInfo(idx).getStartDate();
+        // 기본 manito 정보 전달
+        model.addAttribute("manitoIdx", idx);
+        model.addAttribute("sDate", sDate);
+        model.addAttribute("eDate", eDate);
+        // missions 빈 객체 전달
+        model.addAttribute("form",
+                missionService.TempMissions(idx, sDate, degreeNum));
+        return "thymeleaf/ajh/gameDetail";
+    }
 
     @PostMapping("/ajh3.do/register")
     public String test3(Model model, Missions missions,
@@ -133,29 +122,25 @@ public class MainPageController {
         // groups.add(missions2);
         // model.addAttribute("a", groups);
         rttr.addFlashAttribute("manitoIdx", manitoIdx);
-        rttr.addFlashAttribute("sDate", sDate);
-        rttr.addFlashAttribute("eDate", eDate);
         return "redirect:/ajh3.do/view";
     }
 
     @RequestMapping("/ajh3.do/view")
-    public String postMethodName(Model model,
-            @ModelAttribute("manitoIdx") String manitoIdx,
-            @ModelAttribute("eDate") String eDate,
-            @ModelAttribute("sDate") String sDate) {
-        // String manitoIdx = (String) model.getAttribute("manitoIdx");
-        // String sDate = (String) model.getAttribute("sDate");
-        // String eDate = (String) model.getAttribute("eDate");
-        System.out.println(manitoIdx);
+    public String postMethodName(HttpSession session, Model model) {
+        String manitoIdx = (String) model.getAttribute("manitoIdx");
+        if (manitoIdx == null) { // 새로고침
+            manitoIdx = (String) session.getAttribute("manitoIdxS");
+            System.out.println("새로고침" + session.getAttribute("manitoIdxS"));
+        } else { // 첫 진입
+            session.setAttribute("manitoIdxS", manitoIdx);
+            System.out.println("첫진입" + (String) session.getAttribute("manitoIdxS"));
+        }
         int idx = Integer.parseInt(manitoIdx);
-        List<Missions> groups = new ArrayList<>();
         Missions missions = missionService.searchMissions(idx);
-        groups.add(missions);
-        groups.add(missions);
+        List<Missions> groups = missionService.groupingMissions(missions);
         model.addAttribute("a", groups);
-        model.addAttribute("manitoIdx", manitoIdx);
-        model.addAttribute("sDate", sDate);
-        model.addAttribute("eDate", eDate);
+        model.addAttribute("form", missions);
+        model.addAttribute("manitoIdx", idx);
         return "thymeleaf/ajh/showDetail";
     }
 

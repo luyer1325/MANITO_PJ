@@ -2,6 +2,9 @@ package com.leeds.manito.manito_pj.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -58,6 +61,22 @@ public class MissionService {
         missions2.setMissions(missions);
         return missions2;
     }
+
+    public List<Missions> groupingMissions(Missions missions) {
+        List<Missions> groups = new ArrayList<>();
+        // List<MissionsInfoDTO>
+        // degree가 같은 애들을 new missions에 넣어서 groups에 add
+        Map<Integer, List<MissionInfoDTO>> grouping = missions.getMissions().stream()
+                .collect(Collectors.groupingBy(MissionInfoDTO::getDegree));
+        Set<Integer> keySet = grouping.keySet();
+        // for loop
+        for (Integer key : keySet) {
+            Missions mission = new Missions();
+            mission.setMissions(grouping.get(key));
+            groups.add(mission);
+        }
+        return groups;
+    }
     // public int CreateMission(MissionInfoDTO missionInfoDTO) {
     // MissionInfo mi = MissionInfo.builder()
     // .degree(missionInfoDTO.getDegree())
@@ -69,39 +88,33 @@ public class MissionService {
     // return this.missionRepositiory.save(mi).getMissionIdx();
     // }
 
-    public Missions initMission(int manitoIdx, String startDate, String endDate) {
+    public Missions TempMissions(int manitoIdx, String startDate) {
         Missions missions = new Missions();
         MissionInfoDTO tempMission = new MissionInfoDTO();
-        missions.setManitoIdx(manitoIdx);
-        missions.setMissionTime(startDate);
-        missions.setSDate(startDate);
-        missions.setEDate(endDate);
-        missions.setDegree(0);
-        missions.addMissions(tempMission);
-        missions.addMissions(tempMission);
+        tempMission.setManitoIdx(manitoIdx);
+        tempMission.setMissionTime(startDate);
         missions.addMissions(tempMission);
         return missions;
     }
 
-    // public Missions TempMissions(int manitoIdx, String startDate, int degree) {
-    // Missions missions = new Missions();
-    // MissionInfoDTO tempMission = new MissionInfoDTO();
-    // tempMission.setManitoIdx(manitoIdx);
-    // tempMission.setDegree(degree);
-    // tempMission.setMissionTime(startDate);
-    // missions.addMissions(tempMission);
-    // return missions;
-    // }
-
-    public List<MissionInfoDTO> addMission(List<MissionInfoDTO> missions) {
+    public Missions TempMissions(int manitoIdx, String startDate, int degree) {
+        Missions missions = new Missions();
         MissionInfoDTO tempMission = new MissionInfoDTO();
-        missions.add(tempMission);
-        // List<MissionInfoDTO> tempList = missions.getMissions();
-        // tempMission.setManitoIdx(tempList.get(0).getManitoIdx());
-        // tempMission.setDegree(tempList.get(0).getDegree());
-        // tempMission.setMissionTime(tempList.get(0).getMissionTime());
-        // System.out.println("여기 : " + tempList.get(0).getMissionTime());
-        // missions.addMissions(tempMission);
+        tempMission.setManitoIdx(manitoIdx);
+        tempMission.setDegree(degree);
+        tempMission.setMissionTime(startDate);
+        missions.addMissions(tempMission);
+        return missions;
+    }
+
+    public Missions addTempMissions(Missions missions) {
+        MissionInfoDTO tempMission = new MissionInfoDTO();
+        List<MissionInfoDTO> tempList = missions.getMissions();
+        tempMission.setManitoIdx(tempList.get(0).getManitoIdx());
+        tempMission.setDegree(tempList.get(0).getDegree());
+        tempMission.setMissionTime(tempList.get(0).getMissionTime());
+        System.out.println("여기 : " + tempList.get(0).getMissionTime());
+        missions.addMissions(tempMission);
         return missions;
     }
 
