@@ -19,7 +19,7 @@ public class ManitoSchedule {
         @Autowired
         private ManitoService2 manitoService2;
 
-        @Scheduled (cron = "0 * * * * ?")
+        // @Scheduled (cron = "0 * * * * ?")
         public void checkGame(){
                 LocalDateTime now = LocalDateTime.now();
                 String time = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

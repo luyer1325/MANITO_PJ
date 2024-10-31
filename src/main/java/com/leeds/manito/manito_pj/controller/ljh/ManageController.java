@@ -1,5 +1,8 @@
 package com.leeds.manito.manito_pj.controller.ljh;
 
+import java.util.List;
+import com.google.gson.Gson;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.leeds.manito.manito_pj.dto.ManitoInfoDTO;
+import com.leeds.manito.manito_pj.dto.Missions;
 import com.leeds.manito.manito_pj.dto.UserInfoDTO;
+import com.leeds.manito.manito_pj.entity.ManitoInfo;
 import com.leeds.manito.manito_pj.service.KakaoService;
 import com.leeds.manito.manito_pj.service.ManitoService;
 import com.leeds.manito.manito_pj.service.ManitoService2;
+import com.leeds.manito.manito_pj.service.MissionService;
 import com.leeds.manito.manito_pj.util.AES;
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,6 +35,9 @@ public class ManageController {
 
     @Autowired
     ManitoService2 manitoService2;
+
+    @Autowired
+    MissionService missionService;
 
     @Autowired
     KakaoService kakaoService;
@@ -96,16 +106,36 @@ public class ManageController {
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session,RedirectAttributes rttr ){
         kakaoService.getSettings(model);
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
+        
         int idx = manitoService.CreateManito(manitoInfoDTO);
         String ps = aes.encrypt_AES(String.valueOf(idx));
         model.addAttribute("encIdx", ps);
+
+        //미션 생성
+        ManitoInfo manito = manitoService.showInfo(idx);
+        // 기본 manito 정보 전달
+        model.addAttribute("manitoIdx", idx);
+        model.addAttribute("sDate", manito.getStartDate());
+        model.addAttribute("eDate", manito.getEndDate());
+        // missions 빈 객체 전달
+        model.addAttribute("form",
+        missionService.TempMissions(idx, manito.getStartDate()));
+
+
         if(manitoService2.checkCnt((String)session.getAttribute("kakaoId"))== 0){
             manitoService2.insertUser(session,idx);
         }else{
             //manitoService2.updateUser(session,idx);// 회원정보가 있을 시 manitoIdx 변경하기 마니또의 게임이 끝났는지 체크하는 로직 생성 필요
         }
         rttr.addFlashAttribute("manitoInfoDTO",manitoInfoDTO);
-        return "thymeleaf/ljh/gameDetail";
+
+        if (manito.getMissionYn().equals("Y")) {
+            return "thymeleaf/ljh/makeMission";
+        } else {
+            return "thymeleaf/ajh/start";
+        }
+        
+        // return "thymeleaf/ljh/gameDetail";
     }
     @RequestMapping("/testtt.do")
     public String test(Model model) {
@@ -130,6 +160,45 @@ public class ManageController {
         return "thymeleaf/ljh/kakao2";
     }
     
+    @RequestMapping("/showDetail/register.do")
+    public String test3(Model model, Missions missions,
+            String eDate,
+            String sDate,
+            String manitoIdx,
+            RedirectAttributes rttr) {
+        Gson gson = new Gson();
+
+        System.out.println(gson.toJson(missions));
+        missionService.createMission(missions);
+
+        // Missions missions2 = missionService.searchMissions(idx);
+        // model.addAttribute("form", missions);
+        // List<Missions> groups = new ArrayList<>();
+        // groups.add(missions2);
+        // groups.add(missions2);
+        // model.addAttribute("a", groups);
+        rttr.addFlashAttribute("manitoIdx", manitoIdx);
+        return "redirect:/showDetail/view.do";
+    }
+
+    @RequestMapping("/showDetail/view.do")
+    public String postMethodName(HttpSession session, Model model) {
+        String manitoIdx = (String) model.getAttribute("manitoIdx");
+        if (manitoIdx == null) { // 새로고침
+            manitoIdx = (String) session.getAttribute("manitoIdxS");
+            System.out.println("새로고침" + session.getAttribute("manitoIdxS"));
+        } else { // 첫 진입
+            session.setAttribute("manitoIdxS", manitoIdx);
+            System.out.println("첫진입" + (String) session.getAttribute("manitoIdxS"));
+        }
+        int idx = Integer.parseInt(manitoIdx);
+        Missions missions = missionService.searchMissions(idx);
+        List<Missions> groups = missionService.groupingMissions(missions);
+        model.addAttribute("a", groups);
+        model.addAttribute("form", missions);
+        model.addAttribute("manitoIdx", idx);
+        return "thymeleaf/ljh/showDetail";
+    }
     
 
 }

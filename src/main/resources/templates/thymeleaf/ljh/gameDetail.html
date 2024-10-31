@@ -33,8 +33,17 @@
                             webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx
                         },
                     },
-                ]
+                ],
+                success: function(){
+                    console("성공");
+                    alert("성공");
+                },
+                fail: function(error){
+                    console.log("실패");
+                    alert("실패");
+                }
             });
+                alert("여기");
         }
 
         function popupCenter(domain,url, title, w, h) {
