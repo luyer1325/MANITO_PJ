@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또 시작하기</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/start.css}" />
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        let member = "[[${memberlist}]]";
+
+        const viewMemberBtn = document.querySelector("nav>button");
+        console.log(viewMemberBtn);
+        viewMemberBtn.addEventListener("click", () => {
+          const listView = document.querySelector(".member");
+          listView.classList.toggle("on");
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <nav>
+      <button class="bt-size-auto bt-purple">참가자 보기</button>
+      <div class="member">
+        <ul>
+          <li th:each="member: ${memberlist}"><span th:text="${member}"></span></li>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <!-- 메인미션 구간 -->
+      <div class="main-mission-area">
+        <div class="mission-unit">
+          <span id="end-date" th:text="${endDate}"></span>까지 <br />
+          <span class="name" th:text="${target}"></span>에게 들키지 않고 마니또로 활동하세요.
+        </div>
+        <div class="mission-unit">
+          <span id="end-date" th:text="${endDate}"></span>에 <br />
+          마니또 <span class="name" th:text="${manitoName}"></span>의 정체를 맞추세요.
+        </div>
+      </div>
+      <!-- 구분선 -->
+      <div class="divide-bar"></div>
+      <!-- 추가미션 구간 -->
+      <div class="sub-mission-area">
+        <a href="/ajh5.do"><div class="bt-size-auto bt-coral">추가미션</div></a>
+        <div class="mission-content">
+          <div class="mission-unit">
+            <span class="mission-ing icon-tag">마니또에게 응원의 카톡을 매일 하나 보내기</span>
+          </div>
+          <div class="mission-unit">
+            <span class="mission-ready icon-bell">00분 후에 공개됩니다</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- 추가 안내 -->
+    <footer>
+      <div>
+        당신을 도와주는 마니또는<br />
+        <span class="name" th:text="${manitoName}"></span>라는 닉네임을 가지고 있습니다.
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+body{
+  padding-top: 8.3rem;
+}
+header{
+  margin-top: 7.3rem;
+}
+.select-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  font-size: 4.6rem;
+  color: var(--gray);
+  font-family: var(--f-han);
+  padding: 4.5rem 0;
+}
+input{
+  appearance: none;
+}
+
+input:checked + label{
+  color: var(--black);
+}

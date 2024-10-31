@@ -1,0 +1,217 @@
+@charset "utf-8";
+
+/* 공통 태그디자인 css */
+/* 
+ [ 배경버튼 ]
+  - 구조 :  button에 클래스 다중 적용 
+ 배경색 버튼(크기고정) : .bt-size-fix,
+ 배경색 버튼(크기유동) : .bt-size-auto,
+ 버튼배경색 : .bt-coral , .bt-purple
+ [ 흰버튼 ]
+  - 구조 : button(클래스) > span(아이콘클래스)
+ 흰색버튼(크기고정) : .bt-white-fix
+ 흰색버튼(크기유동) : .bt-white
+ [ 아이콘 ]
+ - 구조 : 태그(클래스) ::after로 적용
+ 아이콘 : .icon-(cal,check,tag,alert)
+ [ 모달 ]
+ - 구조 : .modal-bg > .modal > .modal-area > .title + .body + .close
+*/
+/* 버튼 공통 */
+[class^="bt-"] {
+  cursor: pointer;
+}
+/* 흰 버튼 */
+.bt-white {
+  display: flex;
+  align-items: stretch;
+  height: 5.5rem;
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  background-color: #fff;
+  font-weight: 500;
+  font-size: 2rem;
+  font-family: var(--f-pre);
+}
+/* 흰 버튼 사이즈 고정 */
+.bt-white-fix {
+  width: 33rem;
+  box-sizing: border-box;
+}
+
+/* 색 버튼 */
+[class^="bt-size"] {
+  height: 8.4rem;
+  box-sizing: border-box;
+  border-radius: 30px;
+  font-size: 4rem;
+  font-family: var(--f-han);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 버튼 - size-fix */
+.bt-size-fix {
+  width: 32.7rem;
+}
+/* 버튼 - size-auto */
+.bt-size-auto {
+  width: max-content;
+  padding: 0 2rem;
+}
+.bt-size-mini {
+  height: auto;
+  width: max-content;
+  padding: 1rem 2rem;
+  font-size: 2.4rem;
+  border-radius: 15px;
+}
+/* 버튼 색 */
+.bt-coral {
+  background-color: var(--coral);
+  color: #fff;
+}
+.bt-purple {
+  background-color: var(--d-purple);
+  color: #fff;
+}
+
+/* [ 모달 ]
+- 구조 : .modal-bg > .modal > .modal-area > .title + .body + .close */
+.modal-bg {
+  background-color: #0000000e;
+  z-index: -999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+.modal {
+  position: absolute;
+  box-shadow: var(--d-shadow);
+  border-radius: 20px;
+  background-color: #fff;
+}
+.modal-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5rem 2rem;
+  gap: 1.5rem;
+}
+.modal-area .title {
+  font-size: 2.5rem;
+  text-align: center;
+}
+.modal-area .body {
+  min-width: 30rem;
+  padding: 0 1rem;
+  font-size: 2rem;
+  font-family: var(--f-pre);
+  line-height: 1.6;
+}
+.modal-area .close {
+  font-family: var(--f-han);
+  font-size: 2rem;
+  background-color: var(--gray);
+  color: #fff;
+  line-height: 3rem;
+}
+/* 펜아이콘 */
+.icon-pen::before{
+  content: '\f305';
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  padding-right: 2rem;
+}
+/* 달력아이콘 */
+.icon-cal::after {
+  content: "\f274";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  color: var(--purple);
+  text-indent: 2rem;
+}
+/* 체크아이콘 */
+.icon-check::after {
+  display: inline-block;
+  position: relative;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  text-indent: 2rem;
+  transform: rotate(-15deg);
+}
+.icon-check-front::before {
+  display: inline-block;
+  position: relative;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--purple);
+  padding-right: 2rem;
+  transform: rotate(-15deg);
+}
+/* 체크yes */
+input[type="radio"]:checked + label .icon-check::after,
+input[type="checkbox"]:checked + label .icon-check-front::before {
+  content: "\f058";
+}
+/* 체크no */
+input[type="radio"] + label .icon-check::after,
+input[type="checkbox"] + label .icon-check-front::before {
+  content: "\f111";
+}
+/* 태그아이콘 */
+.icon-tag::before {
+  content: "\f02e";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--gray);
+  padding-right: 2.5rem;
+}
+/* 알림아이콘 */
+.icon-bell::before {
+  content: "\f0f3";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--yellow);
+  padding-right: 2.5rem;
+}
+/* 플러스 아이콘 */
+.icon-plus::after {
+  content: "\2b";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--d-purple);
+}
+/* 삭제아이콘 */
+.icon-delete::after {
+  content: "\f00d";
+  display: inline-block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: var(--coral);
+}
+/* 헤더 타이틀 */
+.header-title {
+  font-family: var(--f-han);
+  font-size: 4rem;
+  text-align: center;
+}
+
+.f-coral {
+  color: var(--coral);
+}
+.f-purple {
+  color: var(--d-purple);
+}

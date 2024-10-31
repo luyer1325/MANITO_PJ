@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="mission-group" th:fragment="view_form(form)">
+      <h2 class="title" th:text="|${form.missions[0].degree}번째 미션|"></h2>
+      <div class="input-group" id="mission-list">
+        <th:block th:each="mission, stat : ${form.missions}">
+          <div class="input-unit bt-white icon-pen">
+            <span th:text="${mission.content}"></span>
+          </div>
+        </th:block>
+      </div>
+      <div class="select-group">
+        <div class="select-block modal-open">
+          <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+            <div th:text="${form.missions[0].missionTime}"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

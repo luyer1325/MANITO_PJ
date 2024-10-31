@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <title>게임 상세설정</title>
+    <link rel="stylesheet" text="text/css" th:href="@{/css/makeGame.css}">
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+    <script th:inline="javascript">
+
+        var abc = /*[[${at}]]*/'';
+        const key = /*[[${kakao_js_key}]]*/'';
+        const idx = /*[[${encIdx}]]*/'';
+
+      Kakao.init(key);
+        console.log(Kakao.isInitialized());//ey 값을 가져오는지 확인
+        function sendLink() {
+            var imgUrl1 = 'http://k.kakaocdn.net/dn/ckrKco/btrVqfPjQSG/z2wmewdXkyWCzLZ406q0c0/kakaolink40_original.png';
+            Kakao.Link.sendDefault({
+                objectType: 'feed',
+                content: { // 이미지 눌렀을때 링크주소
+                    title: '마니또 게임에 초대되었습니다',
+                    description: '이정한님이 마니또게임을 초대하였습니다.',
+                    imageUrl: imgUrl1,
+                    link: {
+                        mobileWebUrl: 'http://localhost:8080', //모바일로 눌렀을 때
+                        webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx // 컴퓨터로 눌렀을 때
+                    },
+                },
+                buttons: [ // 버튼 눌렀을 때 링크주소
+                    {
+                        title: '테스트 결과보기',
+                        link: {
+                            mobileWebUrl: 'http://localhost:8080',
+                            webUrl: 'http://localhost:8080/thym-ljh.do?idx='+idx
+                        },
+                    },
+                ],
+                success: function(){
+                    console("성공");
+                    alert("성공");
+                },
+                fail: function(error){
+                    console.log("실패");
+                    alert("실패");
+                }
+            });
+                alert("여기");
+        }
+
+        function popupCenter(domain,url, title, w, h) {
+            document.domain=domain;
+            // 팝업 창의 위치를 계산하여 중앙에 위치시킵니다.
+            var left = (screen.width / 2) - (w / 2);
+            var top = (screen.height / 2) - (h / 2);
+            // window.open 함수로 팝업 창을 엽니다.
+            window.open(url, title, 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ', scrollbars=yes');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-title" >
+            게임 상세설정을 설정하세요.
+        </div>
+    </header>
+    <main>
+        <form>
+            <div class="select-group">
+                <h1 class="title"></h1>
+            </div>
+        </form>
+        <button id ="kakao-link-btn" class="bt-size-fix bt-purple" onclick="javascript:sendLink()">초대하기</button>
+        <div class="bt-size-fix bt-purple">
+            <!-- <a th:href="@{/kakao/logout.do(accessToken=${at})}" onclick="popupCenter('localhost',this.href, '카카오 로그아웃', 700, 800); return false;">
+              카카오 로그아웃
+            </a> -->
+            <a th:href="@{https://kauth.kakao.com/oauth/logout(client_id=${kakao_api_key},logout_redirect_uri=${logout_redirect_uri})}" onclick="popupCenter('localhost',this.href, '카카오 로그아웃', 700, 800); return false;">
+                카카오 로그아웃
+            </a>
+        </div>
+    </main>
+</body>
+</html>

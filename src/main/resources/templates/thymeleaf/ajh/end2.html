@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:replace="thymeleaf/base :: common_header(~{::title},~{::link},~{::script})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마니또 종료</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/end.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/end2.css}" />
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            let mission = "[[${mission}]]";
+            console.log(mission);
+      });
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="header-title"><span class="f-coral" th:text="${manitoName}"></span>의 정체는 <span class="f-purple" th:text="${manito}"></span>님이 었습니다.</h1>
+        <h1 class="header-title"><span class="f-purple" th:text="${manito}"></span>님은 미션을 잘 수행했나요?</h1>
+        <h1 class="header-title"><span class="f-purple" th:text="${manito}"></span>님이 성공 한 미션을 체크해주세요</h1>
+    </header>
+    <main>
+        <form th:object="${missionlist}" action="" method="">
+            <div class="select-block">
+                <th:block th:each="mission : ${mission}">
+                    <input
+                        type="checkbox"
+                        th:id="'mission_' + ${mission.key}"
+                        name="mission"
+                        th:value="${mission.value}"
+                    />
+                    <label class="" th:for="'mission_' + ${mission.key}">
+                        <span class="icon-check-front" th:text="${mission.value}"></span>
+                    </label>
+                </th:block>
+            </div>
+            <button class="bt-size-fix bt-coral" type="submit">공유하기</button>
+        </form>
+    </main>
+</body>
+</html>

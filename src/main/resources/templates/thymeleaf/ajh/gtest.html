@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head th:replace="~{thymeleaf/base :: common_header(~{::title},~{::link},~{::script})}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마니또 세부설정</title>
+    <link rel="stylesheet" th:href="@{/css/gameDetail.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timePicker.css}" />
+    <script type="text/javascript" th:src="@{/javascript/calendar.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/timePicker.js}"></script>
+    <script type="text/javascript" th:src="@{/javascript/modal.js}"></script>
+    <script th:inline="javascript">
+      const btnSetting = () => {
+        let addBtn = document.querySelectorAll("button.add-mission");
+        let delBtns = document.querySelectorAll("button.del-mission");
+        console.log(addBtn[addBtn.length - 1]);
+        addBtn = addBtn[addBtn.length - 1];
+        addBtn.onclick = addMission;
+        delBtns.forEach((ele) => {
+          ele.onclick = delMission;
+        });
+      };
+      // 미션 데이터 가져오기(fetch)
+      function getMission(num) {
+        // all = -1
+        // num = data-num
+        let missionConts = document.querySelectorAll("[name$='.content']");
+        let missions = [];
+        // if(num < 0) {
+          missionConts.forEach((content) => {
+            let missionsData = {
+              content: content.value,
+            };
+            missions.push(missionsData);
+          });
+        // }else{
+        //   inputUnit.forEach((ele) => {
+        //     if(ele.dataset.num != num){
+        //       let missionsData = {
+        //         manitoIdx: parseInt(document.querySelector("input[name='manitoIdx']").value),
+        //         degree: parseInt(form.querySelector("input[name$='.degree']").value.trim()),
+        //         contactUser: null,
+        //         missionTime: form.querySelector("input[name$='.missionTime']").value.trim(),
+        //         content: ele.querySelector("[name$='.content']").value,
+        //       };
+        //       missions.push(missionsData);
+        //     }
+        //   });
+        // }
+        // missions object구조
+        // let data = { missions: missions };
+        // return data;
+        return missions;
+      }
+      // 미션추가
+      function addMission() {
+        let data = getMission(-1); //전체미션 가져오기
+        console.log(data);
+        fetch("/ajh3.do/update/mission/add", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("응답오류");
+            }
+            return response.text(); // 서버에서 응답을 텍스트로 받음
+          })
+          .then((fragment) => {
+            document.getElementById("ms").outerHTML = fragment;
+            //버튼 재설정
+            // btnSetting();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      // 미션제거
+      function delMission() {
+        const inputNumber = event.currentTarget.parentNode.dataset.num;
+        // 지울미션 제외하고 가져오기
+        let data = getMission(inputNumber);
+        fetch("/ajh3.do/update/mission/remove", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("응답오류");
+            }
+            return response.text(); // 서버에서 응답을 텍스트로 받음
+          })
+          .then((fragment) => {
+            document.getElementById("formContainer").outerHTML = fragment;
+            //버튼 재설정
+            btnSetting();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      function validation() {
+        event.preventDefault();
+        const form = document.querySelector("form");
+        const missionInput = document.querySelectorAll("input[id$='.content']");
+        let misssionTime = document.querySelector("input[id='missionTime']");
+        const eDate = document.querySelector("input[id='eDate']");
+        const sDate = document.querySelector("input[id='sDate']");
+        let formData = /*[[${form}]]*/ "";
+        let inputStat = false;
+        missionInput.forEach((ele) => {
+          if (ele.value.trim() == null || ele.value.trim() == "") {
+            inputStat = true;
+          }
+        });
+        if (inputStat) {
+          alert("미션을 모두 입력해주세요.");
+          return false;
+        } else if (misssionTime == null || misssionTime == "") {
+          alert("미션일자를 선택해주세요.");
+          return false;
+        } else if (misssionTime < sDate.value) {
+          alert("미션일자는 시작일자보다 빠를 수 없습니다.");
+          return false;
+        } else if (misssionTime > eDate.value) {
+          alert("미션일자는 종료일자보다 느릴 수 없습니다.");
+          return false;
+        } else {
+          const manitoIdx = document.querySelector("input[id='manitoIdx']");
+          // 시간 일치
+          syncTime(misssionTime);
+          // 데이터 추가(addGroup용)
+          form.appendChild(eDate);
+          form.appendChild(sDate);
+          form.appendChild(manitoIdx);
+          form.action = "/ajh3.do/register";
+          form.submit();
+        }
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        btnSetting();
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="header-title">마니또 미션 만들기.</h1>
+    </header>
+    <main>
+      <div id="formContainer">
+      <form method="POST">
+        <div class="mission-group">
+          <!-- <h2 class="title" th:text="|${form.degree}번째 미션|"></h2> -->
+          <div id="ms">
+            <div class="input-group" th:each="mission, stat : ${missions}">
+              <div class="input-unit bt-white icon-pen">
+                <input type="text" data-pick="" th:field="*{missions[stat.index].content}" placeholder="미션 내용을 입력하세요" />
+                <button th:if="${stat.index} == (${missions.size} - 1)" class="add-mission icon-plus" type="button"></button>
+                <button th:unless="${stat.index} == (${missions.size} - 1)" class="del-mission icon-delete" type="button"></button>
+              </div>
+              <!-- <input type="hidden" th:field="*{missions[__${stat.index}__].degree}" data-pick="" readonly />
+              <input type="hidden" th:field="*{missions[__${stat.index}__].missionTime}" data-pick="" readonly />
+              <input type="hidden" th:field="*{missions[__${stat.index}__].manitoIdx}" data-pick="" readonly /> -->
+            </div>
+          </div>
+          <div class="select-group">
+            <small class="description">여러 개의 미션을 입력하면 멤버들에게 각자 다른 미션을 나눠 줄 수 있습니다.</small>
+            <div class="select-block modal-open">
+              <button type="button" class="bt-white bt-white-fix icon-cal" onclick="openCal()" data-target="false">
+                <!-- <input type="text" th:field="${form.missionTime}" placeholder="미션 공개 일정을 선택하세요" readonly data-pick="" /> -->
+              </button>
+            </div>
+            <small class="description">별도의 설정이 없으면 마니또가 시작되면서 공개되요.</small>
+          </div>
+        </div>
+        <!-- <input type="hidden" th:field="${form.sDate}" /> -->
+        <!-- <input type="hidden" th:field="${form.eDate}" /> -->
+        <!-- <input type="hidden" th:field="${form.manitoIdx}" /> -->
+      </form>
+      </div>
+      <!-- <button class="bt-size-mini add-group icon-plus" onclick="addGroup()" type="button">그룹추가</button> -->
+      <button class="bt-size-fix bt-purple submit-btn" type="button" onclick="validation()">설정 완료</button>
+    </main>
+    <!-- 모달 -->
+    <div class="modal-bg">
+      <!-- 달력 -->
+      <div class="modal" id="cal">
+        <div class="modal-area">
+          <div class="title">미션시작 일자</div>
+          <div class="body">
+            <div class="calendar">
+              <div class="calendar-tit">
+                <div class="calendar-btn bt-previous"></div>
+                <div class="year-month"></div>
+                <div class="calendar-btn bt-next"></div>
+              </div>
+              <div class="calendar-body"></div>
+              <input type="text" class="calendar-hidden" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 시계 -->
+      <div class="modal" id="timer">
+        <div class="modal-area">
+          <div class="time-picker-area">
+            <section class="time-picker-header">
+              <div class="title">미션시작 시간</div>
+              <div class="time-picker-view"></div>
+            </section>
+            <section class="time-picker-body">
+              <div class="time-pick-box blue-back"><span>:</span></div>
+              <div class="time-slider hour-slider"></div>
+              <div class="time-slider minute-slider"></div>
+              <!-- <div class="time-pick-box"></div> -->
+            </section>
+            <section class="time-picker-footer">
+              <div class="button-box">
+                <button class="confirm-button" aria-label="confirm" onclick="dateSetting()">선택완료</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
