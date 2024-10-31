@@ -1,5 +1,7 @@
 package com.leeds.manito.manito_pj.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -59,7 +61,6 @@ public class ManitoService {
                 .showYn(manitoInfoDTO.getShowYn())
                 .missionYn(manitoInfoDTO.getMissionYn())
                 .createUser(manitoInfoDTO.getCreateUser())
-                .created(manitoInfoDTO.getCreated())
                 .endDate(manitoInfoDTO.getEndDate())
                 .startDate(manitoInfoDTO.getStartDate())
                 .build();

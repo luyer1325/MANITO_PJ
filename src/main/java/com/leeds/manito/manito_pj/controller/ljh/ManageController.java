@@ -106,7 +106,6 @@ public class ManageController {
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session,RedirectAttributes rttr ){
         kakaoService.getSettings(model);
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
-        
         int idx = manitoService.CreateManito(manitoInfoDTO);
         String ps = aes.encrypt_AES(String.valueOf(idx));
         model.addAttribute("encIdx", ps);
