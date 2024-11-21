@@ -106,6 +106,7 @@ public class ManageController {
     public String gameDetail(Model model, ManitoInfoDTO manitoInfoDTO, HttpSession session,RedirectAttributes rttr ){
         kakaoService.getSettings(model);
         manitoInfoDTO.setCreateUser((String)session.getAttribute("email"));
+
         int idx = manitoService.CreateManito(manitoInfoDTO);
         String ps = aes.encrypt_AES(String.valueOf(idx));
         model.addAttribute("encIdx", ps);
@@ -159,7 +160,7 @@ public class ManageController {
         return "thymeleaf/ljh/kakao2";
     }
     
-    @RequestMapping("/showDetail/register.do")
+    @RequestMapping("/makeMission/register.do")
     public String test3(Model model, Missions missions,
             String eDate,
             String sDate,
@@ -177,10 +178,10 @@ public class ManageController {
         // groups.add(missions2);
         // model.addAttribute("a", groups);
         rttr.addFlashAttribute("manitoIdx", manitoIdx);
-        return "redirect:/showDetail/view.do";
+        return "redirect:/makeMission/view.do";
     }
 
-    @RequestMapping("/showDetail/view.do")
+    @RequestMapping("/makeMission/view.do")
     public String postMethodName(HttpSession session, Model model) {
         String manitoIdx = (String) model.getAttribute("manitoIdx");
         if (manitoIdx == null) { // 새로고침
